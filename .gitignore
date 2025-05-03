@@ -1,0 +1,6 @@
+# Node modules
+/node_modules
+composer.lock
+package-lock.json
+# Vendor de Composer
+/vendor

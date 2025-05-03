@@ -1,0 +1,21 @@
+{
+    "name": "user/la-57cap",
+    "description": "Plataforma web para el negocio La-57cap",
+    "autoload": {
+        "psr-4": {
+            "MVC\\" : "./",
+            "Controllers\\": "controllers/",
+            "Model\\": "models/",
+            "views\\": "views/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kerlint Josue Medrano Murillo",
+            "email": "kmurillojosue75@gmail.com"
+        }
+    ],
+    "require": {
+        "intervention/image": "^3.11"
+    }
+}

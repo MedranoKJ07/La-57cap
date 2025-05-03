@@ -1,0 +1,59 @@
+{
+  "name": "la-57cap",
+  "version": "1.0.0",
+  "description": "Plataforma web para el negocio La-57cap",
+  "main": "gulpfile.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/MedranoKJ07/La-57cap.git"
+  },
+  "author": "KJMedranoDev",
+  "bugs": {
+    "url": "https://github.com/MedranoKJ07/La-57cap/issues"
+  },
+  "homepage": "https://github.com/MedranoKJ07/La-57cap#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp"
+  },
+  "license": "ISC",
+
+  "devDependencies": {
+    "glob": "^11.0.2",
+    "gulp": "^5.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-install": "^1.1.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^6.0.1",
+    "gulp-terser": "^2.1.0",
+    "sass": "^1.87.0",
+    "sharp": "^0.34.1",
+    "bootstrap": "^5.3.5",
+    "browser-sync": "^2.27.11",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "laravel-mix-nunjucks": "^1.2.4",
+    "laravel-mix-purgecss": "^6.0.0",
+    "postcss": "^8.5.3",
+    "resolve-url-loader": "^3.1.0",
+    "sass-loader": "^16.0.5",
+    "vue-template-compiler": "^2.6.11",
+    
+    "del": "6.0.0",
+    
+    "gulp-autoprefixer": "7.0.1",
+    "gulp-clean-css": "4.3.0",
+    "gulp-header": "2.0.9",
+    "gulp-plumber": "^1.2.1",
+    
+    "gulp-uglify": "3.0.2",
+    "merge-stream": "2.0.0"
+  },
+  "dependencies": {
+        "@fortawesome/fontawesome-free": "5.15.3",
+        "bootstrap": "4.6.0",
+        "chart.js": "2.9.4",
+        "datatables.net-bs4": "1.10.24",
+        "jquery": "3.6.0",
+        "jquery.easing": "^1.4.1"
+    }
+}
