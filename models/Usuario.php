@@ -16,6 +16,7 @@ class Usuario extends ActiveRecord
         'Creado_Fecha',
         'Cambiado_Fecha'
     ];
+    protected static $id = 'idusuario';
     public $idusuario;
     public $id_roles;
     public $f_perfil;
@@ -60,7 +61,7 @@ class Usuario extends ActiveRecord
             unlink(CARPETAS_IMAGENES_PERFILES . "/" . $this->f_perfil);
         }
     }
-    public function validarNuevoUsuario()
+    public function validarUsuario()
     {
         if (!$this->userName) {
             self::$alertas['error'][] = 'El nombre de usuario es Obligatorio';

@@ -24,8 +24,8 @@
                     <th>Token</th>
                     <th>Creado</th>
                     <th>Modificado</th>
-                    <th>Eliminar</th>
                     <th>Actualizar</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,15 +51,15 @@
                         <td><?php echo date('d/m/Y H:i:s', strtotime($usuario->Creado_Fecha)); ?></td>
                         <td><?php echo date('d/m/Y H:i:s', strtotime($usuario->Cambiado_Fecha)); ?></td>
                         <td>
-                            <form action="/propiedades/eliminar" method="post" class="w-100">
-                                <input type="hidden" name="id" value=" ?>">
-                                <input type="hidden" name="tipo" value="propiedad">
-                                <input type="submit" class="boton-rojo-block" value="sel">
+                            <form action="/admin/EliminarUsuario" method="post" class="w-100">
+                                <input type="hidden" name="id" value="<?php echo $usuario->idusuario; ?>">
+                                <input type="hidden" name="tipo" value="usuario">
+                                <input type="submit" class="boton-rojo-block" value="Eliminar">
                             </form>
                         </td>
                         <td>
-                            <a href='/propiedades/actualizar?id=<?php echo $propiedad->id ?>'
-                                class="boton-amarillo-block">sel</a>
+                            <a href='/admin/ActualizarUsuario?id=<?php echo $usuario->idusuario; ?>'
+                                class="boton-amarillo-block">Actualizar</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

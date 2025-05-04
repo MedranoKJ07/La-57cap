@@ -35,25 +35,26 @@ $router->get('/mensaje', [LoginController::class, 'mensaje']);
 // Area de administración
 $router->get('/admin', [AdminController::class, 'Admin']);
 $router->post('/admin', [AdminController::class, 'Admin']); 
-
+//Gestionar usuario
+$router->get('/admin/GestionarUsuario', [UsuarioController::class, 'GestionarUsuario']);
+$router->post('/admin/GestionarUsuario', [UsuarioController::class, 'GestionarUsuario']); 
 //Crear usuario
 $router->get('/admin/CrearUsuario', [UsuarioController::class, 'crearUsuario']);
 $router->post('/admin/CrearUsuario', [UsuarioController::class, 'crearUsuario']); 
+//Actualizar usuario
+$router->get('/admin/ActualizarUsuario', [UsuarioController::class, 'ActualizarUsuario']);
+$router->post('/admin/ActualizarUsuario', [UsuarioController::class, 'ActualizarUsuario']);
+//Eliminar usuario
+$router->get('/admin/EliminarUsuario', [UsuarioController::class, 'EliminarUsuario']);
+$router->post('/admin/EliminarUsuario', [UsuarioController::class, 'EliminarUsuario']);
 
-
+//Dashboard
 $router->get('/admin/Dashboard', [DashBoardController::class, 'Dashboard']);
 $router->post('/admin/Dashboard', [DashBoardController::class, 'Dashboard']); 
 
-$router->get('/admin/GestionarUsuario', [UsuarioController::class, 'GestionarUsuario']);
-$router->post('/admin/GestionarUsuario', [UsuarioController::class, 'GestionarUsuario']); 
 
 
-//Crear vendedor
-//Crear repartidor
 
-//Area vendedores
-
-//Area repartidores
 
 
 

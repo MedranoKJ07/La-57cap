@@ -12,10 +12,10 @@ class UsuarioController
         $usuario = new Usuario;
         $roles = Rol::get2(3);
         $alertas = [];
-       
+
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-           
+
             $usuario = new Usuario($_POST['usuario']);
 
             //generar un nombre unico
@@ -25,27 +25,27 @@ class UsuarioController
                 $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
                 $usuario->setImagen($nombreImagen);
             }
-            
-            $alertas = $usuario->validarNuevoUsuario();
-            
+
+            $alertas = $usuario->validarUsuario();
+
             if (empty($alertas)) {
                 //Subida de archivos
                 //Crear carpeta
                 //verifica si la carpeta existe que la cree
                 $usuario->crearToken();
-                
+
                 if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
                     mkdir(CARPETAS_IMAGENES_PERFILES);
                 }
-                
+
                 $imagen->save(CARPETAS_IMAGENES_PERFILES . "/" . $nombreImagen);
-                
+
                 $usuario->crear();
                 $alertas['exito'][] = 'Usuario creado correctamente';
                 //Redireccionar a la pagina de usuarios
                 header('Location: /admin/');
-                
-            }else{
+
+            } else {
 
             }
         }
@@ -64,5 +64,71 @@ class UsuarioController
             'usuarios' => $usuarios,
             'titulo' => 'Gestionar Usuario'
         ]);
+    }
+    public static function ActualizarUsuario(Router $router)
+    {
+
+        $alertas = Usuario::getAlertas();
+        $roles = Rol::get2(3);
+        $id = $_GET['id'];
+        $usuario = new Usuario;
+        FilterValidateInt($id, 'admin');
+        verificarId(Usuario::find($id, 'idusuario'), 'admin');
+        $usuario = Usuario::find($id, 'idusuario');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            //asignar los atributos
+            $args = $_POST['usuario'];
+            $usuario->sincronizar($args);
+            $alertas = $usuario->validar();
+
+            //generar un nombre unico
+            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+            if ($_FILES['usuario']['tmp_name']['f_perfil']) {
+                $manager = new ImageManager(Driver::class);
+                $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
+                $usuario->setImagen($nombreImagen);
+            }
+
+            if (empty($alertas)) {
+                //Subida de archivos
+                //Crear carpeta
+                //verifica si la carpeta existe que la cree
+
+                if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
+                    mkdir(CARPETAS_IMAGENES_PERFILES);
+                }
+
+                $imagen->save(CARPETAS_IMAGENES_PERFILES . "/" . $nombreImagen);
+
+                $usuario->actualizar($usuario->idusuario);
+                $alertas['exito'][] = 'Usuario actualizado correctamente';
+                //Redireccionar a la pagina de usuarios
+
+                header('Location: /admin/');
+            }
+        }
+        $router->renderAdmin('Admin/users/ActualizarUsuario', [
+            'roles' => $roles,
+            'usuario' => $usuario,
+            'alertas' => $alertas,
+            'titulo' => 'Actualizar Usuario'
+        ]);
+    }
+    public static function EliminarUsuario(Router $router)
+    {
+        $alertas = Usuario::getAlertas();
+        $id = $_POST['id'];
+        $tipo = $_POST['tipo'];
+        FilterValidateInt($id, 'admin');
+        verificarId(Usuario::find($id, 'idusuario'), 'admin');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($tipo === 'usuario') {
+                $usuario = Usuario::find($id, 'idusuario');
+                $usuario->eliminar($id);
+                header('Location: /admin');
+            }
+        }
     }
 }
