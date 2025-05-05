@@ -1,8 +1,8 @@
-<?php
+<?php 
 
 namespace Model;
 
-class Cliente extends ActiveRecord
+class Vendedor extends ActiveRecord
 {
     protected static $tabla = 'usuario';
     protected static $columnasDB = [
@@ -15,10 +15,9 @@ class Cliente extends ActiveRecord
         'direccion',
         'Municipio'
     ];
-    protected static $id = 'idcliente';
-
-    public $idcliente;
-
+    protected static $id = 'idvendedor';
+    public $idvendedor;
+    
     public $id_usuario;
     public $p_nombre;
     public $s_nombre;
@@ -27,10 +26,10 @@ class Cliente extends ActiveRecord
     public $n_telefono;
     public $direccion;
     public $Municipio;
-
+    
     public function __construct($args = [])
     {
-        $this->idcliente = $args['idcliente'] ?? null;
+        $this->idvendedor = $args['idvendedor'] ?? null;
         $this->id_usuario = $args['id_usuario'] ?? '';
         $this->p_nombre = $args['p_nombre'] ?? '';
         $this->s_nombre = $args['s_nombre'] ?? '';
@@ -40,4 +39,5 @@ class Cliente extends ActiveRecord
         $this->direccion = $args['direccion'] ?? '';
         $this->Municipio = $args['Municipio'] ?? '';
     }
+
 }

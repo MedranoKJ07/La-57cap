@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class Cliente extends ActiveRecord
+class Repartidor extends ActiveRecord
 {
     protected static $tabla = 'usuario';
     protected static $columnasDB = [
@@ -15,9 +15,9 @@ class Cliente extends ActiveRecord
         'direccion',
         'Municipio'
     ];
-    protected static $id = 'idcliente';
+    protected static $id = 'idrepartidor';
 
-    public $idcliente;
+    public $idrepartidor;
 
     public $id_usuario;
     public $p_nombre;
@@ -30,7 +30,7 @@ class Cliente extends ActiveRecord
 
     public function __construct($args = [])
     {
-        $this->idcliente = $args['idcliente'] ?? null;
+        $this->idrepartidor = $args['idrepartidor'] ?? null;
         $this->id_usuario = $args['id_usuario'] ?? '';
         $this->p_nombre = $args['p_nombre'] ?? '';
         $this->s_nombre = $args['s_nombre'] ?? '';

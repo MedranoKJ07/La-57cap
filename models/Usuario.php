@@ -40,6 +40,25 @@ class Usuario extends ActiveRecord
         $this->Creado_Fecha = date('Y/m/d H:i:s');
         $this->Cambiado_Fecha = date('Y/m/d H:i:s');
     }
+    public static function filtrarUsuarios($rol = '', $busqueda = '')
+    {
+        $condiciones = [];
+
+        if ($rol !== '') {
+            $rol = self::$db->real_escape_string($rol);
+            $condiciones[] = "id_roles = '$rol'";
+        }
+
+        if ($busqueda !== '') {
+            $busqueda = self::$db->real_escape_string($busqueda);
+            $condiciones[] = "(userName LIKE '%$busqueda%' OR email LIKE '%$busqueda%')";
+        }
+
+        $where = count($condiciones) ? 'WHERE ' . implode(' AND ', $condiciones) : '';
+        $query = "SELECT * FROM " . static::$tabla . " $where";
+
+        return self::consultarSQL($query);
+    }
     public function setImagen($imagen): void
     {
         if (!is_null($this->f_perfil)) {

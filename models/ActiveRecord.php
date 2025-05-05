@@ -155,6 +155,13 @@ class ActiveRecord
         $resultado = self::consultarSQL($query);
         return array_shift($resultado);
     }
+    
+    public static function where2($columna, $valor)
+    {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE {$columna} = '{$valor}'";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
 
     // Consulta Plana de SQL (Utilizar cuando los métodos del modelo no son suficientes)
     public static function SQL($query)

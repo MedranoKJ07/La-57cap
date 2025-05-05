@@ -5,6 +5,7 @@ use MVC\Router;
 use Model\Usuario;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
+use Classes\Email;
 class UsuarioController
 {
     public static function crearUsuario(Router $router)
@@ -16,7 +17,9 @@ class UsuarioController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $usuario = new Usuario($_POST['usuario']);
+            $usuario->sincronizar($_POST['usuario']);
+            $alertas = $usuario->validarUsuario();
+
 
             //generar un nombre unico
             $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
@@ -31,8 +34,15 @@ class UsuarioController
             if (empty($alertas)) {
                 //Subida de archivos
                 //Crear carpeta
+                // Hashear el Password
+                $usuario->hashPassword();
                 //verifica si la carpeta existe que la cree
                 $usuario->crearToken();
+                
+                // Enviar el Email
+                $email = new Email($usuario->email, $usuario->userName, $usuario->token);
+                
+                $email->enviarConfirmacion();
 
                 if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
                     mkdir(CARPETAS_IMAGENES_PERFILES);
@@ -56,15 +66,29 @@ class UsuarioController
             'titulo' => 'Crear Usuario'
         ]);
     }
-    public static function GestionarUsuario(Router $router)
-    {
-        $usuarios = Usuario::all();
+    public static function GestionarUsuario(Router $router) {
+        $rolSeleccionado = $_POST['rol'] ?? '';
+        $busqueda = trim($_POST['busqueda'] ?? '');
+
+        $usuarios = Usuario::filtrarUsuarios($rolSeleccionado, $busqueda);
+
+        $rolesDisponibles = [
+            '1' => 'Administrador',
+            '2' => 'Vendedor',
+            '3' => 'Repartidor',
+            '4' => 'Cliente'
+        ];
 
         $router->renderAdmin('Admin/users/GestionUsuario', [
             'usuarios' => $usuarios,
-            'titulo' => 'Gestionar Usuario'
+            'titulo' => 'Gestionar Usuario',
+            'rolesDisponibles' => $rolesDisponibles,
+            'rolSeleccionado' => $rolSeleccionado,
+            'busqueda' => $busqueda
         ]);
     }
+
+
     public static function ActualizarUsuario(Router $router)
     {
 

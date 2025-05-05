@@ -16,9 +16,11 @@
     <label for="f_perfil" class="card-title mb-0">Image:</label>
     <input type="file" id="f_perfil" accept="image/jpeg, image/png" name="usuario[f_perfil]">
 </div>
-<?php if($usuario->f_perfil):?>
-        <img width="200" height="200" src="/img/users/<?php echo s($usuario->f_perfil)?>"  alt="h">
-    <?php endif;?>
+<?php if (!empty($usuario->idusuario) && !empty($usuario->f_perfil)): ?>
+    <img width="200" height="200" src="/img/users/<?php echo s($usuario->f_perfil); ?>" alt="Foto de perfil">
+<?php endif; ?>
+
+
 <div class="mb-3">
     <label for="imagen" class="card-title mb-0">Rol</label>
     <select id="rol" name="usuario[id_roles]" class="form-select mb-3" value="<?php echo s($usuario->id_roles); ?>">
