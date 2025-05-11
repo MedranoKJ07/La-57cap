@@ -11,13 +11,15 @@ class UsuarioController
     public static function crearUsuario(Router $router)
     {
         $usuario = new Usuario;
-        $roles = Rol::get2(3);
+        $roles = Rol::get2(1);
         $alertas = [];
-
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $usuario->sincronizar($_POST['usuario']);
+            // $usuario->existeUsuario();
+            // $usuario->existeEmail();
+            // $alertas = Usuario::getAlertas();
             $alertas = $usuario->validarUsuario();
 
 
@@ -28,9 +30,6 @@ class UsuarioController
                 $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
                 $usuario->setImagen($nombreImagen);
             }
-
-            $alertas = $usuario->validarUsuario();
-
             if (empty($alertas)) {
                 //Subida de archivos
                 //Crear carpeta
@@ -38,10 +37,10 @@ class UsuarioController
                 $usuario->hashPassword();
                 //verifica si la carpeta existe que la cree
                 $usuario->crearToken();
-                
+
                 // Enviar el Email
                 $email = new Email($usuario->email, $usuario->userName, $usuario->token);
-                
+
                 $email->enviarConfirmacion();
 
                 if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
@@ -53,7 +52,7 @@ class UsuarioController
                 $usuario->crear();
                 $alertas['exito'][] = 'Usuario creado correctamente';
                 //Redireccionar a la pagina de usuarios
-                header('Location: /admin/');
+                header('Location: /admin/GestionarUsuario');
 
             } else {
 
@@ -66,7 +65,8 @@ class UsuarioController
             'titulo' => 'Crear Usuario'
         ]);
     }
-    public static function GestionarUsuario(Router $router) {
+    public static function GestionarUsuario(Router $router)
+    {
         $rolSeleccionado = $_POST['rol'] ?? '';
         $busqueda = trim($_POST['busqueda'] ?? '');
 
@@ -91,48 +91,59 @@ class UsuarioController
 
     public static function ActualizarUsuario(Router $router)
     {
+        $id = s($_GET['id']);
+        $tipo = s($_GET['t'] ?? ''); // ← Capturar tipo si viene por GET
+        $ids = s($_GET['ids'] ?? '');
 
-        $alertas = Usuario::getAlertas();
-        $roles = Rol::get2(3);
-        $id = $_GET['id'];
-        $usuario = new Usuario;
         FilterValidateInt($id, 'admin');
         verificarId(Usuario::find($id, 'idusuario'), 'admin');
         $usuario = Usuario::find($id, 'idusuario');
 
+        $alertas = Usuario::getAlertas();
+        $roles = Rol::get2(3);
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            //asignar los atributos
             $args = $_POST['usuario'];
             $usuario->sincronizar($args);
             $alertas = $usuario->validar();
 
-            //generar un nombre unico
-            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+            // Procesar imagen si se subió
             if ($_FILES['usuario']['tmp_name']['f_perfil']) {
+                $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
                 $manager = new ImageManager(Driver::class);
                 $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
                 $usuario->setImagen($nombreImagen);
-            }
-
-            if (empty($alertas)) {
-                //Subida de archivos
-                //Crear carpeta
-                //verifica si la carpeta existe que la cree
 
                 if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
                     mkdir(CARPETAS_IMAGENES_PERFILES);
                 }
 
                 $imagen->save(CARPETAS_IMAGENES_PERFILES . "/" . $nombreImagen);
+            }
 
+            if (empty($alertas)) {
                 $usuario->actualizar($usuario->idusuario);
                 $alertas['exito'][] = 'Usuario actualizado correctamente';
-                //Redireccionar a la pagina de usuarios
 
-                header('Location: /admin/');
+                // Redirección condicional por tipo
+                switch ($tipo) {
+                    case 'vendedor':
+                        
+                        header('Location: /admin/ActualizarVendedor?id=' . $ids);
+                        break;
+                    case 'repartidor':
+                        header('Location: /admin/ActualizarRepartidor?id=' . $ids);
+                        break;
+                    default:
+                        header('Location: /admin/GestionarUsuario');
+                        break;
+                }
+
+            } else {
             }
         }
+
         $router->renderAdmin('Admin/users/ActualizarUsuario', [
             'roles' => $roles,
             'usuario' => $usuario,
@@ -140,19 +151,112 @@ class UsuarioController
             'titulo' => 'Actualizar Usuario'
         ]);
     }
+
     public static function EliminarUsuario(Router $router)
     {
         $alertas = Usuario::getAlertas();
         $id = $_POST['id'];
         $tipo = $_POST['tipo'];
-        FilterValidateInt($id, 'admin');
-        verificarId(Usuario::find($id, 'idusuario'), 'admin');
+        FilterValidateInt($id, 'admin/GestionarUsuario');
+        verificarId(Usuario::find($id, 'idusuario'), 'admin/GestionarUsuario');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($tipo === 'usuario') {
                 $usuario = Usuario::find($id, 'idusuario');
                 $usuario->eliminar($id);
-                header('Location: /admin');
+                header('Location:/admin/EliminarUsuario');
             }
         }
     }
+    public static function confirmarCuenta(Router $router)
+    {
+        $token = s($_GET['token']);
+        $alertas = [];
+        $usuario = Usuario::where('token', $token);
+
+        if (empty($usuario)) {
+            // Mostrar mensaje de error
+            Usuario::setAlerta('error', 'Token No Válido');
+        } else {
+            // Modificar a usuario confirmado
+            $usuario->confirmado = "1";
+            $usuario->token = null;
+            $usuario->actualizar($usuario->idusuario);
+            Usuario::setAlerta('exito', 'Cuenta Comprobada Correctamente');
+        }
+
+        $router->render('auth/confirmar-cuenta', [
+            'titulo' => 'Confirmar Cuenta',
+            'alertas' => $alertas,
+            'token' => $token
+        ]);
+    }
+    public static function olvide(Router $router)
+    {
+        $alertas = [];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $usuario = new Usuario($_POST);
+            $alertas = $usuario->validarEmail();
+
+            if (empty($alertas)) {
+                $usuario = Usuario::where('email', $usuario->email);
+
+                if ($usuario && $usuario->confirmado === "1") {
+                    // Generar un nuevo token
+                    $usuario->crearToken();
+                    $usuario->actualizar($usuario->idusuario);
+
+                    // Enviar el email
+                    $email = new Email($usuario->email, $usuario->userName, $usuario->token);
+                    $email->enviarInstrucciones();
+                    Usuario::setAlerta('exito', 'Revisa tu correo para recuperar tu contraseña');
+                } else {
+                    Usuario::setAlerta('error', 'El usuario no existe o no está confirmado');
+                }
+            }
+        }
+        $alertas = Usuario::getAlertas();
+        $router->render('auth/recuperar-olvide', [
+            'alertas' => $alertas,
+            'titulo' => 'Olvide mi contraseña'
+        ]);
+    }
+    public static function recuperar(Router $router)
+    {
+        $alertas = [];
+        $error = false;
+        $token = s($_GET['token']);
+
+        // Buscar usuario por su token
+        $usuario = Usuario::where('token', $token);
+        if (empty($usuario)) {
+            Usuario::setAlerta('error', 'Token No Válido');
+            $error = true;
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Leer el nuevo password y guardarlo
+
+            $password = new Usuario($_POST);
+            $alertas = $password->validarPassword();
+
+            if (empty($alertas)) {
+                $usuario->password = null;
+
+                $usuario->password = $password->password;
+                $usuario->hashPassword();
+                $usuario->token = null;
+
+                $resultado = $usuario->actualizar($usuario->idusuario);
+                if ($resultado) {
+                    header('Location: /');
+                }
+            }
+        }
+        $alertas = Usuario::getAlertas();
+        $router->render('auth/recuperar-password', [
+            'alertas' => $alertas,
+            'error' => $error,
+            'titulo' => 'Recuperar Password'
+        ]);
+    }
+
 }

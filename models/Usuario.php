@@ -134,7 +134,7 @@ class Usuario extends ActiveRecord
     }
     public function existeUsuario(): mixed
     {
-        $query = " SELECT * FROM " . self::$tabla . " WHERE email = '" . $this->userName . "' LIMIT 1";
+        $query = " SELECT * FROM " . self::$tabla . " WHERE userName = '" . $this->userName . "' LIMIT 1";
 
         $resultado = self::$db->query($query);
 

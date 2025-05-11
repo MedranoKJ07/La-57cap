@@ -86,7 +86,8 @@ class ActiveRecord
         $atributos = $this->atributos();
         $sanitizado = [];
         foreach ($atributos as $key => $value) {
-            $sanitizado[$key] = self::$db->escape_string($value);
+            // Convertimos null a string vacío para evitar warnings
+            $sanitizado[$key] = is_null($value) ? '' : self::$db->escape_string($value);
         }
         return $sanitizado;
     }
@@ -139,6 +140,14 @@ class ActiveRecord
         return $resultado;
     }
 
+    public static function getEntreIds($desde, $hasta)
+    {
+        $desde = self::$db->escape_string($desde);
+        $hasta = self::$db->escape_string($hasta);
+
+        $query = "SELECT * FROM roles WHERE idroles BETWEEN $desde AND $hasta";
+        return self::consultarSQL($query);
+    }
 
     // Obtener Registros con cierta cantidad
     public static function get($limite)
@@ -155,7 +164,7 @@ class ActiveRecord
         $resultado = self::consultarSQL($query);
         return array_shift($resultado);
     }
-    
+
     public static function where2($columna, $valor)
     {
         $query = "SELECT * FROM " . static::$tabla . " WHERE {$columna} = '{$valor}'";
@@ -182,7 +191,7 @@ class ActiveRecord
         $query .= " ) VALUES (' ";
         $query .= join("', '", array_values($atributos));
         $query .= " ') ";
-
+        
         // Resultado de la consulta
         $resultado = self::$db->query($query);
         return [
@@ -208,7 +217,7 @@ class ActiveRecord
         $query .= join(', ', $valores);
         $query .= " WHERE " . static::$id . " = '" . self::$db->escape_string($id_m) . "' ";
         $query .= " LIMIT 1 ";
-
+        
         // Actualizar BD
         $resultado = self::$db->query($query);
         return $resultado;

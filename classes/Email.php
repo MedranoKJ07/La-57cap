@@ -20,7 +20,7 @@ class Email {
 
     public function enviarConfirmacion() {
         $mail = $this->configurarMailer();
-        $mail->Subject = 'Confirma tu Cuenta en AppSalón';
+        $mail->Subject = 'Confirma tu Cuenta en La 57 CAP';
 
         $url = "http://localhost:3000/confirmar-cuenta?token={$this->token}";
         $contenido = $this->renderTemplate('confirmacion-cuenta', [
@@ -34,9 +34,9 @@ class Email {
 
     public function enviarInstrucciones() {
         $mail = $this->configurarMailer();
-        $mail->Subject = 'Reestablece tu contraseña en AppSalón';
+        $mail->Subject = 'Reestablece tu contraseña en La 57 CAP';
 
-        $url = "http://localhost:3000/recuperar?token={$this->token}";
+        $url = "http://localhost:3000/recuperar-cuenta?token={$this->token}";
         $contenido = $this->renderTemplate('recuperar-cuenta', [
             'nombre' => $this->nombre,
             'url' => $url

@@ -40,4 +40,34 @@ class Repartidor extends ActiveRecord
         $this->direccion = $args['direccion'] ?? '';
         $this->Municipio = $args['Municipio'] ?? '';
     }
+    public static function obtenerTodosConUsuario($busqueda = '')
+    {
+        $busqueda = self::$db->real_escape_string($busqueda);
+
+        $where = '';
+        if (!empty($busqueda)) {
+            $where = "WHERE 
+                repartidor.p_nombre LIKE '%$busqueda%' OR
+                repartidor.p_apellido LIKE '%$busqueda%' OR
+                usuario.email LIKE '%$busqueda%'";
+        }
+
+        $query = "SELECT 
+                    repartidor.*,
+                    usuario.userName AS userName,
+                    usuario.email AS email,
+                    usuario.confirmado AS confirmado
+                  FROM repartidor
+                  INNER JOIN usuario ON repartidor.id_usuario = usuario.idusuario
+                  $where";
+
+        $resultado = self::$db->query($query);
+
+        $objetos = [];
+        while ($registro = $resultado->fetch_object()) {
+            $objetos[] = $registro;
+        }
+
+        return $objetos;
+    }
 }

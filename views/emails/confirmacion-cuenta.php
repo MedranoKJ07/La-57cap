@@ -51,12 +51,12 @@
 <body>
     <div class="container">
         <h1>¡Bienvenida, <?php echo $nombre; ?>!</h1>
-        <p>Gracias por crear tu cuenta en <strong>AppSalón</strong>. Para confirmarla, haz clic en el siguiente botón:
+        <p>Gracias por crear tu cuenta en <strong>La 57 Cap</strong>. Para confirmarla, haz clic en el siguiente botón:
         </p>
         <a class="btn" href="<?php echo $url; ?>">Confirmar Cuenta</a>
         <p>Si no solicitaste esta cuenta, puedes ignorar este mensaje.</p>
         <div class="footer">
-            &copy; <?php echo date('Y'); ?> AppSalón - Todos los derechos reservados
+            &copy; <?php echo date('Y'); ?> La 57 Cap - Todos los derechos reservados
         </div>
     </div>
 </body>

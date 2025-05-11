@@ -28,9 +28,53 @@
                         Usuarios
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarUsuario"> 
+                        <a class="sidebar-link" href="/admin/GestionarUsuario">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
                                 Usuarios</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/GestionarVendedores">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
+                                Vendedor</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/GestionarRepartidor">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
+                                Repartidor</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/GestionarCliente">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
+                                Cliente</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-header">
+                        Inventario
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/GestionarCliente">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
+                                Inventario</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-header">
+                        Compras
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/GestionarCliente">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
+                                Proveedores</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/GestionarCliente">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
+                                Compras
+                            </span>
                         </a>
                     </li>
                 </ul>
@@ -198,8 +242,8 @@
 
                             <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
                                 data-bs-toggle="dropdown">
-                                <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1"
-                                    alt="" /> <span class="text-dark">KJ</span>
+                                <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="" /> <span
+                                    class="text-dark">KJ</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"

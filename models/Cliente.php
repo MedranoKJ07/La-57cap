@@ -40,4 +40,54 @@ class Cliente extends ActiveRecord
         $this->direccion = $args['direccion'] ?? '';
         $this->Municipio = $args['Municipio'] ?? '';
     }
+    public static function filtrarClientes($busqueda = '')
+    {
+        $condiciones = [];
+
+        if ($busqueda !== '') {
+            $busqueda = self::$db->real_escape_string($busqueda);
+            $condiciones[] = "(p_nombre LIKE '%$busqueda%' 
+                        OR s_nombre LIKE '%$busqueda%' 
+                        OR p_apellido LIKE '%$busqueda%' 
+                        OR s_apellido LIKE '%$busqueda%')";
+        }
+
+        $where = count($condiciones) ? 'WHERE ' . implode(' AND ', $condiciones) : '';
+        $query = "SELECT * FROM cliente $where";
+
+        return self::consultarSQL($query);
+    }
+
+    public static function obtenerTodosConUsuario($busqueda = '')
+    {
+        $busqueda = self::$db->real_escape_string($busqueda);
+
+        $where = '';
+        if (!empty($busqueda)) {
+            $where = "WHERE 
+            cliente.p_nombre LIKE '%$busqueda%' OR
+            cliente.p_apellido LIKE '%$busqueda%' OR
+            usuario.email LIKE '%$busqueda%'";
+        }
+
+        $query = "SELECT 
+                cliente.*, 
+                usuario.userName AS userName, 
+                usuario.email AS email, 
+                usuario.confirmado AS confirmado
+              FROM cliente
+              INNER JOIN usuario ON cliente.id_usuario = usuario.idusuario
+              $where";
+
+        $resultado = self::$db->query($query);
+
+        $objetos = [];
+        while ($registro = $resultado->fetch_object()) {
+            $objetos[] = $registro; // objeto stdClass con TODAS las propiedades
+        }
+
+        return $objetos;
+    }
+
+
 }

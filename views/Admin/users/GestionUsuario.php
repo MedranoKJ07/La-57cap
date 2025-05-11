@@ -5,7 +5,7 @@
                 <h2 class="card-title">Gestion Usuarios</h2>
             </div>
             <div class="col-auto mt-0">
-                <a href="/admin/CrearUsuario" class="btn btn-success">Crear Nuevo Usuario</a>
+                <a href="/admin/CrearUsuario?t=1" class="btn btn-success">Crear Nuevo Usuario Administrador</a>
             </div>
         </div>
 
@@ -36,23 +36,16 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
     <div class="col-12 col-lg-12 col-xl-12">
         <table class="table table-hover my-0">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    
                     <th>Rol</th>
                     <th>Foto Perfil</th>
                     <th>Usuario</th>
                     <th>Email</th>
                     <th>Confirmado</th>
-                    <th>Token</th>
                     <th>Creado</th>
                     <th>Modificado</th>
                     <th>Eliminar</th>
@@ -62,7 +55,7 @@
             <tbody>
                 <?php foreach ($usuarios as $usuario): ?>
                     <tr>
-                        <td><?php echo $usuario->idusuario; ?></td>
+                        
                         <td>
                             <?php
                             $roles = [
@@ -88,7 +81,7 @@
                             ?>
                             <span class="badge bg-<?php echo $color; ?>"><?php echo $estado; ?></span>
                         </td>
-                        <td><?php echo $usuario->token; ?></td>
+                        
                         <td><?php echo date('d/m/Y H:i:s', strtotime($usuario->Creado_Fecha)); ?></td>
                         <td><?php echo date('d/m/Y H:i:s', strtotime($usuario->Cambiado_Fecha)); ?></td>
                         <td>
