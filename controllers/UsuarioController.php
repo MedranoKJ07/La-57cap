@@ -29,6 +29,7 @@ class UsuarioController
                 $manager = new ImageManager(Driver::class);
                 $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
                 $usuario->setImagen($nombreImagen);
+                $imagen->save(CARPETAS_IMAGENES_PERFILES . "/" . $nombreImagen);
             }
             if (empty($alertas)) {
                 //Subida de archivos
@@ -47,7 +48,7 @@ class UsuarioController
                     mkdir(CARPETAS_IMAGENES_PERFILES);
                 }
 
-                $imagen->save(CARPETAS_IMAGENES_PERFILES . "/" . $nombreImagen);
+
 
                 $usuario->crear();
                 $alertas['exito'][] = 'Usuario creado correctamente';
@@ -92,23 +93,33 @@ class UsuarioController
     public static function ActualizarUsuario(Router $router)
     {
         $id = s($_GET['id']);
-        $tipo = s($_GET['t'] ?? ''); // ← Capturar tipo si viene por GET
-        $ids = s($_GET['ids'] ?? '');
+        $tipo = s($_GET['t'] ?? '');  // Tipo de usuario
+        $ids = s($_GET['ids'] ?? ''); // ID del módulo específico
 
         FilterValidateInt($id, 'admin');
         verificarId(Usuario::find($id, 'idusuario'), 'admin');
-        $usuario = Usuario::find($id, 'idusuario');
 
+        $usuario = Usuario::find($id, 'idusuario');
         $alertas = Usuario::getAlertas();
-        $roles = Rol::get2(3);
+
+        // Seleccionar roles dependiendo del tipo
+        switch ($tipo) {
+            case 'vendedor':
+                $roles = Rol::getEntreIds(2, 2); // Solo vendedor
+                break;
+            case 'repartidor':
+                $roles = Rol::getEntreIds(3, 3); // Solo repartidor
+                break;
+            default:
+                $roles = Rol::getEntreIds(1, 1); // Solo admin
+                break;
+        }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
             $args = $_POST['usuario'];
             $usuario->sincronizar($args);
             $alertas = $usuario->validar();
 
-            // Procesar imagen si se subió
             if ($_FILES['usuario']['tmp_name']['f_perfil']) {
                 $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
                 $manager = new ImageManager(Driver::class);
@@ -129,7 +140,6 @@ class UsuarioController
                 // Redirección condicional por tipo
                 switch ($tipo) {
                     case 'vendedor':
-                        
                         header('Location: /admin/ActualizarVendedor?id=' . $ids);
                         break;
                     case 'repartidor':
@@ -139,8 +149,7 @@ class UsuarioController
                         header('Location: /admin/GestionarUsuario');
                         break;
                 }
-
-            } else {
+                exit;
             }
         }
 
@@ -151,6 +160,7 @@ class UsuarioController
             'titulo' => 'Actualizar Usuario'
         ]);
     }
+
 
     public static function EliminarUsuario(Router $router)
     {
@@ -164,6 +174,7 @@ class UsuarioController
                 $usuario = Usuario::find($id, 'idusuario');
                 $usuario->eliminar($id);
                 header('Location:/admin/EliminarUsuario');
+                $usuario->delete_image();
             }
         }
     }

@@ -80,6 +80,8 @@ class Usuario extends ActiveRecord
             unlink(CARPETAS_IMAGENES_PERFILES . "/" . $this->f_perfil);
         }
     }
+
+
     public function validarUsuario()
     {
         if (!$this->userName) {

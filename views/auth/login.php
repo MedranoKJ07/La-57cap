@@ -5,50 +5,51 @@
         <div class="d-table-cell align-middle">
 
           <div class="text-center mt-4">
-            <h1 class="h2">Welcome back!</h1>
-            <p class="lead">
-              Sign in to your account to continue
-            </p>
-
+            <h1 class="h2">¡Bienvenido de nuevo!</h1>
+            <p class="lead">Inicia sesión para continuar</p>
           </div>
+
+          <?php include_once __DIR__ . '/../templates/alertas.php'; ?>
 
           <div class="card">
-            <div class="card-header">
-              <div style="text-align: center;">
-                <img src="build/img/logo.png" alt="Perfil" width="200" height="200" style="border-radius: 50%;">
-              </div>
-
-              <div class="card-body">
-                <div class="m-sm-3">
-                  <form>
-                    <div class="mb-3">
-                      <label class="form-label">Email</label>
-                      <input class="form-control form-control-lg" type="email" name="email"
-                        placeholder="Enter your email" />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Password</label>
-                      <input class="form-control form-control-lg" type="password" name="password"
-                        placeholder="Enter your password" />
-                    </div>
-                    <div>
-
-                      <div class="d-grid gap-2 mt-3">
-                        <a href="index.html" class="btn btn-lg btn-primary">Sign in</a>
-                      </div>
-                      
-                  </form>
-                </div>
+            <div class="card-header bg-light">
+              <div class="text-center">
+                <img src="/build/img/logo.png" alt="Perfil" width="200" height="200" style="border-radius: 50%;">
               </div>
             </div>
-            <div class="text-center mb-3">
-              ¿No tienes cuenta? <a href="#">Sign up</a>
-            </div>
-            <div class="text-center mb-3">
-              ¿Olvidaste tu contraseña? <a href="/olvide-cuenta">Recuperar</a>
+
+            <div class="card-body">
+              <div class="m-sm-3">
+                <form method="POST" >
+                  <div class="mb-3">
+                    <label class="form-label">Correo o Nombre de Usuario</label>
+                    <input class="form-control form-control-lg" type="text" name="usuario[email]"
+                      placeholder="Escribe tu correo o usuario"
+                      value="<?php echo s($usuario->email); ?>">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input class="form-control form-control-lg" type="password" name="usuario[password]"
+                      placeholder="Escribe tu contraseña">
+                  </div>
+
+                  <div class="d-grid gap-2 mt-3">
+                    <input type="submit" class="btn btn-lg btn-primary" value="Iniciar Sesión">
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
+
+          <div class="text-center mt-3">
+            ¿No tienes cuenta? <a href="/crear-cuenta">Regístrate</a>
+          </div>
+          <div class="text-center mb-3">
+            ¿Olvidaste tu contraseña? <a href="/olvide">Recuperar</a>
+          </div>
+
         </div>
       </div>
     </div>
+  </div>
 </main>

@@ -35,7 +35,6 @@ class LoginController
                     $_SESSION['id'] = $usuario->idusuario;
                     $_SESSION['email'] = $usuario->email;
                     $_SESSION['rol'] = $usuario->id_roles;
-                    $_SESSION['f_perfil'] = $usuario->f_perfil;
                     $_SESSION['login'] = true;
 
                     // Obtener nombre completo según el rol
@@ -69,17 +68,15 @@ class LoginController
                             header('Location: /admin');
                             break;
                         case '2':
-                            header('Location: /Vendedor');
+                            header('Location: /vendedor');
                             break;
                         case '3':
-                             
-                            header('Location: /Repartidor');
+                            header('Location: /repartidor');
                             break;
                         case '4':
-                            // header('Location: /cliente');
+                            header('Location: /cliente');
                             break;
                         default:
-                        debuguear('No se encontró el rol del usuario');
                             header('Location: /');
                             break;
                     }
@@ -89,7 +86,7 @@ class LoginController
                 $alertas = Usuario::getAlertas();
             }
         }
-        
+
         $router->render('auth/login', [
             'titulo' => 'Iniciar Sesión',
             'alertas' => $alertas,

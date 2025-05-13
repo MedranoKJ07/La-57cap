@@ -63,9 +63,6 @@ $router->post('/admin/Dashboard', [DashBoardController::class, 'Dashboard']);
 $router->get('/admin/GestionarCliente', [ClienteController::class, 'GestionarCliente']);
 $router->post('/admin/GestionarCliente', [ClienteController::class, 'GestionarCliente']);
 
-
-
-
 //Gestionar Vendedor
 $router->get('/admin/GestionarVendedores', [VendedorController::class, 'GestionarVendedores']);
 $router->post('/admin/GestionarVendedores', [VendedorController::class, 'GestionarVendedores']);
@@ -81,14 +78,30 @@ $router->post('/admin/ActualizarVendedor', [VendedorController::class, 'Actualiz
 //Eliminar Vendedor
 $router->post('/admin/EliminarVendedor', [VendedorController::class, 'EliminarVendedor']);
 
-
-
-
-
 //Gestionar Repartidor
 $router->get('/admin/GestionarRepartidor', [RepartidorControllers::class, 'GestionarRepartidores']);
-$router->post('/admin/GestionarVendedores', [RepartidorControllers::class, 'GestionarRepartidores']);
+$router->post('/admin/GestionarRepartidor', [RepartidorControllers::class, 'GestionarRepartidores']);
 
+// Crear usuario y repartidor (flujo similar a vendedor)
+$router->get('/admin/CrearUsuarioRepartidor', [RepartidorControllers::class, 'crearUsuarioRepartidor']);
+$router->post('/admin/CrearUsuarioRepartidor', [RepartidorControllers::class, 'crearUsuarioRepartidor']);
+
+$router->get('/admin/CrearRepartidor', [RepartidorControllers::class, 'CrearRepartidor']);
+$router->post('/admin/CrearRepartidor', [RepartidorControllers::class, 'CrearRepartidor']);
+
+// Actualizar repartidor
+$router->get('/admin/ActualizarRepartidor', [RepartidorControllers::class, 'ActualizarRepartidor']);
+$router->post('/admin/ActualizarRepartidor', [RepartidorControllers::class, 'ActualizarRepartidor']);
+
+// Eliminar repartidor
+$router->post('/admin/EliminarRepartidor', [RepartidorControllers::class, 'EliminarRepartidor']);
+
+
+//PANEL DE VENDEDORES
+$router->get('/Vendedor', [VendedorController::class, 'Vendedor']); 
+
+//PANEL DE REPARTIDORES
+$router->get('/Repartidor', [RepartidorControllers::class, 'Repartidor']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

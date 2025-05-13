@@ -12,68 +12,19 @@
 <body>
 
     <div class="wrapper">
-        <nav id="sidebar" class="sidebar js-sidebar">
-            <div class="sidebar-content js-simplebar">
+        <nav id="sidebar" class="sidebar js-sidebar ">
+            <div class="sidebar-content js-simplebar bg-dark text-white">
                 <a class="sidebar-brand" href="/admin">
                     <span class="align-middle">La 57 Cap</span>
                 </a>
 
                 <ul class="sidebar-nav">
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/Dashboard">
-                            <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Dashboard</span>
-                        </a>
-                    </li>
                     <li class="sidebar-header">
-                        Usuarios
+                        Vender
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarUsuario">
+                        <a class="sidebar-link" href="#">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
-                                Usuarios</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarVendedores">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
-                                Vendedor</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarRepartidor">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
-                                Repartidor</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarCliente">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
-                                Cliente</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-header">
-                        Inventario
-                    </li>
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarCliente">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
-                                Inventario</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-header">
-                        Compras
-                    </li>
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarCliente">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
-                                Proveedores</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarCliente">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
-                                Compras
                             </span>
                         </a>
                     </li>
@@ -241,16 +192,16 @@
                             </a>
 
                             <?php
-                            $nombreUsuario = $_SESSION['nombre'] ?? 'Administrador';
-                            $fotoPerfil = $_SESSION['f_perfil'] ?? 'f_perfil_admin.png';
-                            $rutaPerfil = "/img/users/" . $fotoPerfil;
+                            $nombre = $_SESSION['nombre'] ?? 'Invitado';
+                            $f_perfil = $_SESSION['f_perfil'] ?? 'f_perfil_default.png';
+                            $rutaFoto = "/img/users/" . $f_perfil;
                             ?>
 
                             <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
                                 data-bs-toggle="dropdown">
-                                <img src="<?php echo $rutaPerfil; ?>" class="avatar img-fluid rounded me-1"
+                                <img src="<?php echo $rutaFoto; ?>" class="avatar img-fluid rounded me-1"
                                     alt="Foto de perfil" />
-                                <span class="text-dark"><?php echo htmlspecialchars($nombreUsuario); ?></span>
+                                <span class="text-dark"><?php echo $nombre; ?></span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end">
@@ -265,7 +216,11 @@
                                 <a class="dropdown-item" href="#"><i class="align-middle me-1"
                                         data-feather="help-circle"></i> Help Center</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Log out</a>
+                                <a class="dropdown-item" href="/logout"><i class="align-middle me-1"
+                                        data-feather="log-out"></i> Cerrar sesión</a>
+
+
+
                             </div>
                         </li>
                     </ul>

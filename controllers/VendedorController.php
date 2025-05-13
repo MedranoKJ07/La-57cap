@@ -10,6 +10,15 @@ use Intervention\Image\ImageManager;
 use Classes\Email;
 class VendedorController
 {
+    public static function Vendedor(Router $router)
+    {
+      
+
+        $router->renderVendedor('Vendedor/VendedorPages', [
+       
+            'titulo' => 'Vendedor',
+        ]);
+    }
     public static function GestionarVendedores(Router $router)
     {
         $busqueda = $_POST['busqueda'] ?? '';
@@ -94,7 +103,7 @@ class VendedorController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $vendedor->sincronizar($_POST['vendedor']);
-
+            $vendedor->id_usuario = $id_usuario;
             $alertas = $vendedor->validar();
 
             if (empty($alertas)) {
@@ -155,7 +164,7 @@ class VendedorController
             }
 
             // Buscar vendedor
-            $vendedor = Vendedor::find($id , 'idvendedor'); 
+            $vendedor = Vendedor::find($id, 'idvendedor');
 
             if (!$vendedor) {
                 header('Location: /admin/GestionarVendedores');
@@ -166,15 +175,16 @@ class VendedorController
             $id_usuario = $vendedor->id_usuario;
 
             // Eliminar el vendedor
-            $vendedor->eliminar(    $id);
+            $vendedor->eliminar($id);
 
             // (Opcional) Eliminar el usuario asociado si lo considerás necesario
-            
-            $usuario = Usuario::find($id_usuario , 'idusuario');
+
+            $usuario = Usuario::find($id_usuario, 'idusuario');
             if ($usuario) {
-                $usuario->eliminar( $id_usuario);
+                $usuario->eliminar($id_usuario);
+                $usuario->delete_image();
             }
-            
+
 
             // Redirigir
             header('Location: /admin/GestionarVendedores');
