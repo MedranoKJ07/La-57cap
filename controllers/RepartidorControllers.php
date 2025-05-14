@@ -29,6 +29,30 @@ class RepartidorControllers
             'titulo' => 'Gestionar Repartidores'
         ]);
     }
+    public static function CancelarUsuarioRepartidor(Router $router)
+    {
+        $id_usuario = s($_GET['id_usuario'] ?? null);
+
+        if (!$id_usuario || !is_numeric($id_usuario)) {
+            header('Location: /admin/GestionarRepartidor');
+            exit;
+        }
+
+        // Verificamos si ya existe un repartidor asociado a ese usuario
+        $repartidor = Repartidor::where('id_usuario', $id_usuario);
+
+        // Si NO hay repartidor, entonces eliminamos el usuario (cancelación efectiva)
+        if (!$repartidor) {
+            $usuario = Usuario::find($id_usuario, 'idusuario');
+            if ($usuario) {
+                $usuario->eliminar($id_usuario);
+                $usuario->delete_image();
+            }
+        }
+
+        header('Location: /admin/GestionarRepartidor');
+        exit;
+    }
 
     public static function crearUsuarioRepartidor(Router $router)
     {
@@ -150,11 +174,13 @@ class RepartidorControllers
 
             $id_usuario = $repartidor->id_usuario;
             $repartidor->eliminar($id);
+            if ($repartidor->id_usuario) {
 
-            $usuario = Usuario::find($id_usuario, 'idusuario');
-            if ($usuario) {
-                $usuario->eliminar($id_usuario);
-                $usuario->delete_image(); // Asegurate que este método exista
+                $usuario = Usuario::find($id_usuario, 'idusuario');
+                if ($usuario) {
+                    $usuario->eliminar($id_usuario);
+                    $usuario->delete_image(); // Asegurate que este método exista
+                }
             }
 
             header('Location: /admin/GestionarRepartidor');

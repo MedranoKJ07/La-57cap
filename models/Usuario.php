@@ -195,4 +195,11 @@ class Usuario extends ActiveRecord
             return true;
         }
     }
+    public static function tieneRolAsignado($id_usuario, $tablaRelacionado)
+    {
+        $id_usuario = self::$db->escape_string($id_usuario);
+        $query = "SELECT COUNT(*) as total FROM {$tablaRelacionado} WHERE id_usuario = {$id_usuario}";
+        $resultado = self::consultarSQL($query);
+        return $resultado[0]->total ?? 0;
+    }
 }

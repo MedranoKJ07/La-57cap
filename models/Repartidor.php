@@ -1,7 +1,8 @@
-<?php 
+<?php
 namespace Model;
 
-class Repartidor extends ActiveRecord {
+class Repartidor extends ActiveRecord
+{
     protected static $tabla = 'repartidor';
     protected static $columnasDB = [
         'id_usuario',
@@ -26,7 +27,8 @@ class Repartidor extends ActiveRecord {
     public $email;
     public $confirmado;
 
-    public function __construct($args = []) {
+    public function __construct($args = [])
+    {
         $this->idrepartidor = $args['idrepartidor'] ?? null;
         $this->id_usuario = $args['id_usuario'] ?? null;
         $this->p_nombre = $args['p_nombre'] ?? '';
@@ -36,7 +38,8 @@ class Repartidor extends ActiveRecord {
         $this->n_telefono = $args['n_telefono'] ?? '';
     }
 
-    public function validar() {
+    public function validar()
+    {
         self::$alertas = [];
 
         if (!$this->p_nombre) {
@@ -60,16 +63,45 @@ class Repartidor extends ActiveRecord {
         return self::$alertas;
     }
 
-    public static function obtenerTodosConUsuario($busqueda = '') {
-        $query = "SELECT r.*, u.userName, u.email, u.confirmado 
-                  FROM repartidor r 
-                  INNER JOIN usuario u ON r.id_usuario = u.idusuario";
+    public static function obtenerTodosConUsuario($busqueda = '')
+    {
+        $busqueda = self::$db->real_escape_string($busqueda);
 
-        if ($busqueda) {
-            $busqueda = self::$db->escape_string($busqueda);
-            $query .= " WHERE CONCAT(r.p_nombre, ' ', r.p_apellido, ' ', u.email) LIKE '%$busqueda%'";
+        $where = '';
+        if (!empty($busqueda)) {
+            $where = "WHERE 
+            repartidor.p_nombre LIKE '%$busqueda%' OR
+            repartidor.p_apellido LIKE '%$busqueda%' OR
+            IFNULL(usuario.email, '') LIKE '%$busqueda%' OR
+            IFNULL(usuario.userName, '') LIKE '%$busqueda%'";
         }
 
-        return self::consultarSQL($query);
+        $query = "SELECT 
+                repartidor.*,
+                usuario.userName AS userName,
+                usuario.email AS email,
+                usuario.confirmado AS confirmado
+              FROM repartidor
+              LEFT JOIN usuario ON repartidor.id_usuario = usuario.idusuario
+              $where";
+
+        $resultado = self::$db->query($query);
+
+        $objetos = [];
+        while ($registro = $resultado->fetch_object()) {
+            $objetos[] = $registro; // objeto stdClass con los datos combinados
+        }
+
+        return $objetos;
     }
+
+
+    public static function existeRepartidorPorUsuario($id_usuario)
+    {
+        $id_usuario = self::$db->escape_string($id_usuario);
+        $query = "SELECT * FROM " . static::$tabla . " WHERE id_usuario = '$id_usuario' LIMIT 1";
+        $resultado = self::consultarSQL($query);
+        return !empty($resultado);
+    }
+
 }

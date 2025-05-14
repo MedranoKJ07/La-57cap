@@ -21,7 +21,7 @@ class Vendedor extends ActiveRecord
     public $p_apellido;
     public $s_apellido;
     public $n_telefono;
- 
+
 
     public function __construct($args = [])
     {
@@ -35,34 +35,25 @@ class Vendedor extends ActiveRecord
     }
     public static function obtenerTodosConUsuario($busqueda = '')
     {
-        $busqueda = self::$db->real_escape_string($busqueda);
-
-        $where = '';
-        if (!empty($busqueda)) {
-            $where = "WHERE 
-                vendedor.p_nombre LIKE '%$busqueda%' OR
-                vendedor.p_apellido LIKE '%$busqueda%' OR
-                usuario.email LIKE '%$busqueda%'";
-        }
-
         $query = "SELECT 
-                    vendedor.*,
-                    usuario.userName AS userName,
-                    usuario.email AS email,
-                    usuario.confirmado AS confirmado
-                  FROM vendedor
-                  INNER JOIN usuario ON vendedor.id_usuario = usuario.idusuario
-                  $where";
+                vendedor.*,
+                usuario.userName AS userName,
+                usuario.email AS email,
+                usuario.confirmado AS confirmado
+              FROM vendedor
+              LEFT JOIN usuario ON vendedor.id_usuario = usuario.idusuario";
 
         $resultado = self::$db->query($query);
 
         $objetos = [];
         while ($registro = $resultado->fetch_object()) {
-            $objetos[] = $registro; // stdClass con todos los campos combinados
+            $objetos[] = $registro;
         }
 
         return $objetos;
     }
+
+
     public function validar()
     {
         self::$alertas = [];

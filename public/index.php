@@ -8,6 +8,8 @@ use Controllers\DashBoardController;
 use Controllers\ClienteController;
 use Controllers\VendedorController;
 use Controllers\RepartidorControllers;
+use Controllers\ProveedorController;
+use Controllers\CategoriaProductoController;
 use MVC\Router;
 $router = new Router();
 
@@ -70,6 +72,9 @@ $router->post('/admin/GestionarVendedores', [VendedorController::class, 'Gestion
 //Crear Vendedor
 $router->get('/admin/CrearUsuarioVendedor', [VendedorController::class, 'crearUsuarioVendedor']);
 $router->post('/admin/CrearUsuarioVendedor', [VendedorController::class, 'crearUsuarioVendedor']);
+
+$router->get('/admin/CancelarUsuarioVendedor', [VendedorController::class, 'CancelarUsuarioVendedor']);   
+
 $router->get('/admin/CrearVendedor', [VendedorController::class, 'crearVendedor']);
 $router->post('/admin/CrearVendedor', [VendedorController::class, 'crearVendedor']);
 //Actualizar Vendedor
@@ -86,6 +91,8 @@ $router->post('/admin/GestionarRepartidor', [RepartidorControllers::class, 'Gest
 $router->get('/admin/CrearUsuarioRepartidor', [RepartidorControllers::class, 'crearUsuarioRepartidor']);
 $router->post('/admin/CrearUsuarioRepartidor', [RepartidorControllers::class, 'crearUsuarioRepartidor']);
 
+$router->get('/admin/CancelarUsuarioRepartidor', [RepartidorControllers::class, 'CancelarUsuarioRepartidor']);              
+
 $router->get('/admin/CrearRepartidor', [RepartidorControllers::class, 'CrearRepartidor']);
 $router->post('/admin/CrearRepartidor', [RepartidorControllers::class, 'CrearRepartidor']);
 
@@ -95,6 +102,25 @@ $router->post('/admin/ActualizarRepartidor', [RepartidorControllers::class, 'Act
 
 // Eliminar repartidor
 $router->post('/admin/EliminarRepartidor', [RepartidorControllers::class, 'EliminarRepartidor']);
+
+// Rutas para proveedores
+$router->get('/admin/GestionarProveedores', [ProveedorController::class, 'GestionarProveedores']);
+$router->post('/admin/GestionarProveedores', [ProveedorController::class, 'GestionarProveedores']);
+$router->get('/admin/CrearProveedor', [ProveedorController::class, 'CrearProveedor']);
+$router->post('/admin/CrearProveedor', [ProveedorController::class, 'CrearProveedor']);
+$router->get('/admin/ActualizarProveedor', [ProveedorController::class, 'ActualizarProveedor']);
+$router->post('/admin/ActualizarProveedor', [ProveedorController::class, 'ActualizarProveedor']);
+$router->post('/admin/EliminarProveedor', [ProveedorController::class, 'EliminarProveedor']);
+
+
+// Categoría de Producto
+$router->get('/admin/GestionarCategoriaProducto', [CategoriaProductoController::class, 'GestionarCategorias']);
+$router->post('/admin/GestionarCategoriaProducto', [CategoriaProductoController::class, 'GestionarCategorias']);
+$router->get('/admin/CrearCategoriaProducto', [CategoriaProductoController::class, 'CrearCategoria']);
+$router->post('/admin/CrearCategoriaProducto', [CategoriaProductoController::class, 'CrearCategoria']);
+$router->get('/admin/ActualizarCategoriaProducto', [CategoriaProductoController::class, 'ActualizarCategoria']);
+$router->post('/admin/ActualizarCategoriaProducto', [CategoriaProductoController::class, 'ActualizarCategoria']);
+$router->post('/admin/EliminarCategoriaProducto', [CategoriaProductoController::class, 'EliminarCategoria']);
 
 
 //PANEL DE VENDEDORES

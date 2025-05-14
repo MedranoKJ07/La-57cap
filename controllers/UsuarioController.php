@@ -8,6 +8,8 @@ use Intervention\Image\ImageManager;
 use Classes\Email;
 class UsuarioController
 {
+
+
     public static function crearUsuario(Router $router)
     {
         $usuario = new Usuario;

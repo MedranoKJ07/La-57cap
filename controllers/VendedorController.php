@@ -12,10 +12,10 @@ class VendedorController
 {
     public static function Vendedor(Router $router)
     {
-      
+
 
         $router->renderVendedor('Vendedor/VendedorPages', [
-       
+
             'titulo' => 'Vendedor',
         ]);
     }
@@ -30,6 +30,33 @@ class VendedorController
             'busqueda' => $busqueda,
             'titulo' => 'Gestionar Vendedores'
         ]);
+    }
+    public static function CancelarUsuarioVendedor(Router $router)
+    {
+        $id_usuario = $_GET['id_usuario'] ?? null;
+
+        if (!$id_usuario || !is_numeric($id_usuario)) {
+            header('Location: /admin/GestionarUsuario');
+            exit;
+        }
+
+        // Verificar si el usuario ya tiene un vendedor asociado
+        $yaAsignado = Usuario::tieneRolAsignado($id_usuario, 'vendedor');
+
+        if ($yaAsignado > 0) {
+            header('Location: /admin/GestionarVendedores');
+            exit;
+        }
+
+        // Buscar y eliminar usuario
+        $usuario = Usuario::find($id_usuario, 'idusuario');
+        if ($usuario) {
+            $usuario->delete_image();
+            $usuario->eliminar($id_usuario);
+        }
+
+        header('Location: /admin/GestionarVendedores');
+        exit;
     }
     public static function crearUsuarioVendedor(Router $router)
     {
@@ -106,8 +133,10 @@ class VendedorController
             $vendedor->id_usuario = $id_usuario;
             $alertas = $vendedor->validar();
 
+
             if (empty($alertas)) {
                 $vendedor->crear();
+
                 header('Location: /admin/GestionarVendedores');
                 exit;
             }
@@ -178,12 +207,14 @@ class VendedorController
             $vendedor->eliminar($id);
 
             // (Opcional) Eliminar el usuario asociado si lo considerás necesario
-
-            $usuario = Usuario::find($id_usuario, 'idusuario');
-            if ($usuario) {
-                $usuario->eliminar($id_usuario);
-                $usuario->delete_image();
+            if ($vendedor->id_usuario) {
+                $usuario = Usuario::find($id_usuario, 'idusuario');
+                if ($usuario) {
+                    $usuario->eliminar($id_usuario);
+                    $usuario->delete_image();
+                }
             }
+
 
 
             // Redirigir
