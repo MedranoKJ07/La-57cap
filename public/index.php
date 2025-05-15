@@ -74,7 +74,7 @@ $router->post('/admin/GestionarVendedores', [VendedorController::class, 'Gestion
 $router->get('/admin/CrearUsuarioVendedor', [VendedorController::class, 'crearUsuarioVendedor']);
 $router->post('/admin/CrearUsuarioVendedor', [VendedorController::class, 'crearUsuarioVendedor']);
 
-$router->get('/admin/CancelarUsuarioVendedor', [VendedorController::class, 'CancelarUsuarioVendedor']);   
+$router->get('/admin/CancelarUsuarioVendedor', [VendedorController::class, 'CancelarUsuarioVendedor']);
 
 $router->get('/admin/CrearVendedor', [VendedorController::class, 'crearVendedor']);
 $router->post('/admin/CrearVendedor', [VendedorController::class, 'crearVendedor']);
@@ -92,7 +92,7 @@ $router->post('/admin/GestionarRepartidor', [RepartidorControllers::class, 'Gest
 $router->get('/admin/CrearUsuarioRepartidor', [RepartidorControllers::class, 'crearUsuarioRepartidor']);
 $router->post('/admin/CrearUsuarioRepartidor', [RepartidorControllers::class, 'crearUsuarioRepartidor']);
 
-$router->get('/admin/CancelarUsuarioRepartidor', [RepartidorControllers::class, 'CancelarUsuarioRepartidor']);              
+$router->get('/admin/CancelarUsuarioRepartidor', [RepartidorControllers::class, 'CancelarUsuarioRepartidor']);
 
 $router->get('/admin/CrearRepartidor', [RepartidorControllers::class, 'CrearRepartidor']);
 $router->post('/admin/CrearRepartidor', [RepartidorControllers::class, 'CrearRepartidor']);
@@ -132,10 +132,13 @@ $router->post('/admin/CrearProducto', [ProductoController::class, 'CrearProducto
 $router->get('/admin/ActualizarProducto', [ProductoController::class, 'ActualizarProducto']);
 $router->post('/admin/ActualizarProducto', [ProductoController::class, 'ActualizarProducto']);
 $router->post('/admin/EliminarProducto', [ProductoController::class, 'EliminarProducto']);
+$router->get('/admin/GenerarCodigoBarras', [ProductoController::class, 'VerCodigoBarras']);
+$router->get('/admin/DescargarCodigoBarras', [ProductoController::class, 'DescargarCodigoBarras']);
+
 
 
 //PANEL DE VENDEDORES
-$router->get('/Vendedor', [VendedorController::class, 'Vendedor']); 
+$router->get('/Vendedor', [VendedorController::class, 'Vendedor']);
 
 //PANEL DE REPARTIDORES
 $router->get('/Repartidor', [RepartidorControllers::class, 'Repartidor']);

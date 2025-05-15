@@ -7,20 +7,9 @@
 
 <div class="card mt-3">
     <div class="card-header">
-        <form method="POST" action="" class="d-flex gap-2 flex-wrap align-items-center">
-            <select name="categoria" class="form-select w-auto">
-                <option value="">-- Categoría --</option>
-                <?php foreach ($categorias as $cat): ?>
-                    <option value="<?php echo $cat->idcategoria_producto; ?>"
-                        <?php echo ((string)$cat->idcategoria_producto === (string)$categoriaSeleccionada) ? 'selected' : ''; ?>>
-                        <?php echo $cat->titulo; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-
-            <input type="text" name="busqueda" class="form-control w-auto" placeholder="Buscar por nombre o código"
-                   value="<?php echo $busqueda; ?>">
-
+        <form method="POST" class="d-flex gap-2 flex-wrap align-items-center">
+            <input type="text" name="busqueda" class="form-control w-auto" placeholder="Buscar por nombre o categoría"
+                   value="<?php echo $busqueda ?? ''; ?>">
             <input type="submit" class="btn btn-primary" value="Filtrar">
             <a href="/admin/GestionarProducto" class="btn btn-secondary">Limpiar</a>
         </form>
@@ -32,11 +21,12 @@
                 <thead class="table-light">
                     <tr>
                         <th>Código</th>
-                        <th>Foto</th>
+                        <th>Imagen</th>
                         <th>Nombre</th>
                         <th>Descripción</th>
                         <th>Categoría</th>
                         <th>Precio</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -46,21 +36,28 @@
                             <tr>
                                 <td><?php echo $producto->codigo_producto; ?></td>
                                 <td>
-                                    <img src="/img/productos/<?php echo $producto->Foto; ?>" alt="Foto"
-                                         width="40" height="40" style="border-radius: 50%;">
+                                    <img src="/img/productos/<?php echo $producto->foto ?? 'default.jpg'; ?>" width="40" height="40"
+                                         class="rounded-circle" alt="Imagen producto">
                                 </td>
                                 <td><?php echo $producto->nombre_producto; ?></td>
                                 <td><?php echo $producto->descripcion; ?></td>
-                                <td><?php echo $producto->categoria ?? 'Sin categoría'; ?></td>
+                                <td><?php echo $categorias->titulo ?? '—'; ?></td>
                                 <td>$<?php echo number_format($producto->precio, 2); ?></td>
                                 <td>
-                                    <div class="d-flex gap-2">
+                                    <span class="badge bg-<?php echo $producto->eliminado ? 'secondary' : 'success'; ?>">
+                                        <?php echo $producto->eliminado ? 'Inactivo' : 'Activo'; ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2 flex-wrap">
                                         <a href="/admin/ActualizarProducto?id=<?php echo $producto->idproducto; ?>"
                                            class="btn btn-sm btn-warning">Actualizar</a>
                                         <form method="POST" action="/admin/EliminarProducto" class="d-inline">
                                             <input type="hidden" name="id" value="<?php echo $producto->idproducto; ?>">
                                             <input type="submit" class="btn btn-sm btn-danger" value="Eliminar">
                                         </form>
+                                        <a href="/admin/GenerarCodigoBarras?id=<?php echo $producto->idproducto; ?>"
+                                           class="btn btn-sm btn-outline-dark">Ver Código</a>
                                     </div>
                                 </td>
                             </tr>

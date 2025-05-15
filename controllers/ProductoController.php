@@ -7,6 +7,14 @@ use Model\Producto;
 use Model\CategoriaProducto;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+use Picqer\Barcode\BarcodeGeneratorSVG;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+
+
+
 class ProductoController
 {
 
@@ -17,6 +25,7 @@ class ProductoController
 
         $productos = Producto::filtrar($busqueda, $categoriaSeleccionada);
         $categorias = CategoriaProducto::obtenerTodas();
+        
 
         $router->renderAdmin('Admin/producto/GestionarProducto', [
             'productos' => $productos,
@@ -26,6 +35,33 @@ class ProductoController
             'titulo' => 'Gestión de Productos'
         ]);
     }
+
+
+    public static function VerCodigoBarras(Router $router)
+    {
+        $id = $_GET['id'];
+        $producto = Producto::find($id, 'idproducto');
+
+        if (!$producto) {
+            header('Location: /admin/GestionarProducto');
+            exit;
+        }
+
+
+        $generator = new BarcodeGeneratorPNG();
+        $codigo = $producto->codigo_producto;
+        $barcode = base64_encode($generator->getBarcode($codigo, $generator::TYPE_CODE_128));
+
+        $router->renderAdmin('Admin/producto/GenerarCodigoBarras', [
+            'codigo' => $codigo,
+            'barcode' => $barcode,
+            'producto' => $producto,
+            'titulo' => 'Código de Barras'
+        ]);
+    }
+
+
+
 
     public static function CrearProducto(Router $router)
     {
@@ -129,4 +165,61 @@ class ProductoController
             header('Location: /admin/GestionarProducto');
         }
     }
+    public static function DescargarCodigoBarras(Router $router)
+    {
+        $id = $_GET['id'] ?? null;
+        $formato = $_GET['formato'] ?? 'png';
+        $producto = Producto::find($id, 'idproducto');
+
+        if (!$producto) {
+            header('Location: /admin/GestionarProducto');
+            exit;
+        }
+
+        $codigo = $producto->codigo_producto;
+        $nombreArchivo = $codigo . '_barcode';
+
+        switch ($formato) {
+            case 'pdf':
+                $generator = new BarcodeGeneratorPNG();
+                $barcode = base64_encode($generator->getBarcode($codigo, $generator::TYPE_CODE_128));
+
+                // Configuración de DomPDF
+                $options = new Options();
+                $options->set('isRemoteEnabled', true);
+                $dompdf = new Dompdf($options);
+
+                // HTML para el PDF
+                $html = "
+        <h2 style='text-align: center;'>$producto->nombre_producto</h2>
+        <div style='text-align: center; margin-top: 30px;'>
+            <img src='data:image/png;base64,{$barcode}' style='width: 300px; height: auto;' />
+            <p><strong>$codigo</strong></p>
+        </div>
+    ";
+
+                $dompdf->loadHtml($html);
+                $dompdf->setPaper('A6', 'portrait');
+                $dompdf->render();
+                $dompdf->stream($nombreArchivo . ".pdf", ["Attachment" => true]);
+                break;
+
+
+            case 'svg':
+                $generator = new BarcodeGeneratorSVG();
+                header('Content-Type: image/svg+xml');
+                header("Content-Disposition: attachment; filename=$nombreArchivo.svg");
+                echo $generator->getBarcode($codigo, $generator::TYPE_CODE_128);
+                break;
+
+            case 'png':
+            default:
+                $generator = new BarcodeGeneratorPNG();
+                header('Content-Type: image/png');
+                header("Content-Disposition: attachment; filename=$nombreArchivo.png");
+                echo $generator->getBarcode($codigo, $generator::TYPE_CODE_128);
+                break;
+        }
+    }
+
 }
