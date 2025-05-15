@@ -55,16 +55,23 @@
                     <li class="sidebar-header">
                         Gestion inventario
                     </li>
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarCliente">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
-                                Inventario</span>
-                        </a>
-                    </li>
+
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/GestionarCategoriaProducto">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">
                                 Categorias Productos</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/GestionarProducto">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                                Productos</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/GestionarCliente">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                                Inventario</span>
                         </a>
                     </li>
                     <li class="sidebar-header">
@@ -72,13 +79,13 @@
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/GestionarProveedores">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
                                 Proveedores</span>
                         </a>
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/GestionarCliente">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
                                 Compras
                             </span>
                         </a>

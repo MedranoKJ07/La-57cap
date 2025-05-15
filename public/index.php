@@ -10,6 +10,7 @@ use Controllers\VendedorController;
 use Controllers\RepartidorControllers;
 use Controllers\ProveedorController;
 use Controllers\CategoriaProductoController;
+use Controllers\ProductoController;
 use MVC\Router;
 $router = new Router();
 
@@ -121,6 +122,16 @@ $router->post('/admin/CrearCategoriaProducto', [CategoriaProductoController::cla
 $router->get('/admin/ActualizarCategoriaProducto', [CategoriaProductoController::class, 'ActualizarCategoria']);
 $router->post('/admin/ActualizarCategoriaProducto', [CategoriaProductoController::class, 'ActualizarCategoria']);
 $router->post('/admin/EliminarCategoriaProducto', [CategoriaProductoController::class, 'EliminarCategoria']);
+
+// Producto
+
+$router->get('/admin/GestionarProducto', [ProductoController::class, 'GestionarProductos']);
+$router->post('/admin/GestionarProducto', [ProductoController::class, 'GestionarProductos']);
+$router->get('/admin/CrearProducto', [ProductoController::class, 'CrearProducto']);
+$router->post('/admin/CrearProducto', [ProductoController::class, 'CrearProducto']);
+$router->get('/admin/ActualizarProducto', [ProductoController::class, 'ActualizarProducto']);
+$router->post('/admin/ActualizarProducto', [ProductoController::class, 'ActualizarProducto']);
+$router->post('/admin/EliminarProducto', [ProductoController::class, 'EliminarProducto']);
 
 
 //PANEL DE VENDEDORES

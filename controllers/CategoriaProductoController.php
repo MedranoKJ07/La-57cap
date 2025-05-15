@@ -10,14 +10,15 @@ class CategoriaProductoController
     public static function GestionarCategorias(Router $router)
     {
         $busqueda = $_POST['busqueda'] ?? '';
-        $categorias = CategoriaProducto::obtenerTodas($busqueda);
+        $categorias = CategoriaProducto::filtrar($busqueda);
 
         $router->renderAdmin('Admin/categorias_producto/GestionCategoriasProducto', [
             'categorias' => $categorias,
             'busqueda' => $busqueda,
-            'titulo' => 'Gestión de Categorías de Producto'
+            'titulo' => 'Gestión de Categorías de Productos'
         ]);
     }
+
 
     public static function CrearCategoria(Router $router)
     {
@@ -47,7 +48,7 @@ class CategoriaProductoController
         $id = $_GET['id'] ?? null;
 
         if (!$id || !is_numeric($id)) {
-                header('Location: /admin/GestionarCategoriaProducto');
+            header('Location: /admin/GestionarCategoriaProducto');
             return;
         }
 
@@ -74,6 +75,12 @@ class CategoriaProductoController
 
     public static function EliminarCategoria()
     {
+        $alertas = CategoriaProducto::getAlertas();
+        $id = $_POST['id'] ?? null;
+
+        FilterValidateInt($id, 'admin/GestionarCategoriaProducto');
+        verificarId(CategoriaProducto::find($id, 'idcategoria_producto'), 'admin/GestionarCategoriaProducto');
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? null;
 
@@ -84,7 +91,7 @@ class CategoriaProductoController
                 }
             }
 
-            header('Location: /admin/categorias_producto/GestionarCategorias');
+            header('Location: /admin/GestionarCategoriaProducto');
         }
     }
 }

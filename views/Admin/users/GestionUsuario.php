@@ -5,7 +5,7 @@
                 <h2 class="card-title">Gestion Usuarios</h2>
             </div>
             <div class="col-auto mt-0">
-                <a href="/admin/CrearUsuario?t=1" class="btn btn-success">Crear Nuevo Usuario Administrador</a>
+                <a href="/admin/CrearUsuario?t=1" class="btn btn-light text-primary fw-bold">Crear Nuevo Usuario Administrador</a>
             </div>
         </div>
 

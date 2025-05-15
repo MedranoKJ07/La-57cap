@@ -1,11 +1,20 @@
 <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
         <h2 class="card-title mb-0">Gestión de Categorías de Productos</h2>
         <a href="/admin/CrearCategoriaProducto" class="btn btn-light text-primary fw-bold">Crear Nueva Categoría</a>
     </div>
 </div>
 
 <div class="card mt-3">
+    <div class="card-header">
+        <form method="POST" class="d-flex gap-2 flex-wrap align-items-center">
+            <input type="text" name="busqueda" class="form-control w-auto" placeholder="Buscar categoría o política"
+                value="<?php echo $busqueda ?? ''; ?>">
+            <input type="submit" class="btn btn-primary" value="Filtrar">
+            <a href="/admin/GestionarCategoriaProducto" class="btn btn-secondary">Limpiar</a>
+        </form>
+    </div>
+
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-hover mb-0">

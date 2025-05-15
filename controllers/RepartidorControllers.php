@@ -173,7 +173,7 @@ class RepartidorControllers
             }
 
             $id_usuario = $repartidor->id_usuario;
-            $repartidor->eliminar($id);
+            $repartidor->eliminarLogico($id);
             if ($repartidor->id_usuario) {
 
                 $usuario = Usuario::find($id_usuario, 'idusuario');

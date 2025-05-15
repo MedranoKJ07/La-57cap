@@ -51,5 +51,19 @@ class CategoriaProducto extends ActiveRecord
         $query = "SELECT * FROM " . static::$tabla . " WHERE eliminado = 0 ORDER BY idcategoria_producto DESC";
         return self::consultarSQL($query);
     }
+    public static function filtrar($busqueda = '')
+    {
+        $condiciones = ["eliminado = 0"]; // Solo categorías activas
+
+        if (!empty($busqueda)) {
+            $busqueda = self::$db->real_escape_string($busqueda);
+            $condiciones[] = "(titulo LIKE '%$busqueda%' OR politica_garantia LIKE '%$busqueda%')";
+        }
+
+        $where = 'WHERE ' . implode(' AND ', $condiciones);
+        $query = "SELECT * FROM " . static::$tabla . " $where ORDER BY idcategoria_producto DESC";
+
+        return self::consultarSQL($query);
+    }
 
 }

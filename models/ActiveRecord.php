@@ -226,15 +226,17 @@ class ActiveRecord
     // Eliminar un Registro por su ID
     public function eliminar($id_m)
     {
+        $id_m = self::$db->real_escape_string($id_m); // Seguridad ante inyecciones SQL
         $query = "DELETE FROM " . static::$tabla . " WHERE " . static::$id . " = " . self::$db->escape_string($id_m) . " LIMIT 1";
         $resultado = self::$db->query($query);
         return $resultado;
     }
-    public function eliminarLogico($id, $columnaID = 'id')
+    public static function eliminarLogico($id)
     {
-        $query = "UPDATE " . static::$tabla . " SET eliminado = 1 WHERE {$columnaID} = {$id} LIMIT 1";
-        $resultado = self::$db->query($query);
-        return $resultado;
+        $id = self::$db->real_escape_string($id); // Seguridad ante inyecciones SQL
+        $query = "UPDATE " . static::$tabla . " SET eliminado = 1 WHERE " . static::$id . " = '$id' LIMIT 1";
+        return self::$db->query($query);
     }
+
 
 }

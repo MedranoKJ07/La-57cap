@@ -197,7 +197,7 @@ class VendedorController
             $id_usuario = $vendedor->id_usuario;
 
             // Eliminar el vendedor
-            $vendedor->eliminar($id);
+            $vendedor->eliminarLogico($id);
 
             // (Opcional) Eliminar el usuario asociado si lo considerás necesario
             if ($vendedor->id_usuario) {
