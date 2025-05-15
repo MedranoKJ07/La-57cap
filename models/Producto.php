@@ -24,6 +24,8 @@ class Producto extends ActiveRecord
     public $precio;
     public $eliminado;
     public $Foto;
+    public $categoria_nombre;
+
 
     public function __construct($args = [])
     {
@@ -35,6 +37,7 @@ class Producto extends ActiveRecord
         $this->precio = $args['precio'] ?? 0.00;
         $this->eliminado = $args['eliminado'] ?? 0;
         $this->Foto = $args['Foto'] ?? 'f_perfil_deaulft.png';
+        $this->categoria_nombre = $args['categoria_nombre'] ?? '';
     }
 
     public function validar()
@@ -108,35 +111,35 @@ class Producto extends ActiveRecord
             unlink(CARPETAS_IMAGENES_PRODUCTOS . "/" . $this->Foto);
         }
     }
-    public static function filtrar($categoria = '', $busqueda = '')
+    public static function filtrar($busqueda = '', $categoriaSeleccionada = '')
     {
-        $condiciones = ["producto.eliminado = 0"]; // Solo productos activos
-
-        if (!empty($categoria)) {
-            $categoria = self::$db->real_escape_string($categoria);
-            $condiciones[] = "producto.id_categoria = '$categoria'";
-        }
+        $condiciones = ["producto.eliminado = 0"];
 
         if (!empty($busqueda)) {
             $busqueda = self::$db->real_escape_string($busqueda);
-            $condiciones[] = "(producto.nombre_producto LIKE '%$busqueda%' 
-                        OR producto.descripcion LIKE '%$busqueda%' 
-                        OR producto.codigo_producto LIKE '%$busqueda%')";
+            $condiciones[] = "(producto.nombre_producto LIKE '%$busqueda%' OR categoria_producto.titulo LIKE '%$busqueda%')";
         }
 
-        $where = 'WHERE ' . implode(' AND ', $condiciones);
+        if (!empty($categoriaSeleccionada)) {
+            $categoriaSeleccionada = self::$db->real_escape_string($categoriaSeleccionada);
+            $condiciones[] = "producto.id_categoria = '$categoriaSeleccionada'";
+        }
+
+        $where = count($condiciones) ? 'WHERE ' . implode(' AND ', $condiciones) : '';
 
         $query = "SELECT 
-                producto.*, 
-                categoria_producto.titulo AS categoria 
-              FROM producto 
-              LEFT JOIN categoria_producto 
-              ON producto.id_categoria = categoria_producto.idcategoria_producto 
-              $where 
-              ORDER BY producto.idproducto DESC";
+            producto.*, 
+            categoria_producto.titulo AS categoria_nombre 
+          FROM producto
+          INNER JOIN categoria_producto 
+            ON producto.id_categoria = categoria_producto.idcategoria_producto
+          $where
+          ORDER BY producto.idproducto DESC";
+
 
         return self::consultarSQL($query);
     }
+
 
 
 }

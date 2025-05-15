@@ -25,7 +25,7 @@ class ProductoController
 
         $productos = Producto::filtrar($busqueda, $categoriaSeleccionada);
         $categorias = CategoriaProducto::obtenerTodas();
-        
+
 
         $router->renderAdmin('Admin/producto/GestionarProducto', [
             'productos' => $productos,
@@ -130,6 +130,7 @@ class ProductoController
                 $imagen = $manager->read($_FILES['producto']['tmp_name']['Foto'])->cover(800, 600);
                 $producto->setImagen($nombreImagen);
 
+                $producto->delete_image();
                 if (!is_dir(CARPETAS_IMAGENES_PRODUCTOS)) {
                     mkdir(CARPETAS_IMAGENES_PRODUCTOS);
                 }
@@ -139,6 +140,7 @@ class ProductoController
 
             if (empty($alertas)) {
                 $producto->actualizar($id);
+
                 header('Location: /admin/GestionarProducto');
             }
         }

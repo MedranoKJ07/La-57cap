@@ -11,7 +11,7 @@
  Target Server Version : 80041
  File Encoding         : 65001
 
- Date: 13/05/2025 22:13:34
+ Date: 15/05/2025 01:21:30
 */
 
 SET NAMES utf8mb4;
@@ -26,10 +26,18 @@ CREATE TABLE `categoria_producto`  (
   `garantias_meses` int(0) NOT NULL,
   `titulo` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `politica_garantia` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `estado` tinyint(0) NULL DEFAULT NULL,
   `tiene_garantia` tinyint(0) NOT NULL,
+  `eliminado` tinyint(0) NULL DEFAULT 0,
+  `estado` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idcategoria_producto`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of categoria_producto
+-- ----------------------------
+INSERT INTO `categoria_producto` VALUES (2, 2, 'dasdd cfddf', 'dasdasdasdsd', 1, 1, '0');
+INSERT INTO `categoria_producto` VALUES (3, 0, 'Gorra', 'No tiene Garantia', 0, 0, '1');
+INSERT INTO `categoria_producto` VALUES (4, 2, 'dasdd', 'dasds', 1, 0, '1');
 
 -- ----------------------------
 -- Table structure for clasificaciones
@@ -43,6 +51,7 @@ CREATE TABLE `clasificaciones`  (
   `pedidos_idpedidos` int(0) NOT NULL,
   `cliente_idcliente` int(0) NOT NULL,
   `repartidor_idrepartidor` int(0) NOT NULL,
+  `eliminado` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`idClasificaciones`) USING BTREE,
   INDEX `fk_Clasificaciones_pedidos1_idx`(`pedidos_idpedidos`) USING BTREE,
   INDEX `fk_Clasificaciones_cliente1_idx`(`cliente_idcliente`) USING BTREE,
@@ -66,6 +75,7 @@ CREATE TABLE `cliente`  (
   `n_telefono` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `direccion` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `Municipio` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `eliminado` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`idcliente`) USING BTREE,
   INDEX `cliente_usuario_idx`(`id_usuario`) USING BTREE,
   CONSTRAINT `cliente_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`idusuario`) ON DELETE SET NULL ON UPDATE RESTRICT
@@ -74,7 +84,7 @@ CREATE TABLE `cliente`  (
 -- ----------------------------
 -- Records of cliente
 -- ----------------------------
-INSERT INTO `cliente` VALUES (1, NULL, ' .', '.', '.', '.', '.', '.', '.');
+INSERT INTO `cliente` VALUES (1, NULL, ' .', '.', '.', '.', '.', '.', '.', 0);
 
 -- ----------------------------
 -- Table structure for compra_detalles
@@ -102,9 +112,9 @@ CREATE TABLE `compras`  (
   `idCompras` int(0) NOT NULL AUTO_INCREMENT,
   `fecha_compra` datetime(0) NOT NULL,
   `total_compra` decimal(10, 2) NOT NULL,
-  `estado` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `observaciones` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `Proveedores_idProveedores` int(0) NOT NULL,
+  `eliminado` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`idCompras`) USING BTREE,
   INDEX `fk_Compras_Proveedores1_idx`(`Proveedores_idProveedores`) USING BTREE,
   CONSTRAINT `fk_Compras_Proveedores1` FOREIGN KEY (`Proveedores_idProveedores`) REFERENCES `proveedores` (`idProveedores`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -190,6 +200,7 @@ CREATE TABLE `notificacion`  (
   `descripcion` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `creada_fecha` datetime(0) NOT NULL,
   `usuario_idusuario` int(0) NOT NULL,
+  `eliminado` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`idnotificacion`) USING BTREE,
   INDEX `fk_notificacion_usuario1_idx`(`usuario_idusuario`) USING BTREE,
   CONSTRAINT `fk_notificacion_usuario1` FOREIGN KEY (`usuario_idusuario`) REFERENCES `usuario` (`idusuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -230,12 +241,24 @@ CREATE TABLE `producto`  (
   `codigo_producto` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `nombre_producto` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `descripcion` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `estado` tinyint(0) NOT NULL,
   `precio` decimal(10, 2) NOT NULL,
+  `eliminado` tinyint(0) NULL DEFAULT 0,
+  `Foto` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idproducto`) USING BTREE,
   INDEX `producto_categoria_idx`(`id_categoria`) USING BTREE,
   CONSTRAINT `producto_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_producto` (`idcategoria_producto`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of producto
+-- ----------------------------
+INSERT INTO `producto` VALUES (1, 3, 'GOR-03-0001', 'Gorra Azul', 'Muy Linda', 580.00, 1, NULL);
+INSERT INTO `producto` VALUES (2, 3, 'GOR-03-0002', 'Gorra Azul', 'fdsfdsfdsf', 850.00, 1, ' ');
+INSERT INTO `producto` VALUES (3, 3, 'GOR-03-0002', 'Gorra Azul cambio', 'fdsfdsfdsf', 850.00, 1, '  ');
+INSERT INTO `producto` VALUES (4, 3, 'GOR-03-0004', 'Gorra Azul', 'DASDASD', 0.00, 1, ' ');
+INSERT INTO `producto` VALUES (5, 3, 'GOR-03-0005', 'Gorra Azul', 'fdsff', 20.00, 1, ' ');
+INSERT INTO `producto` VALUES (6, 3, 'GOR-03-0006', 'Gorra Azul', 'gfsfsdfdf', 0.00, 1, 'e7b284a7d548485b2bbbd0770813af2c.jpg');
+INSERT INTO `producto` VALUES (7, 3, 'GOR-03-0007', 'Gorra Azul', 'dasdsad', 58.00, 0, 'a6e708969dffabe60f0d5c2cffbd1560.jpg');
 
 -- ----------------------------
 -- Table structure for proveedores
@@ -248,15 +271,16 @@ CREATE TABLE `proveedores`  (
   `telefono` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `direccion` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `nacionalidad` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `eliminado` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`idProveedores`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of proveedores
 -- ----------------------------
-INSERT INTO `proveedores` VALUES (1, ' Compania', 'Kj', '8479849844', 'a la par de mi casa', 'nacional');
-INSERT INTO `proveedores` VALUES (3, ' Compania', 'Kj', '8479849844', 'a la par de mi casa', 'extranjera ');
-INSERT INTO `proveedores` VALUES (4, ' Compania', 'Kj', '8479849844', 'a la par de mi casa', 'extranjera ');
+INSERT INTO `proveedores` VALUES (1, ' Compania', 'Kj', '8479849844', 'a la par de mi casa', 'nacional', 0);
+INSERT INTO `proveedores` VALUES (3, ' Compania', 'Kj', '8479849844', 'a la par de mi casa', 'extranjera ', 0);
+INSERT INTO `proveedores` VALUES (4, ' Compania', 'Kj', '8479849844', 'a la par de mi casa', 'extranjera ', 0);
 
 -- ----------------------------
 -- Table structure for repartidor
@@ -270,6 +294,7 @@ CREATE TABLE `repartidor`  (
   `p_apellido` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `s_apellido` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `n_telefono` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `eliminado` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`idrepartidor`) USING BTREE,
   INDEX `repartidor_usuario_idx`(`id_usuario`) USING BTREE,
   CONSTRAINT `vendedor_usuario00` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`idusuario`) ON DELETE SET NULL ON UPDATE RESTRICT
@@ -308,15 +333,17 @@ CREATE TABLE `usuario`  (
   `token` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `Creado_Fecha` datetime(0) NOT NULL,
   `Cambiado_Fecha` datetime(0) NOT NULL,
+  `eliminado` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`idusuario`) USING BTREE,
   INDEX `usuario_roles_idx`(`id_roles`) USING BTREE,
   CONSTRAINT `usuario_roles` FOREIGN KEY (`id_roles`) REFERENCES `roles` (`idroles`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 73 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (59, 1, '4fab6662fe79843fdffa9013be93884a.jpg', 'KJ', '$2y$10$XELZXzGQCwPdwFQHqhihlOU4YkctA1HOjE7ZwlRDY7B83ewTy5RRG', 'kmurillojosue75@gmail.com', 1, '', '2025-05-13 05:56:18', '2025-05-13 05:56:18');
+INSERT INTO `usuario` VALUES (59, 1, '4fab6662fe79843fdffa9013be93884a.jpg', 'KJ', '$2y$10$XELZXzGQCwPdwFQHqhihlOU4YkctA1HOjE7ZwlRDY7B83ewTy5RRG', 'kmurillojosue75@gmail.com', 1, '', '2025-05-13 05:56:18', '2025-05-13 05:56:18', 0);
+INSERT INTO `usuario` VALUES (72, 1, '4d288312d85b9591c952f7a14ea1155f.jpg', 'a', '$2y$10$NW/1HEQ0tqvRApqoM3c6CenZKLzyhmkwR2TJEsVYImmohRzg9pt5C', 'a@gmail.com', 0, '682561c565a01', '2025-05-15 03:38:45', '2025-05-15 03:38:45', 1);
 
 -- ----------------------------
 -- Table structure for vendedor
@@ -330,6 +357,7 @@ CREATE TABLE `vendedor`  (
   `p_apellido` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `s_apellido` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `n_telefono` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `eliminado` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`idvendedor`) USING BTREE,
   INDEX `vendedor_usuario_idx`(`id_usuario`) USING BTREE,
   CONSTRAINT `vendedor_usuario0` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`idusuario`) ON DELETE SET NULL ON UPDATE RESTRICT

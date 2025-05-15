@@ -10,6 +10,17 @@
         <form method="POST" class="d-flex gap-2 flex-wrap align-items-center">
             <input type="text" name="busqueda" class="form-control w-auto" placeholder="Buscar por nombre o categoría"
                    value="<?php echo $busqueda ?? ''; ?>">
+
+            <select name="categoria" class="form-select w-auto">
+                <option value="">-- Todas las Categorías --</option>
+                <?php foreach ($categorias as $categoria): ?>
+                    <option value="<?php echo $categoria->idcategoria_producto; ?>"
+                        <?php echo $categoriaSeleccionada == $categoria->idcategoria_producto ? 'selected' : ''; ?>>
+                        <?php echo $categoria->titulo; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
             <input type="submit" class="btn btn-primary" value="Filtrar">
             <a href="/admin/GestionarProducto" class="btn btn-secondary">Limpiar</a>
         </form>
@@ -36,12 +47,12 @@
                             <tr>
                                 <td><?php echo $producto->codigo_producto; ?></td>
                                 <td>
-                                    <img src="/img/productos/<?php echo $producto->foto ?? 'default.jpg'; ?>" width="40" height="40"
+                                    <img src="/img/productos/<?php echo $producto->Foto ?? 'default.jpg'; ?>" width="40" height="40"
                                          class="rounded-circle" alt="Imagen producto">
                                 </td>
                                 <td><?php echo $producto->nombre_producto; ?></td>
                                 <td><?php echo $producto->descripcion; ?></td>
-                                <td><?php echo $categorias->titulo ?? '—'; ?></td>
+                                <td><?php echo $producto->categoria_nombre ?? '—'; ?></td>
                                 <td>$<?php echo number_format($producto->precio, 2); ?></td>
                                 <td>
                                     <span class="badge bg-<?php echo $producto->eliminado ? 'secondary' : 'success'; ?>">
@@ -58,6 +69,7 @@
                                         </form>
                                         <a href="/admin/GenerarCodigoBarras?id=<?php echo $producto->idproducto; ?>"
                                            class="btn btn-sm btn-outline-dark">Ver Código</a>
+                                        
                                     </div>
                                 </td>
                             </tr>
