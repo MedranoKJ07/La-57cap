@@ -42,7 +42,7 @@ class Usuario extends ActiveRecord
     }
     public static function filtrarUsuarios($rol = '', $busqueda = '')
     {
-        $condiciones = [];
+        $condiciones = ["eliminado = 0"]; // Solo usuarios no eliminados
 
         if ($rol !== '') {
             $rol = self::$db->real_escape_string($rol);
@@ -54,11 +54,12 @@ class Usuario extends ActiveRecord
             $condiciones[] = "(userName LIKE '%$busqueda%' OR email LIKE '%$busqueda%')";
         }
 
-        $where = count($condiciones) ? 'WHERE ' . implode(' AND ', $condiciones) : '';
+        $where = 'WHERE ' . implode(' AND ', $condiciones);
         $query = "SELECT * FROM " . static::$tabla . " $where";
 
         return self::consultarSQL($query);
     }
+
     public function setImagen($imagen): void
     {
         if (!is_null($this->f_perfil)) {
@@ -195,11 +196,5 @@ class Usuario extends ActiveRecord
             return true;
         }
     }
-    public static function tieneRolAsignado($id_usuario, $tablaRelacionado)
-    {
-        $id_usuario = self::$db->escape_string($id_usuario);
-        $query = "SELECT COUNT(*) as total FROM {$tablaRelacionado} WHERE id_usuario = {$id_usuario}";
-        $resultado = self::consultarSQL($query);
-        return $resultado[0]->total ?? 0;
-    }
+
 }

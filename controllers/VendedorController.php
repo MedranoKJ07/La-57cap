@@ -40,13 +40,6 @@ class VendedorController
             exit;
         }
 
-        // Verificar si el usuario ya tiene un vendedor asociado
-        $yaAsignado = Usuario::tieneRolAsignado($id_usuario, 'vendedor');
-
-        if ($yaAsignado > 0) {
-            header('Location: /admin/GestionarVendedores');
-            exit;
-        }
 
         // Buscar y eliminar usuario
         $usuario = Usuario::find($id_usuario, 'idusuario');
@@ -210,7 +203,7 @@ class VendedorController
             if ($vendedor->id_usuario) {
                 $usuario = Usuario::find($id_usuario, 'idusuario');
                 if ($usuario) {
-                    $usuario->eliminar($id_usuario);
+                    $usuario->eliminarLogico($id_usuario);
                     $usuario->delete_image();
                 }
             }

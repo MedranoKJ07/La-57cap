@@ -75,7 +75,7 @@ class ProveedorController
             if ($id && is_numeric($id)) {
                 $proveedor = Proveedor::find($id, 'idProveedores');
                 if ($proveedor) {
-                    $proveedor->eliminar($id);
+                    $proveedor->eliminarLogico($id);
                 }
             }
 

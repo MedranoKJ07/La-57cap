@@ -67,13 +67,15 @@ class Repartidor extends ActiveRecord
     {
         $busqueda = self::$db->real_escape_string($busqueda);
 
-        $where = '';
+        $where = "WHERE repartidor.eliminado = 0"; // Mostrar solo los no eliminados
+
         if (!empty($busqueda)) {
-            $where = "WHERE 
+            $where .= " AND (
             repartidor.p_nombre LIKE '%$busqueda%' OR
             repartidor.p_apellido LIKE '%$busqueda%' OR
             IFNULL(usuario.email, '') LIKE '%$busqueda%' OR
-            IFNULL(usuario.userName, '') LIKE '%$busqueda%'";
+            IFNULL(usuario.userName, '') LIKE '%$busqueda%'
+        )";
         }
 
         $query = "SELECT 
@@ -89,19 +91,11 @@ class Repartidor extends ActiveRecord
 
         $objetos = [];
         while ($registro = $resultado->fetch_object()) {
-            $objetos[] = $registro; // objeto stdClass con los datos combinados
+            $objetos[] = $registro;
         }
 
         return $objetos;
     }
 
-
-    public static function existeRepartidorPorUsuario($id_usuario)
-    {
-        $id_usuario = self::$db->escape_string($id_usuario);
-        $query = "SELECT * FROM " . static::$tabla . " WHERE id_usuario = '$id_usuario' LIMIT 1";
-        $resultado = self::consultarSQL($query);
-        return !empty($resultado);
-    }
 
 }

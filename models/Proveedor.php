@@ -54,13 +54,14 @@ class Proveedor extends ActiveRecord
 
     public static function filtrar($busqueda = '')
     {
-        $query = "SELECT * FROM proveedores";
+        $query = "SELECT * FROM proveedores WHERE eliminado = 0";
 
         if ($busqueda) {
             $busqueda = self::$db->escape_string($busqueda);
-            $query .= " WHERE nombre_empresa LIKE '%$busqueda%' OR contacto LIKE '%$busqueda%'";
+            $query .= " AND (nombre_empresa LIKE '%$busqueda%' OR contacto LIKE '%$busqueda%')";
         }
 
         return self::consultarSQL($query);
     }
+
 }

@@ -178,7 +178,7 @@ class RepartidorControllers
 
                 $usuario = Usuario::find($id_usuario, 'idusuario');
                 if ($usuario) {
-                    $usuario->eliminar($id_usuario);
+                    $usuario->eliminarLogico($id_usuario);
                     $usuario->delete_image(); // Asegurate que este método exista
                 }
             }

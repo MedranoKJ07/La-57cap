@@ -80,7 +80,7 @@ class CategoriaProductoController
             if ($id && is_numeric($id)) {
                 $categoria = CategoriaProducto::find($id, 'idcategoria_producto');
                 if ($categoria) {
-                    $categoria->eliminar($id);
+                    $categoria->eliminarLogico($id);
                 }
             }
 

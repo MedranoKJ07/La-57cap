@@ -48,7 +48,8 @@ class CategoriaProducto extends ActiveRecord
     }
     public static function obtenerTodas()
     {
-        $query = "SELECT * FROM " . static::$tabla . " ORDER BY idcategoria_producto DESC";
+        $query = "SELECT * FROM " . static::$tabla . " WHERE eliminado = 0 ORDER BY idcategoria_producto DESC";
         return self::consultarSQL($query);
     }
+
 }

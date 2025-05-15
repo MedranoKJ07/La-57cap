@@ -174,7 +174,7 @@ class UsuarioController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($tipo === 'usuario') {
                 $usuario = Usuario::find($id, 'idusuario');
-                $usuario->eliminar($id);
+                $usuario->eliminarLogico($id);
                 header('Location:/admin/EliminarUsuario');
                 $usuario->delete_image();
             }

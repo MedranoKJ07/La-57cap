@@ -217,7 +217,7 @@ class ActiveRecord
         $query .= join(', ', $valores);
         $query .= " WHERE " . static::$id . " = '" . self::$db->escape_string($id_m) . "' ";
         $query .= " LIMIT 1 ";
-        
+
         // Actualizar BD
         $resultado = self::$db->query($query);
         return $resultado;
@@ -227,6 +227,12 @@ class ActiveRecord
     public function eliminar($id_m)
     {
         $query = "DELETE FROM " . static::$tabla . " WHERE " . static::$id . " = " . self::$db->escape_string($id_m) . " LIMIT 1";
+        $resultado = self::$db->query($query);
+        return $resultado;
+    }
+    public function eliminarLogico($id, $columnaID = 'id')
+    {
+        $query = "UPDATE " . static::$tabla . " SET eliminado = 1 WHERE {$columnaID} = {$id} LIMIT 1";
         $resultado = self::$db->query($query);
         return $resultado;
     }

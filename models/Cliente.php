@@ -62,12 +62,14 @@ class Cliente extends ActiveRecord
     {
         $busqueda = self::$db->real_escape_string($busqueda);
 
-        $where = '';
+        $where = "WHERE cliente.eliminado = 0 AND usuario.eliminado = 0";
+
         if (!empty($busqueda)) {
-            $where = "WHERE 
+            $where .= " AND (
             cliente.p_nombre LIKE '%$busqueda%' OR
             cliente.p_apellido LIKE '%$busqueda%' OR
-            usuario.email LIKE '%$busqueda%'";
+            usuario.email LIKE '%$busqueda%'
+        )";
         }
 
         $query = "SELECT 
@@ -88,6 +90,7 @@ class Cliente extends ActiveRecord
 
         return $objetos;
     }
+
 
 
 }
