@@ -1,20 +1,23 @@
-<?php 
+<?php
 namespace Controllers;
 
 use MVC\Router;
-use Model\Usuario;
 use Model\Cliente;
+use Model\Usuario;
 use Model\Vendedor;
 use Model\Repartidor;
-
+use Model\ActiveRecord;
 class LoginController
 {
+
     public static function login(Router $router)
     {
         $alertas = [];
         $auth = new Usuario;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+
             $auth->sincronizar($_POST['usuario']);
             $alertas = $auth->validarLogin();
 
@@ -27,10 +30,16 @@ class LoginController
                     Usuario::setAlerta('error', 'El usuario no existe');
                 } elseif (!password_verify($auth->password, $usuario->password)) {
                     Usuario::setAlerta('error', 'La contraseña es incorrecta');
+
                 } elseif ($usuario->confirmado != 1) {
                     Usuario::setAlerta('error', 'Tu cuenta no ha sido confirmada');
                 } else {
                     // Iniciar sesión
+
+                    $dbPorRol = conectarSegunRol($usuario->id_roles);
+                    ActiveRecord::setDB($dbPorRol);
+
+
                     session_start();
                     $_SESSION['id'] = $usuario->idusuario;
                     $_SESSION['email'] = $usuario->email;
@@ -40,6 +49,7 @@ class LoginController
 
                     // Obtener nombre completo según el rol
                     switch ($usuario->id_roles) {
+
                         case '1': // Administrador
                             $_SESSION['nombre'] = 'Administrador';
                             break;
@@ -72,14 +82,15 @@ class LoginController
                             header('Location: /Vendedor');
                             break;
                         case '3':
-                             
+
                             header('Location: /Repartidor');
                             break;
                         case '4':
                             // header('Location: /cliente');
                             break;
                         default:
-                        debuguear('No se encontró el rol del usuario');
+                            $_SESSION = [];
+                            debuguear('No se encontró el rol del usuario');
                             header('Location: /');
                             break;
                     }
@@ -89,7 +100,7 @@ class LoginController
                 $alertas = Usuario::getAlertas();
             }
         }
-        
+
         $router->render('auth/login', [
             'titulo' => 'Iniciar Sesión',
             'alertas' => $alertas,
@@ -101,6 +112,7 @@ class LoginController
     {
         session_start();
         $_SESSION = [];
-        header('Location: /');
+        header('Location: /login');
+        ActiveRecord::setDB('');
     }
 }

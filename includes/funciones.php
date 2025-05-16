@@ -1,6 +1,8 @@
 <?php
 define('CARPETAS_IMAGENES_PERFILES', $_SERVER['DOCUMENT_ROOT'] . '/img/users');
 define('CARPETAS_IMAGENES_PRODUCTOS', $_SERVER['DOCUMENT_ROOT'] . '/img/productos');
+
+
 function debuguear($variable): string
 {
     echo "<pre>";

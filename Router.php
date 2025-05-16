@@ -16,8 +16,11 @@ class Router
     }
     public function comprobarRutas()
     {
-        session_start();
-        $auth = $_SESSION['login'] ?? NULL;
+        
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
 
         $rutas_protegidas = [''];
 

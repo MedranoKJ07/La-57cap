@@ -1,11 +1,18 @@
 <?php
 
 namespace Classes;
-
+require __DIR__ . '/../vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Dotenv\Dotenv;
 
-class Email {
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '');
+$dotenv->safeLoad();
+
+
+class Email
+{
 
     protected $email;
     protected $nombre;
@@ -18,11 +25,12 @@ class Email {
         $this->token = $token;
     }
 
-    public function enviarConfirmacion() {
+    public function enviarConfirmacion()
+    {
         $mail = $this->configurarMailer();
         $mail->Subject = 'Confirma tu Cuenta en La 57 CAP';
 
-        $url = "http://localhost:3000/confirmar-cuenta?token={$this->token}";
+        $url = $_ENV['FRONTEND_URL'] . "/confirmar-cuenta?token={$this->token}";
         $contenido = $this->renderTemplate('confirmacion-cuenta', [
             'nombre' => $this->nombre,
             'url' => $url
@@ -32,11 +40,12 @@ class Email {
         // $mail->send();
     }
 
-    public function enviarInstrucciones() {
+    public function enviarInstrucciones()
+    {
         $mail = $this->configurarMailer();
         $mail->Subject = 'Reestablece tu contraseña en La 57 CAP';
 
-        $url = "http://localhost:3000/recuperar-cuenta?token={$this->token}";
+        $url = $_ENV['FRONTEND_URL'] . "/recuperar-cuenta?token={$this->token}";
         $contenido = $this->renderTemplate('recuperar-cuenta', [
             'nombre' => $this->nombre,
             'url' => $url
@@ -47,16 +56,18 @@ class Email {
     }
 
     // 🔒 Configuración común de PHPMailer
-    private function configurarMailer(): PHPMailer {
+    private function configurarMailer(): PHPMailer
+    {
         $mail = new PHPMailer(true);
-        $mail->isSMTP();
-        $mail->Host = 'sandbox.smtp.mailtrap.io';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'ca48939a5fe421';
-        $mail->Password = 'd2888cccbe0023';
-        $mail->Port = 2525;
 
-        $mail->setFrom('cuentas@la57cap.com', 'LA 57 CAP');
+        $mail->isSMTP();
+        $mail->Host = $_ENV['MAIL_HOST'];
+        $mail->SMTPAuth = true;
+        $mail->Username = $_ENV['MAIL_USER'];
+        $mail->Password = $_ENV['MAIL_PASS'];
+        $mail->Port = $_ENV['MAIL_PORT'];
+
+        $mail->setFrom($_ENV['MAIL_FROM'], $_ENV['MAIL_FROM_NAME']);
         $mail->addAddress($this->email, $this->nombre);
 
         $mail->isHTML(true);
@@ -65,8 +76,10 @@ class Email {
         return $mail;
     }
 
+
     // 📩 Renderizar templates HTML con variables
-    private function renderTemplate($nombreArchivo, $variables): string {
+    private function renderTemplate($nombreArchivo, $variables): string
+    {
         extract($variables); // convierte ['nombre' => 'Nahomi'] en $nombre = 'Nahomi'
 
         ob_start();
