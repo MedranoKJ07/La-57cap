@@ -5,6 +5,7 @@
     </div>
     <div class="card-body">
         <p><strong>Proveedor:</strong> <?= $compra->nombre_empresa ?? '—' ?></p>
+        <p><strong>Observaciones:</strong> <?= s($compra->observaciones) ?: '—' ?></p>
         <p><strong>Fecha:</strong> <?= $compra->fecha_compra ?></p>
         <p><strong>Total:</strong> C$<?= number_format($compra->total_compra, 2) ?></p>
 

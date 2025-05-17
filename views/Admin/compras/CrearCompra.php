@@ -15,6 +15,12 @@
                     <?php endforeach; ?>
                 </select>
             </div>
+            <div class="mb-3">
+                <label for="observaciones" class="form-label">Observaciones</label>
+                <textarea name="compra[observaciones]" id="observaciones" class="form-control" rows="3"
+                    placeholder="Opcional..."></textarea>
+            </div>
+
 
             <hr>
             <h5>Productos</h5>
