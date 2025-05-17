@@ -1,6 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../includes/app.php';
+require_once __DIR__ . '/../includes/errores.php'; 
+set_exception_handler('manejadorGlobalExcepciones');
+
+require_once __DIR__ . '/../includes/app.php'; 
+
 use Controllers\LoginController;
 use Controllers\AdminController;
 use Controllers\UsuarioController;

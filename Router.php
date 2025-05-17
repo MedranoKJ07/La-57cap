@@ -16,7 +16,7 @@ class Router
     }
     public function comprobarRutas()
     {
-        
+
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -37,7 +37,10 @@ class Router
         if ($fn) {
             call_user_func($fn, $this);
         } else {
-            echo 'Ruta no encontrada';
+            // 🛑 Ruta no encontrada -> mostrar vista 404
+            http_response_code(404);
+            include __DIR__ . "/views/errores/404.php";
+            exit;
         }
     }
     function render($view, $datos = [])
