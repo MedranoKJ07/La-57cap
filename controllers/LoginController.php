@@ -110,7 +110,7 @@ class LoginController
                             header('Location: /Repartidor');
                             break;
                         case '4':
-                            // header('Location: /cliente');
+                            header('Location: /');
                             break;
                         default:
                             $_SESSION = [];
