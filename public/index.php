@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/app.php'; 
 
+use Controllers\InventarioController;
 use Controllers\LoginController;
 use Controllers\AdminController;
 use Controllers\UsuarioController;
@@ -11,6 +12,8 @@ use Controllers\RepartidorControllers;
 use Controllers\ProveedorController;
 use Controllers\CategoriaProductoController;
 use Controllers\ProductoController;
+use Controllers\CompraController;
+
 use MVC\Router;
 $router = new Router();
 
@@ -134,7 +137,17 @@ $router->post('/admin/ActualizarProducto', [ProductoController::class, 'Actualiz
 $router->post('/admin/EliminarProducto', [ProductoController::class, 'EliminarProducto']);
 $router->get('/admin/GenerarCodigoBarras', [ProductoController::class, 'VerCodigoBarras']);
 $router->get('/admin/DescargarCodigoBarras', [ProductoController::class, 'DescargarCodigoBarras']);
+$router->get('/admin/VerProducto', [ProductoController::class, 'VerProducto']);
 
+
+//Inventario 
+$router->get('/admin/InventarioGeneral', [InventarioController::class, 'GestionarInventario']);
+
+//Compras
+$router->get('/admin/GestionarCompras', [CompraController::class, 'GestionarCompras']);
+$router->get('/admin/CrearCompra', [CompraController::class, 'CrearCompra']);
+$router->post('/admin/CrearCompra', [CompraController::class, 'CrearCompra']);
+$router->get('/admin/DetalleCompra', [CompraController::class, 'VerDetalleCompra']);
 
 
 //PANEL DE VENDEDORES

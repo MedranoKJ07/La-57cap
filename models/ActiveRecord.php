@@ -81,16 +81,17 @@ class ActiveRecord
     }
 
     // Sanitizar los datos antes de guardarlos en la BD
-    public function sanitizarAtributos()
+    protected function sanitizarAtributos()
     {
-        $atributos = $this->atributos();
-        $sanitizado = [];
-        foreach ($atributos as $key => $value) {
-            // Convertimos null a string vacío para evitar warnings
-            $sanitizado[$key] = is_null($value) ? '' : self::$db->escape_string($value);
+        $atributos = [];
+        foreach ($this->atributos() as $key => $value) {
+            if (is_scalar($value)) {
+                $atributos[$key] = self::$db->escape_string($value);
+            }
         }
-        return $sanitizado;
+        return $atributos;
     }
+
 
     // Sincroniza BD con Objetos en memoria
     public function sincronizar($args = [])
@@ -103,18 +104,7 @@ class ActiveRecord
     }
 
     // Registros - CRUD
-    public function guardar()
-    {
-        $resultado = '';
-        if (!is_null($this->id)) {
-            // actualizar
-            $resultado = $this->actualizar();
-        } else {
-            // Creando un nuevo registro
-            $resultado = $this->crear();
-        }
-        return $resultado;
-    }
+
 
     // Todos los registros
     public static function all()
@@ -131,6 +121,12 @@ class ActiveRecord
 
         $resultado = self::consultarSQL($query);
         return array_shift($resultado);
+    }
+    public static function obtenerTodos()
+    {
+        $tabla = static::$tabla;
+        $query = "SELECT * FROM $tabla WHERE eliminado = 0";
+        return self::consultarSQL($query);
     }
 
     public static function get2($limite)
@@ -191,7 +187,7 @@ class ActiveRecord
         $query .= " ) VALUES (' ";
         $query .= join("', '", array_values($atributos));
         $query .= " ') ";
-
+    //    debuguear($query);
         // Resultado de la consulta
         $resultado = self::$db->query($query);
         return [
@@ -217,7 +213,7 @@ class ActiveRecord
         $query .= join(', ', $valores);
         $query .= " WHERE " . static::$id . " = '" . self::$db->escape_string($id_m) . "' ";
         $query .= " LIMIT 1 ";
-        
+       
         // Actualizar BD
         $resultado = self::$db->query($query);
         return $resultado;

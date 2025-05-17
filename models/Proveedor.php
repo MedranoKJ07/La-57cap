@@ -64,4 +64,5 @@ class Proveedor extends ActiveRecord
         return self::consultarSQL($query);
     }
 
+
 }

@@ -223,5 +223,20 @@ class ProductoController
                 break;
         }
     }
+    public static function VerProducto(Router $router)
+    {
+        $id = $_GET['id'] ?? null;
+        $producto = Producto::find($id, 'idproducto');
+
+        if (!$producto) {
+            header('Location: /admin/GestionarProducto');
+            return;
+        }
+
+        $router->renderAdmin('Admin/producto/VerProducto', [
+            'titulo' => 'Detalles del Producto',
+            'producto' => $producto
+        ]);
+    }
 
 }

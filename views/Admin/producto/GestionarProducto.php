@@ -38,7 +38,7 @@
                         <th>Categoría</th>
                         <th>Precio</th>
                         <th>Estado</th>
-                        <th>Acciones</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,8 +59,8 @@
                                         <?php echo $producto->eliminado ? 'Inactivo' : 'Activo'; ?>
                                     </span>
                                 </td>
-                                <td>
-                                    <div class="d-flex gap-2 flex-wrap">
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2 flex-wrap">
                                         <a href="/admin/ActualizarProducto?id=<?php echo $producto->idproducto; ?>"
                                            class="btn btn-sm btn-warning">Actualizar</a>
                                         <form method="POST" action="/admin/EliminarProducto" class="d-inline">
@@ -69,7 +69,8 @@
                                         </form>
                                         <a href="/admin/GenerarCodigoBarras?id=<?php echo $producto->idproducto; ?>"
                                            class="btn btn-sm btn-outline-dark">Ver Código</a>
-                                        
+                                        <a href="/admin/VerProducto?id=<?php echo $producto->idproducto; ?>"
+                                           class="btn btn-sm btn-outline-info">Ver Detalles</a>
                                     </div>
                                 </td>
                             </tr>

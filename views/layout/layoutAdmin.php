@@ -69,7 +69,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarCliente">
+                        <a class="sidebar-link" href="/admin/InventarioGeneral">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">
                                 Inventario</span>
                         </a>
@@ -84,7 +84,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarCliente">
+                        <a class="sidebar-link" href="/admin/GestionarCompras">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">
                                 Compras
                             </span>
