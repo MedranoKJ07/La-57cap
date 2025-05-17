@@ -14,6 +14,7 @@ use Controllers\CategoriaProductoController;
 use Controllers\ProductoController;
 use Controllers\CompraController;
 use Controllers\RegistroController;
+use Controllers\LandingController;
 use MVC\Router;
 $router = new Router();
 
@@ -42,6 +43,7 @@ $router->get('/reenviar-confirmacion', [RegistroController::class, 'reenviarConf
 $router->post('/reenviar-confirmacion', [RegistroController::class, 'reenviarConfirmacion']);
 
 //Landing page
+$router->get('/', [LandingController::class, 'index']);
 
 
 
