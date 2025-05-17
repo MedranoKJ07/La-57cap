@@ -32,7 +32,7 @@
             </div>
 
             <div class="text-center mb-3">
-              ¿Ya tienes una cuenta? <a href="/">Iniciar sesión</a>
+              ¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a>
             </div>
             <div class="text-center mb-3">
               ¿No tienes cuenta aún? <a href="/crear-cuenta">Crear una</a>

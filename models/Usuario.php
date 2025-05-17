@@ -63,6 +63,29 @@ class Usuario extends ActiveRecord
         return self::consultarSQL($query);
     }
 
+    public function validarNuevaCuenta()
+    {
+        $alertas = [];
+
+        if (!$this->userName) {
+            $alertas['error'][] = 'El nombre de usuario es obligatorio';
+        }
+
+        if (!$this->email) {
+            $alertas['error'][] = 'El correo electrónico es obligatorio';
+        }
+
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $alertas['error'][] = 'El correo electrónico no es válido';
+        }
+
+        if (!$this->password || strlen($this->password) < 6) {
+            $alertas['error'][] = 'La contraseña debe tener al menos 6 caracteres';
+        }
+
+        return $alertas;
+    }
+
     public function setImagen($imagen): void
     {
         if (!is_null($this->f_perfil)) {

@@ -13,7 +13,7 @@ use Controllers\ProveedorController;
 use Controllers\CategoriaProductoController;
 use Controllers\ProductoController;
 use Controllers\CompraController;
-
+use Controllers\RegistroController;
 use MVC\Router;
 $router = new Router();
 
@@ -31,7 +31,15 @@ $router->post('/recuperar-cuenta', [UsuarioController::class, 'recuperar']);
 $router->get('/confirmar-cuenta', [UsuarioController::class, 'confirmarCuenta']);
 $router->post('/confirmar-cuenta', [UsuarioController::class, 'confirmarCuenta']);
 
+//crear tu cuenta
+$router->get('/crear-cuenta', [RegistroController::class, 'crearCuenta']);
+$router->post('/crear-cuenta', [RegistroController::class, 'crearCuenta']);
 
+//mensaje de ver correo
+$router->get('/mensaje-confirmacion', [RegistroController::class, 'mensajeConfirmacion']);
+
+$router->get('/reenviar-confirmacion', [RegistroController::class, 'reenviarConfirmacion']);
+$router->post('/reenviar-confirmacion', [RegistroController::class, 'reenviarConfirmacion']);
 
 //Landing page
 
