@@ -11,7 +11,7 @@
  Target Server Version : 80041
  File Encoding         : 65001
 
- Date: 16/05/2025 20:11:31
+ Date: 16/05/2025 23:15:38
 */
 
 SET NAMES utf8mb4;
@@ -95,7 +95,7 @@ CREATE TABLE `compra_detalles`  (
   `cantidad` int(0) NULL DEFAULT NULL,
   `precio_unitario` decimal(10, 2) NULL DEFAULT NULL,
   `subtotal` decimal(10, 2) NULL DEFAULT NULL,
-  `Compras_idCompras` int(0) NOT NULL,
+  `Compras_idCompras` int(0) NULL DEFAULT NULL,
   `producto_idproducto` int(0) NOT NULL,
   PRIMARY KEY (`idCompra_Detalles`) USING BTREE,
   INDEX `fk_Compra_Detalles_Compras1_idx`(`Compras_idCompras`) USING BTREE,
@@ -103,6 +103,14 @@ CREATE TABLE `compra_detalles`  (
   CONSTRAINT `fk_Compra_Detalles_Compras1` FOREIGN KEY (`Compras_idCompras`) REFERENCES `compras` (`idCompras`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Compra_Detalles_producto1` FOREIGN KEY (`producto_idproducto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of compra_detalles
+-- ----------------------------
+INSERT INTO `compra_detalles` VALUES (13, 1, 0.01, 0.01, 73, 7);
+INSERT INTO `compra_detalles` VALUES (14, 2, 0.01, 0.02, 74, 7);
+INSERT INTO `compra_detalles` VALUES (15, 6, 0.01, 0.06, 76, 7);
+INSERT INTO `compra_detalles` VALUES (16, 1, 0.01, 0.01, 77, 7);
 
 -- ----------------------------
 -- Table structure for compras
@@ -119,6 +127,15 @@ CREATE TABLE `compras`  (
   INDEX `fk_Compras_Proveedores1_idx`(`Proveedores_idProveedores`) USING BTREE,
   CONSTRAINT `fk_Compras_Proveedores1` FOREIGN KEY (`Proveedores_idProveedores`) REFERENCES `proveedores` (`idProveedores`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of compras
+-- ----------------------------
+INSERT INTO `compras` VALUES (73, '2025-05-17 04:22:21', 0.01, '', 1, 0);
+INSERT INTO `compras` VALUES (74, '2025-05-17 04:40:55', 0.02, '', 1, 0);
+INSERT INTO `compras` VALUES (75, '2025-05-17 04:44:11', 0.00, '', 1, 0);
+INSERT INTO `compras` VALUES (76, '2025-05-17 04:44:29', 0.06, '', 3, 0);
+INSERT INTO `compras` VALUES (77, '2025-05-17 04:59:52', 0.01, '', 1, 0);
 
 -- ----------------------------
 -- Table structure for detalles_ventas
@@ -189,6 +206,11 @@ CREATE TABLE `inventario`  (
   INDEX `fk_Inventario_producto1_idx`(`producto_idproducto`) USING BTREE,
   CONSTRAINT `fk_Inventario_producto1` FOREIGN KEY (`producto_idproducto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of inventario
+-- ----------------------------
+INSERT INTO `inventario` VALUES (2, 10, 5, '2025-05-17 04:59:52', 7);
 
 -- ----------------------------
 -- Table structure for notificacion
@@ -349,7 +371,7 @@ CREATE TABLE `usuario`  (
 -- Records of usuario
 -- ----------------------------
 INSERT INTO `usuario` VALUES (59, 1, '4fab6662fe79843fdffa9013be93884a.jpg', 'KJ', '$2y$10$5C2QP0paeEA8n4ZCgJkn3eWRj7GoUbo5JoQuYcTeK5PA19r9D2M22', 'kmurillojosue75@gmail.com', 1, '', '2025-05-13 05:56:18', '2025-05-13 05:56:18', 0, 0);
-INSERT INTO `usuario` VALUES (72, 1, '4d288312d85b9591c952f7a14ea1155f.jpg', 'a', '$2y$10$NW/1HEQ0tqvRApqoM3c6CenZKLzyhmkwR2TJEsVYImmohRzg9pt5C', 'a@gmail.com', 1, '', '2025-05-15 03:38:45', '2025-05-15 03:38:45', 1, 0);
+INSERT INTO `usuario` VALUES (72, 1, '4d288312d85b9591c952f7a14ea1155f.jpg', 'a', '$2y$10$NW/1HEQ0tqvRApqoM3c6CenZKLzyhmkwR2TJEsVYImmohRzg9pt5C', 'a@gmail.com', 1, '', '2025-05-15 03:38:45', '2025-05-15 03:38:45', 1, 1);
 INSERT INTO `usuario` VALUES (73, 2, '6282b1484ede608da413179304d52e0c.jpg', 'KJ Vendedor', '$2y$10$35yBRFnfpu74u4IRAKMtOekuRgWSPG4YGLv/Q/ks6wkFVplyf/SKO', 'kmurillojosue75@gmail.com', 1, '', '2025-05-15 07:21:57', '2025-05-15 07:21:57', 0, 0);
 INSERT INTO `usuario` VALUES (74, 3, '0f08b57b3bd1c4fed42781937a60a12d.jpg', 'KJ Repartidor', '$2y$10$XYWHs391sW8EmpkKrGdEqeUFevY7vvDgDCVTx/hV5JhQ7FbE3kAqC', 'kmurillojosue75@gmail.com', 1, '', '2025-05-15 07:22:22', '2025-05-15 07:22:22', 0, 0);
 

@@ -161,6 +161,26 @@ class ActiveRecord
         return array_shift($resultado);
     }
 
+    public static function whereAll($columna, $valor)
+    {
+        $query = "SELECT * FROM " . static::$tabla . " 
+              WHERE $columna = '" . self::$db->escape_string($valor) . "' 
+              AND eliminado = 0";
+
+        return self::consultarSQL($query);
+    }
+    public static function wherelogico($columna, $valor)
+    {
+        $query = "SELECT * FROM " . static::$tabla . " 
+              WHERE $columna = '" . self::$db->escape_string($valor) . "' 
+              AND eliminado = 0 
+              LIMIT 1";
+
+        $resultado = self::consultarSQL($query);
+        return array_shift($resultado);
+    }
+
+
     public static function where2($columna, $valor)
     {
         $query = "SELECT * FROM " . static::$tabla . " WHERE {$columna} = '{$valor}'";
@@ -187,7 +207,7 @@ class ActiveRecord
         $query .= " ) VALUES (' ";
         $query .= join("', '", array_values($atributos));
         $query .= " ') ";
-    //    debuguear($query);
+        //    debuguear($query);
         // Resultado de la consulta
         $resultado = self::$db->query($query);
         return [
@@ -213,7 +233,7 @@ class ActiveRecord
         $query .= join(', ', $valores);
         $query .= " WHERE " . static::$id . " = '" . self::$db->escape_string($id_m) . "' ";
         $query .= " LIMIT 1 ";
-       
+
         // Actualizar BD
         $resultado = self::$db->query($query);
         return $resultado;

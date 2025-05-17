@@ -45,7 +45,7 @@
             ¿No tienes cuenta? <a href="/crear-cuenta">Regístrate</a>
           </div>
           <div class="text-center mb-3">
-            ¿Olvidaste tu contraseña? <a href="/olvide">Recuperar</a>
+            ¿Olvidaste tu contraseña? <a href="/olvide-cuenta">Recuperar</a>
           </div>
 
         </div>

@@ -25,7 +25,7 @@ class LoginController
             if (empty($alertas)) {
                 // Buscar usuario por email o userName
                 $campo = filter_var($auth->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'userName';
-                $usuario = Usuario::where($campo, $auth->email);
+                $usuario = Usuario::wherelogico($campo, $auth->email);
               
 
                 if (!$usuario) {
