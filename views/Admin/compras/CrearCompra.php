@@ -54,11 +54,11 @@
             </div>
             <div class="col-md-3">
                 <label class="form-label">Cantidad</label>
-                <input type="number" name="detalle[${index}][cantidad]" class="form-control" required>
+                <input type="number" min="0" name="detalle[${index}][cantidad]" class="form-control" required>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Precio Unitario</label>
-                <input type="number" name="detalle[${index}][precio]" class="form-control" step="0.01" required>
+                <input type="number" min="0" name="detalle[${index}][precio]" class="form-control" step="0.01" required>
             </div>
             <div class="col-md-1 d-flex align-items-end">
                 <button type="button" class="btn btn-outline-danger eliminar-producto">&times;</button>
