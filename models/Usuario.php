@@ -14,13 +14,15 @@ class Usuario extends ActiveRecord
         'confirmado',
         'token',
         'Creado_Fecha',
-        'Cambiado_Fecha'
+        'Cambiado_Fecha',
+        'intentos_fallidos'
     ];
     protected static $id = 'idusuario';
     public $idusuario;
     public $id_roles;
     public $f_perfil;
     public $userName;
+    public $intentos_fallidos;
     public $password;
     public $email;
     public $confirmado;
@@ -39,6 +41,7 @@ class Usuario extends ActiveRecord
         $this->token = $args['token'] ?? '';
         $this->Creado_Fecha = date('Y/m/d H:i:s');
         $this->Cambiado_Fecha = date('Y/m/d H:i:s');
+        $this->intentos_fallidos = $args['intentos_fallidos'] ?? '0';
     }
     public static function filtrarUsuarios($rol = '', $busqueda = '')
     {

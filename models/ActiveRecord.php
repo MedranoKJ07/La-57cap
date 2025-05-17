@@ -217,7 +217,7 @@ class ActiveRecord
         $query .= join(', ', $valores);
         $query .= " WHERE " . static::$id . " = '" . self::$db->escape_string($id_m) . "' ";
         $query .= " LIMIT 1 ";
-
+        
         // Actualizar BD
         $resultado = self::$db->query($query);
         return $resultado;

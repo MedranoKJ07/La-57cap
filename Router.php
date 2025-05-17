@@ -37,7 +37,7 @@ class Router
         if ($fn) {
             call_user_func($fn, $this);
         } else {
-            // 🛑 Ruta no encontrada -> mostrar vista 404
+            // Ruta no encontrada -> mostrar vista 404
             http_response_code(404);
             include __DIR__ . "/views/errores/404.php";
             exit;

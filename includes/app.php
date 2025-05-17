@@ -1,4 +1,6 @@
-<?php 
+<?php
+// require_once __DIR__ . '/../includes/errores.php';
+// set_exception_handler('manejadorGlobalExcepciones');
 require __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
