@@ -68,7 +68,7 @@ class CategoriaProducto extends ActiveRecord
 
         return self::consultarSQL($query);
     }
-        public function setImagen($imagen): void
+    public function setImagen($imagen): void
     {
         if (!is_null($this->foto)) {
             $this->delete_image();
@@ -89,4 +89,50 @@ class CategoriaProducto extends ActiveRecord
             unlink(CARPETAS_IMAGENES_CATEGORIAS . "/" . $this->foto);
         }
     }
+    public static function obtener7Categorias()
+    {
+        $query = "SELECT * FROM categoria_producto 
+              WHERE eliminado = 0 
+              ORDER BY RAND() 
+              LIMIT 7";
+
+        $resultado = self::$db->query($query);
+
+        $categorias = [];
+        while ($row = $resultado->fetch_object()) {
+            $categorias[] = $row;
+        }
+
+        return $categorias;
+    }
+    public static function obtener3CategoriasDestacadas()
+    {
+        $query = "SELECT * FROM categoria_producto 
+              WHERE eliminado = 0 
+              ORDER BY RAND() 
+              LIMIT 3";
+
+        $resultado = self::$db->query($query);
+
+        $categorias = [];
+        while ($row = $resultado->fetch_object()) {
+            $categorias[] = $row;
+        }
+
+        return $categorias;
+    }
+    public static function obtenerLimite($limite = 7)
+    {
+        $query = "SELECT * FROM categoria_producto WHERE eliminado = 0 ORDER BY idcategoria_producto DESC LIMIT $limite";
+        $resultado = self::$db->query($query);
+
+        $categorias = [];
+        while ($categoria = $resultado->fetch_object()) {
+            $categorias[] = $categoria;
+        }
+
+        return $categorias;
+    }
+
+
 }

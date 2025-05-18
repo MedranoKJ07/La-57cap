@@ -136,7 +136,7 @@ class LoginController
     {
         session_start();
         $_SESSION = [];
-        header('Location: /login');
+        header('Location: /');
         ActiveRecord::setDB('');
     }
 }

@@ -140,6 +140,34 @@ class Producto extends ActiveRecord
         return self::consultarSQL($query);
     }
 
+    public static function obtenerDestacados($limite = 3)
+    {
+        $query = "SELECT * FROM producto 
+              WHERE eliminado = 0 
+              ORDER BY RAND() 
+              LIMIT " . intval($limite);
+
+        $resultado = self::$db->query($query);
+
+        $productos = [];
+        while ($row = $resultado->fetch_object()) {
+            $productos[] = $row;
+        }
+
+        return $productos;
+    }
+    public static function obtenerProductos()
+    {
+        $query = "SELECT * FROM producto WHERE eliminado = 0 ORDER BY RAND()";
+        $resultado = self::$db->query($query);
+
+        $productos = [];
+        while ($producto = $resultado->fetch_object()) {
+            $productos[] = $producto;
+        }
+
+        return $productos;
+    }
 
 
 }

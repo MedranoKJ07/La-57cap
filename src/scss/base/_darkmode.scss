@@ -1,0 +1,68 @@
+body.dark-mode {
+    background-color: #1f1f1f;
+    color: #e0e0e0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .bg-white,
+.dark-mode .bg-light,
+.dark-mode .navbar-light,
+.dark-mode .modal-content,
+.dark-mode .card {
+    background-color: #2a2a2a !important;
+    color: #f5f5f5 !important;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .text-dark,
+.dark-mode .navbar-light .navbar-nav .nav-link,
+.dark-mode .form-check-label,
+.dark-mode .nav-icon i,
+.dark-mode .h1,
+.dark-mode .h2,
+.dark-mode .h5,
+.dark-mode p,
+.dark-mode a {
+    color: #e0e0e0 !important;
+    transition: color 0.3s;
+
+}
+
+.dark-mode .carousel-item .text-align-left,
+.dark-mode .carousel-item .text-align-left h1,
+.dark-mode .carousel-item .text-align-left h2,
+.dark-mode .carousel-item .text-align-left h3,
+.dark-mode .carousel-item .text-align-left p {
+    color: #1f1f1f !important;
+}
+
+.dark-mode .form-control {
+    background-color: #2e2e2e !important;
+    color: #ffffff !important;
+    border: 1px solid #555 !important;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .input-group-text {
+    background-color: #3e3e3e !important;
+    color: #ffffff !important;
+    border-color: #555 !important;
+}
+
+.dark-mode .btn-success {
+    background-color: #388e3c !important;
+    color: #ffffff !important;
+    border: none;
+}
+
+.dark-mode .btn-success:hover {
+    background-color: #2e7d32 !important;
+}
+
+.dark-mode .border-light {
+    border-color: #444 !important;
+}
+
+.dark-mode .modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.7);
+}

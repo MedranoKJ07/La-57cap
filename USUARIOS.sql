@@ -5,6 +5,8 @@
 
 CREATE USER 'lectorlogin'@'localhost' IDENTIFIED BY 'lect123';
 GRANT SELECT, UPDATE, INSERT ON db_la57cap.usuario TO 'lectorlogin'@'localhost';
+GRANT SELECT ON db_la57cap.categoria_producto TO 'lectorlogin'@'localhost';
+GRANT SELECT ON db_la57cap.producto TO 'lectorlogin'@'localhost';
 GRANT SELECT ON db_la57cap.roles TO 'lectorlogin'@'localhost';
 FLUSH PRIVILEGES;
 

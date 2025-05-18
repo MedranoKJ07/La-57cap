@@ -42,6 +42,12 @@ $router->post('/reenviar-confirmacion', [RegistroController::class, 'reenviarCon
 $router->get('/', [LandingController::class, 'index']);
 
 
+$router->get('/mostrarProductos', [LandingController::class, 'shop']);
+$router->get('/SobreNosotros', [LandingController::class, 'about']);
+$router->get('/Contactanos', [LandingController::class, 'contact']);
+
+
+
 
 //AREAS PROTEGIDAS
 // Area de administración

@@ -193,7 +193,7 @@
 
                             <?php
                             $nombre = $_SESSION['nombre'] ?? 'Invitado';
-                           
+
                             $foto = !empty($_SESSION['f_perfil']) ? '/img/users/' . $_SESSION['f_perfil'] : '/img/users/f_perfil_admin.png';
                             ?>
 
@@ -222,6 +222,10 @@
                             </div>
                         </li>
                     </ul>
+                </div>
+                <div class="form-check form-switch ms-3">
+                    <input class="form-check-input" type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
+                    <label class="form-check-label text-dark" for="darkModeSwitch">🌙 Modo Oscuro</label>
                 </div>
             </nav>
             <main class="content">
