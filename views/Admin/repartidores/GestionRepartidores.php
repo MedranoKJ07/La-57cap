@@ -5,7 +5,7 @@
                 <h2 class="card-title">Gestión de Repartidores</h2>
             </div>
             <div class="col-auto mt-0">
-                <a href="/admin/CrearUsuarioRepartidor" class="btn btn-light text-primary fw-bold">Crear Nuevo Repartidor</a>
+                <a href="/admin/CrearRepartidor" class="btn btn-light text-primary fw-bold">Crear Nuevo Repartidor</a>
             </div>
         </div>
     </div>

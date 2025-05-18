@@ -89,8 +89,8 @@ $router->post('/admin/CrearUsuarioVendedor', [VendedorController::class, 'crearU
 
 $router->get('/admin/CancelarUsuarioVendedor', [VendedorController::class, 'CancelarUsuarioVendedor']);
 
-$router->get('/admin/CrearVendedor', [VendedorController::class, 'crearVendedor']);
-$router->post('/admin/CrearVendedor', [VendedorController::class, 'crearVendedor']);
+$router->get('/admin/CrearVendedor', [VendedorController::class, 'crearvendedor']);
+$router->post('/admin/CrearVendedor', [VendedorController::class, 'crearvendedor']);
 //Actualizar Vendedor
 $router->get('/admin/ActualizarVendedor', [VendedorController::class, 'ActualizarVendedor']);
 $router->post('/admin/ActualizarVendedor', [VendedorController::class, 'ActualizarVendedor']);
@@ -100,21 +100,10 @@ $router->post('/admin/EliminarVendedor', [VendedorController::class, 'EliminarVe
 //Gestionar Repartidor
 $router->get('/admin/GestionarRepartidor', [RepartidorControllers::class, 'GestionarRepartidores']);
 $router->post('/admin/GestionarRepartidor', [RepartidorControllers::class, 'GestionarRepartidores']);
-
-// Crear usuario y repartidor (flujo similar a vendedor)
-$router->get('/admin/CrearUsuarioRepartidor', [RepartidorControllers::class, 'crearUsuarioRepartidor']);
-$router->post('/admin/CrearUsuarioRepartidor', [RepartidorControllers::class, 'crearUsuarioRepartidor']);
-
-$router->get('/admin/CancelarUsuarioRepartidor', [RepartidorControllers::class, 'CancelarUsuarioRepartidor']);
-
 $router->get('/admin/CrearRepartidor', [RepartidorControllers::class, 'CrearRepartidor']);
 $router->post('/admin/CrearRepartidor', [RepartidorControllers::class, 'CrearRepartidor']);
-
-// Actualizar repartidor
 $router->get('/admin/ActualizarRepartidor', [RepartidorControllers::class, 'ActualizarRepartidor']);
 $router->post('/admin/ActualizarRepartidor', [RepartidorControllers::class, 'ActualizarRepartidor']);
-
-// Eliminar repartidor
 $router->post('/admin/EliminarRepartidor', [RepartidorControllers::class, 'EliminarRepartidor']);
 
 // Rutas para proveedores

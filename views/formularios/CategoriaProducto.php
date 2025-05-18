@@ -3,6 +3,10 @@
     <input type="text" class="form-control" id="titulo" name="categoria[titulo]" 
            value="<?php echo s($categoria->titulo) ?? ''; ?>" required>
 </div>
+<div class="mb-3">
+    <label for="f_perfil" class="card-title mb-0">Image:</label>
+    <input type="file" id="f_perfil" accept="image/jpeg, image/png" name="categoria[foto]">
+</div>
 
 <div class="mb-3">
     <label for="garantias_meses" class="form-label">Meses de Garantía</label>

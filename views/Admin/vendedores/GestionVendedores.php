@@ -5,7 +5,7 @@
                 <h2 class="card-title">Gestión de Vendedores</h2>
             </div>
             <div class="col-auto mt-0">
-                <a href="/admin/CrearUsuarioVendedor" class="btn btn-light text-primary fw-bold">Crear Nuevo Vendedor</a>
+                <a href="/admin/CrearVendedor" class="btn btn-light text-primary fw-bold">Crear Nuevo Vendedor</a>
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
                                         <input type="hidden" name="id" value="<?php echo $vendedor->idvendedor; ?>">
                                         <input type="submit" class="btn btn-sm btn-danger" value="Eliminar">
                                     </form>
-                                    <a href="/admin/ActualizarUsuario?id=<?php echo $vendedor->id_usuario; ?>&t=vendedor&ids=<?php echo $vendedor->idvendedor ?>"
+                                    <a href="/admin/ActualizarVendedor?id=<?php echo $vendedor->id_usuario; ?>"
                                         class="btn btn-sm btn-warning">Actualizar</a>
                                 </div>
                             </td>

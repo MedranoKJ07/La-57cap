@@ -1,4 +1,4 @@
-<main class="d-flex w-100"> 
+<main class="d-flex w-100">
   <div class="container d-flex flex-column">
     <div class="row vh-100">
       <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
@@ -34,7 +34,10 @@
                     <label class="form-label">Contraseña</label>
                     <input class="form-control" type="password" name="usuario[password]" required>
                   </div>
-
+                  <div class="mb-3">
+                    <label for="f_perfil" class="card-title mb-0">Image:</label>
+                    <input type="file" id="f_perfil" accept="image/jpeg, image/png" name="usuario[f_perfil]">
+                  </div>
                   <hr>
 
                   <h5 class="mb-3">Datos del Cliente</h5>

@@ -21,6 +21,7 @@
                 <thead class="table-light">
                     <tr>
                         <th>Título</th>
+                        <th>Image</th>
                         <th>Meses Garantía</th>
                         <th>Política de Garantía</th>
                         <th>Tiene Garantía</th>
@@ -33,6 +34,9 @@
                         <?php foreach ($categorias as $categoria): ?>
                             <tr>
                                 <td><?php echo $categoria->titulo; ?></td>
+                                <td>
+                                    <img src="/img/categorias_productos/<?php echo s(trim($categoria->foto)); ?>" alt="Foto" width="40" height="40" style="border-radius: 50%;">
+                                </td>
                                 <td><?php echo $categoria->garantias_meses; ?> meses</td>
                                 <td><?php echo $categoria->politica_garantia; ?></td>
                                 <td><?php echo $categoria->tiene_garantia ? 'Sí' : 'No'; ?></td>
@@ -43,9 +47,11 @@
                                 </td>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <a href="/admin/ActualizarCategoriaProducto?id=<?php echo $categoria->idcategoria_producto; ?>" class="btn btn-sm btn-warning">Actualizar</a>
+                                        <a href="/admin/ActualizarCategoriaProducto?id=<?php echo $categoria->idcategoria_producto; ?>"
+                                            class="btn btn-sm btn-warning">Actualizar</a>
                                         <form method="POST" action="/admin/EliminarCategoriaProducto" class="d-inline">
-                                            <input type="hidden" name="id" value="<?php echo $categoria->idcategoria_producto; ?>">
+                                            <input type="hidden" name="id"
+                                                value="<?php echo $categoria->idcategoria_producto; ?>">
                                             <input type="submit" class="btn btn-sm btn-danger" value="Eliminar">
                                         </form>
                                     </div>

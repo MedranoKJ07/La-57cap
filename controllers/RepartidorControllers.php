@@ -29,43 +29,25 @@ class RepartidorControllers
             'titulo' => 'Gestionar Repartidores'
         ]);
     }
-    public static function CancelarUsuarioRepartidor(Router $router)
-    {
-        $id_usuario = s($_GET['id_usuario'] ?? null);
+public static function CrearRepartidor(Router $router)
+{
+    $usuario = new Usuario;
+    $repartidor = new Repartidor;
+    $alertas = [];
 
-        if (!$id_usuario || !is_numeric($id_usuario)) {
-            header('Location: /admin/GestionarRepartidor');
-            exit;
-        }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // 1. Sincronizar datos
+        $usuario->sincronizar($_POST['usuario']);
+        $repartidor->sincronizar($_POST['repartidor']);
+        $usuario->id_roles = 3;
 
-        // Verificamos si ya existe un repartidor asociado a ese usuario
-        $repartidor = Repartidor::where('id_usuario', $id_usuario);
-
-        // Si NO hay repartidor, entonces eliminamos el usuario (cancelación efectiva)
-        if (!$repartidor) {
-            $usuario = Usuario::find($id_usuario, 'idusuario');
-            if ($usuario) {
-                $usuario->eliminar($id_usuario);
-                $usuario->delete_image();
-            }
-        }
-
-        header('Location: /admin/GestionarRepartidor');
-        exit;
-    }
-
-    public static function crearUsuarioRepartidor(Router $router)
-    {
-        $usuario = new Usuario;
-        $roles = Rol::getEntreIds(3, 3); // Solo rol repartidor
-        $alertas = [];
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $usuario->sincronizar($_POST['usuario']);
-            $alertas = $usuario->validarUsuario();
-
-            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+        // 2. Validación del usuario
+        $alertas = $usuario->validarUsuario();
+       
+        if (empty($alertas)) {
+            // 3. Procesar imagen si hay
             if ($_FILES['usuario']['tmp_name']['f_perfil']) {
+                $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
                 $manager = new ImageManager(Driver::class);
                 $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
                 $usuario->setImagen($nombreImagen);
@@ -73,87 +55,107 @@ class RepartidorControllers
                 if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
                     mkdir(CARPETAS_IMAGENES_PERFILES);
                 }
-
                 $imagen->save(CARPETAS_IMAGENES_PERFILES . "/" . $nombreImagen);
             }
 
-            if (empty($alertas)) {
-                $usuario->hashPassword();
-                $usuario->crearToken();
+            // 4. Crear usuario
+            $usuario->hashPassword();
+            $usuario->crearToken();
+            
+            $usuario->confirmado = 1;
+            $resultadoUsuario = $usuario->crear();
+            $idUsuario = $resultadoUsuario['id'];
 
-                $email = new Email($usuario->email, $usuario->userName, $usuario->token);
-                $email->enviarConfirmacion();
+            if ($resultadoUsuario['resultado']) {
+                // 5. Asociar usuario al repartidor
+                $repartidor->id_usuario = $idUsuario;
+                $alertas = $repartidor->validar();
 
-                $resultado = $usuario->crear();
-                header('Location: /admin/CrearRepartidor?id_usuario=' . $resultado['id']);
-                exit;
+                if (empty($alertas)) {
+                    $resultadoRepartidor = $repartidor->crear();
+
+                    if ($resultadoRepartidor['resultado']) {
+                        // Enviar email de confirmación
+                        $email = new Email($usuario->email, $usuario->userName, $usuario->token);
+                        $email->enviarConfirmacion();
+
+                        header('Location: /admin/GestionarRepartidor');
+                        exit;
+                    } else {
+                        // Falló al crear repartidor: eliminar usuario
+                        $usuario->eliminar($idUsuario);
+                        $usuario->delete_image();
+                        Usuario::setAlerta('error', 'Error al registrar repartidor. Se eliminó el usuario creado.');
+                    }
+                } else {
+                    // Si hay errores al validar repartidor, eliminar usuario creado
+                    $usuario->eliminar($idUsuario);
+                    $usuario->delete_image();
+                }
+            } else {
+                Usuario::setAlerta('error', 'Error al registrar el usuario.');
             }
         }
-
-        $router->renderAdmin('Admin/repartidores/CrearUsuarioRepartidor', [
-            'titulo' => 'Crear Usuario Repartidor',
-            'roles' => $roles,
-            'usuario' => $usuario,
-            'alertas' => $alertas
-        ]);
     }
 
-    public static function CrearRepartidor(Router $router)
-    {
-        $id_usuario = $_GET['id_usuario'] ?? null;
-        if (!$id_usuario || !is_numeric($id_usuario)) {
-            header('Location: /admin/GestionarUsuario');
+    $router->renderAdmin('Admin/repartidores/CrearRepartidor', [
+        'titulo' => 'Registrar Repartidor',
+        'usuario' => $usuario,
+        'repartidor' => $repartidor,
+        'alertas' => Usuario::getAlertas()
+    ]);
+}
+
+
+public static function ActualizarRepartidor(Router $router)
+{
+    $id = s($_GET['id'] ?? null);
+    FilterValidateInt($id, 'admin');
+    verificarId(Repartidor::find($id, 'idrepartidor'), 'admin');
+
+    $repartidor = Repartidor::find($id, 'idrepartidor');
+    $usuario = Usuario::find($repartidor->id_usuario, 'idusuario');
+    $alertas = [];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $usuario->sincronizar($_POST['usuario']);
+        $repartidor->sincronizar($_POST['repartidor']);
+
+        $alertas = array_merge(
+            $usuario->validar(),
+            $repartidor->validar()
+        );
+
+        if ($_FILES['usuario']['tmp_name']['f_perfil']) {
+            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+            $manager = new ImageManager(Driver::class);
+            $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
+            $usuario->setImagen($nombreImagen);
+
+            if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
+                mkdir(CARPETAS_IMAGENES_PERFILES);
+            }
+
+            $imagen->save(CARPETAS_IMAGENES_PERFILES . "/" . $nombreImagen);
+        }
+
+        if (empty($alertas)) {
+            $usuario->actualizar($usuario->idusuario);
+            $repartidor->actualizar($repartidor->idrepartidor);
+
+            header('Location: /admin/GestionarRepartidor');
             exit;
         }
-
-        $repartidor = new Repartidor;
-        $alertas = [];
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $repartidor->sincronizar($_POST['repartidor']);
-            $repartidor->id_usuario = $id_usuario;
-            $alertas = $repartidor->validar();
-
-            if (empty($alertas)) {
-                $repartidor->crear();
-                header('Location: /admin/GestionarRepartidor');
-                exit;
-            }
-        }
-
-        $router->renderAdmin('Admin/repartidores/CrearRepartidor', [
-            'repartidor' => $repartidor,
-            'alertas' => $alertas,
-            'id_usuario' => $id_usuario,
-            'titulo' => 'Registrar Repartidor'
-        ]);
     }
 
-    public static function ActualizarRepartidor(Router $router)
-    {
-        $id = s($_GET['id'] ?? null);
-        FilterValidateInt($id, 'admin');
-        verificarId(Repartidor::find($id, 'idrepartidor'), 'admin');
-        $repartidor = Repartidor::find($id, 'idrepartidor');
-        $alertas = [];
+    $router->renderAdmin('Admin/repartidores/ActualizarRepartidor', [
+        'usuario' => $usuario,
+        'repartidor' => $repartidor,
+        'alertas' => $alertas,
+        'titulo' => 'Actualizar Repartidor'
+    ]);
+}
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $repartidor->sincronizar($_POST['repartidor']);
-            $alertas = $repartidor->validar();
-
-            if (empty($alertas)) {
-                $repartidor->actualizar($id);
-                header('Location: /admin/GestionarRepartidor');
-                exit;
-            }
-        }
-
-        $router->renderAdmin('Admin/repartidores/ActualizarRepartidor', [
-            'repartidor' => $repartidor,
-            'alertas' => $alertas,
-            'titulo' => 'Actualizar Repartidor'
-        ]);
-    }
 
     public static function EliminarRepartidor()
     {

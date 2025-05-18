@@ -12,6 +12,7 @@ class ClienteController
         $busqueda = $_POST['busqueda'] ?? '';
 
         $clientes = Cliente::obtenerTodosConUsuario($busqueda);
+        
 
         $router->renderAdmin('Admin/clients/GestionCliente', [
             'clientes' => $clientes,

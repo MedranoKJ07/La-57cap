@@ -31,163 +31,124 @@ class VendedorController
             'titulo' => 'Gestionar Vendedores'
         ]);
     }
-    public static function CancelarUsuarioVendedor(Router $router)
-    {
-        $id_usuario = $_GET['id_usuario'] ?? null;
 
-        if (!$id_usuario || !is_numeric($id_usuario)) {
-            header('Location: /admin/GestionarUsuario');
-            exit;
-        }
-
-
-        // Buscar y eliminar usuario
-        $usuario = Usuario::find($id_usuario, 'idusuario');
-        if ($usuario) {
-            $usuario->delete_image();
-            $usuario->eliminar($id_usuario);
-        }
-
-        header('Location: /admin/GestionarVendedores');
-        exit;
-    }
-    public static function crearUsuarioVendedor(Router $router)
+    public static function crearvendedor(Router $router)
     {
         $usuario = new Usuario;
-        $roles = Rol::getEntreIds(2, 2);
+        $vendedor = new Vendedor;
         $alertas = [];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario->sincronizar($_POST['usuario']);
-            // $usuario->existeUsuario();
-            // $usuario->existeEmail();
-            // $alertas = Usuario::getAlertas();
+            $vendedor->sincronizar($_POST['vendedor']);
+            $usuario->id_roles = 2; // Rol vendedor
             $alertas = $usuario->validarUsuario();
 
-
-
-            //generar un nombre unico
-            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
             if ($_FILES['usuario']['tmp_name']['f_perfil']) {
+                $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
                 $manager = new ImageManager(Driver::class);
                 $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
                 $usuario->setImagen($nombreImagen);
+
                 if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
                     mkdir(CARPETAS_IMAGENES_PERFILES);
                 }
+
                 $imagen->save(CARPETAS_IMAGENES_PERFILES . "/" . $nombreImagen);
             }
+
             if (empty($alertas)) {
-                //Subida de archivos
-                //Crear carpeta
-                // Hashear el Password
                 $usuario->hashPassword();
-                //verifica si la carpeta existe que la cree
                 $usuario->crearToken();
 
-                // Enviar el Email
-                $email = new Email($usuario->email, $usuario->userName, $usuario->token);
+                $usuario->confirmado = 1;
 
-                $email->enviarConfirmacion();
                 $resultado = $usuario->crear();
+                $idUsuario = $resultado['id'];
 
-                $alertas['exito'][] = 'Usuario creado correctamente';
-                //Redireccionar a la pagina de usuarios
-                header('Location: /admin/CrearVendedor?id_usuario=' . $resultado['id']);
-            } else {
+                if ($resultado['resultado']) {
+                    $email = new Email($usuario->email, $usuario->userName, $usuario->token);
+                    $email->enviarConfirmacion();
 
-            }
-        }
-        $router->renderAdmin('Admin/vendedores/CrearUsuarioVendedor', [
-            'titulo' => 'Crear Usuario Vendedor',
-            'roles' => $roles,
-            'usuario' => $usuario,
-            'alertas' => $alertas
-        ]);
-    }
-    public static function CrearVendedor(Router $router)
-    {
+                    $vendedor->id_usuario = $idUsuario;
+                    $res = $vendedor->crear();
 
-        $id_usuario = $_GET['id_usuario'] ?? null;
-
-        // Si no se pasa el id_usuario, redirigimos
-        if (!$id_usuario || !is_numeric($id_usuario)) {
-            header('Location: /admin/GestionarUsuario');
-            exit;
-        }
-
-        $vendedor = new Vendedor;
-
-        $alertas = [];
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            $vendedor->sincronizar($_POST['vendedor']);
-            $vendedor->id_usuario = $id_usuario;
-            $alertas = $vendedor->validar();
-
-
-            if (empty($alertas)) {
-                $vendedor->crear();
-
-                header('Location: /admin/GestionarVendedores');
-                exit;
+                    if ($res['resultado']) {
+                        header('Location: /admin/GestionarVendedores');
+                        exit;
+                    } else {
+                        $usuario->eliminar($idUsuario);
+                        Usuario::setAlerta('error', 'Error al crear vendedor. El usuario ha sido eliminado.');
+                    }
+                }
             }
         }
 
         $router->renderAdmin('Admin/vendedores/CrearVendedor', [
+            'usuario' => $usuario,
             'vendedor' => $vendedor,
-            'alertas' => $alertas,
-            'id_usuario' => $id_usuario,
+            'alertas' => Usuario::getAlertas(),
             'titulo' => 'Registrar Vendedor'
         ]);
     }
+
     public static function ActualizarVendedor(Router $router)
     {
-        $id = s($_GET['id'] ?? null);
+        $id_usuario = s($_GET['id'] ?? null);
+        FilterValidateInt($id_usuario, 'admin');
 
-        FilterValidateInt($id, 'admin');
-        verificarId(Vendedor::find($id, 'idvendedor'), 'admin');
+        $usuario = Usuario::find($id_usuario, 'idusuario');
+        verificarId($usuario, 'admin');
 
-        // Buscar al vendedor por ID
-        $vendedor = Vendedor::find($id, 'idvendedor');
-
+        $vendedor = Vendedor::where('id_usuario', $id_usuario);
         $alertas = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Sincronizar datos del formulario con el modelo
+            $usuario->sincronizar($_POST['usuario']);
             $vendedor->sincronizar($_POST['vendedor']);
-            $alertas = $vendedor->validar();
+
+            $alertas = $usuario->validar();
+
+            if ($_FILES['usuario']['tmp_name']['f_perfil']) {
+                $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+                $manager = new ImageManager(Driver::class);
+                $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
+                $usuario->setImagen($nombreImagen);
+
+                if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
+                    mkdir(CARPETAS_IMAGENES_PERFILES);
+                }
+
+                $imagen->save(CARPETAS_IMAGENES_PERFILES . "/" . $nombreImagen);
+            }
 
             if (empty($alertas)) {
-                // Guardar los cambios
-                $vendedor->actualizar($id);
+                $usuario->actualizar($usuario->idusuario);
+                $vendedor->actualizar($vendedor->idvendedor);
+
                 header('Location: /admin/GestionarVendedores');
                 exit;
             }
         }
 
-        // Renderizar la vista con los datos del vendedor
         $router->renderAdmin('Admin/vendedores/ActualizarVendedor', [
+            'usuario' => $usuario,
             'vendedor' => $vendedor,
             'alertas' => $alertas,
             'titulo' => 'Actualizar Vendedor'
         ]);
     }
+
+
     public static function EliminarVendedor()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? null;
 
-            // Validar ID
-            if (!$id || !is_numeric($id)) {
-                header('Location: /admin/GestionarVendedores');
-                exit;
-            }
 
             // Buscar vendedor
             $vendedor = Vendedor::find($id, 'idvendedor');
-
+           
             if (!$vendedor) {
                 header('Location: /admin/GestionarVendedores');
                 exit;

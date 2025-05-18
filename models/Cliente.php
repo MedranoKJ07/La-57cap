@@ -19,7 +19,7 @@ class Cliente extends ActiveRecord
 
     public $idcliente;
 
-    public $idusuario;
+    public $id_usuario;
     public $p_nombre;
     public $s_nombre;
     public $p_apellido;
@@ -31,7 +31,7 @@ class Cliente extends ActiveRecord
     public function __construct($args = [])
     {
         $this->idcliente = $args['idcliente'] ?? null;
-        $this->idusuario = $args['idusuario'] ?? '';
+        $this->id_usuario = $args['id_usuario'] ?? '';
         $this->p_nombre = $args['p_nombre'] ?? '';
         $this->s_nombre = $args['s_nombre'] ?? '';
         $this->p_apellido = $args['p_apellido'] ?? '';
@@ -67,8 +67,11 @@ class Cliente extends ActiveRecord
         if (!empty($busqueda)) {
             $where .= " AND (
             cliente.p_nombre LIKE '%$busqueda%' OR
+            cliente.s_nombre LIKE '%$busqueda%' OR
             cliente.p_apellido LIKE '%$busqueda%' OR
-            usuario.email LIKE '%$busqueda%'
+            cliente.s_apellido LIKE '%$busqueda%' OR
+            IFNULL(usuario.email, '') LIKE '%$busqueda%' OR
+            IFNULL(usuario.userName, '') LIKE '%$busqueda%'
         )";
         }
 
@@ -85,11 +88,12 @@ class Cliente extends ActiveRecord
 
         $objetos = [];
         while ($registro = $resultado->fetch_object()) {
-            $objetos[] = $registro; // objeto stdClass con TODAS las propiedades
+            $objetos[] = $registro;
         }
 
         return $objetos;
     }
+
 
 
 
