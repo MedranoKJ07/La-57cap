@@ -11,7 +11,7 @@
  Target Server Version : 80041
  File Encoding         : 65001
 
- Date: 18/05/2025 14:23:45
+ Date: 18/05/2025 14:27:23
 */
 
 SET NAMES utf8mb4;
@@ -386,12 +386,12 @@ INSERT INTO `usuario` VALUES (59, 1, '4fab6662fe79843fdffa9013be93884a.jpg', 'KJ
 INSERT INTO `usuario` VALUES (72, 1, '4d288312d85b9591c952f7a14ea1155f.jpg', 'a', '$2y$10$NW/1HEQ0tqvRApqoM3c6CenZKLzyhmkwR2TJEsVYImmohRzg9pt5C', 'a@gmail.com', 1, '', '2025-05-15 03:38:45', '2025-05-15 03:38:45', 1, 1);
 INSERT INTO `usuario` VALUES (73, 2, '6282b1484ede608da413179304d52e0c.jpg', 'KJ Vendedor', '$2y$10$35yBRFnfpu74u4IRAKMtOekuRgWSPG4YGLv/Q/ks6wkFVplyf/SKO', 'kmurillojosue75@gmail.com', 1, '', '2025-05-15 07:21:57', '2025-05-15 07:21:57', 0, 0);
 INSERT INTO `usuario` VALUES (74, 3, '0f08b57b3bd1c4fed42781937a60a12d.jpg', 'KJ Repartidor', '$2y$10$n4OwveYjZ/2fpvq5POXtOOF25pXq.TNU1OhyfrcXbJyqKHfMcDnOu', 'kmurillojosue275@gmail.com', 1, '682a3f0471d13', '2025-05-15 07:22:22', '2025-05-15 07:22:22', 0, 0);
-INSERT INTO `usuario` VALUES (83, 4, 'f_perfil_deaulft.png', 'KJ Cliente', '$2y$10$h2wmzDqQgCRJ/jhzWtsy5OOnUEOWF9EGqSacgCAMoWl8rZbGR1GmG', 'kj@gmail.com', 1, '', '2025-05-17 21:58:51', '2025-05-17 21:58:51', 0, 0);
+INSERT INTO `usuario` VALUES (83, 4, '635b66db24c3358b354c5d85b5352015.jpg', 'KJ Cliente', '$2y$10$h2wmzDqQgCRJ/jhzWtsy5OOnUEOWF9EGqSacgCAMoWl8rZbGR1GmG', 'kj@gmail.com', 1, '', '2025-05-17 21:58:51', '2025-05-17 21:58:51', 0, 0);
 INSERT INTO `usuario` VALUES (84, 1, '4592aa6404f6bcebf2521e98c6e22071.jpg', 'a', '$2y$10$o39QgKi0DuyvrrW3hzVuj.k7pTI5m5d9j.Zd8GXXrOKBN8Mi77S1u', 'a@gmail.com', 0, '', '2025-05-18 04:09:49', '2025-05-18 04:09:49', 1, 0);
 INSERT INTO `usuario` VALUES (88, 3, '', 'a', '$2y$10$khTtLSYVMd42l7ldmN0Ga.X.wPRNIq2T9RfK/aW1iCQmsNQjPFDI2', 'a@gmail.com', 1, '', '2025-05-18 04:38:43', '2025-05-18 04:38:43', 1, 0);
 INSERT INTO `usuario` VALUES (89, 2, 'fondo.jpg', 'cambio', 'dfdsfdf', 'a@gmail.com', 1, '', '2025-05-18 04:59:48', '2025-05-18 04:59:48', 1, 0);
-INSERT INTO `usuario` VALUES (98, 4, '', 'dasdasd', '$2y$10$v8JUSJznr/AytDj3sUwuNeup2DkIQK26IiO4sXjhGO4/TZyuoq3Ma', 'dadasd@gmail.com', 0, '', '2025-05-18 05:31:34', '2025-05-18 05:31:34', 0, 0);
-INSERT INTO `usuario` VALUES (99, 4, '', 'KJ', '$2y$10$CGHIteHNWr3g3jL4a77.X..kGlg./1ztFXoTL3KnrI1htdCekmez2', 'ksadsj@gmail.com', 0, '', '2025-05-18 17:08:55', '2025-05-18 17:08:55', 0, 0);
+INSERT INTO `usuario` VALUES (98, 4, '', 'dasdasd', '$2y$10$v8JUSJznr/AytDj3sUwuNeup2DkIQK26IiO4sXjhGO4/TZyuoq3Ma', 'dadasd@gmail.com', 0, '', '2025-05-18 05:31:34', '2025-05-18 05:31:34', 1, 0);
+INSERT INTO `usuario` VALUES (99, 4, '', 'KJ', '$2y$10$CGHIteHNWr3g3jL4a77.X..kGlg./1ztFXoTL3KnrI1htdCekmez2', 'ksadsj@gmail.com', 0, '', '2025-05-18 17:08:55', '2025-05-18 17:08:55', 1, 0);
 
 -- ----------------------------
 -- Table structure for vendedor
