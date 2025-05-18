@@ -8,8 +8,6 @@ use Intervention\Image\ImageManager;
 use Classes\Email;
 class UsuarioController
 {
-
-
     public static function crearUsuario(Router $router)
     {
         $usuario = new Usuario;
@@ -19,9 +17,9 @@ class UsuarioController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $usuario->sincronizar($_POST['usuario']);
-            // $usuario->existeUsuario();
-            // $usuario->existeEmail();
-            // $alertas = Usuario::getAlertas();
+            $usuario->existeUsuario();
+            $usuario->existeEmail();
+            $alertas = Usuario::getAlertas();
             $alertas = $usuario->validarUsuario();
 
 
@@ -49,11 +47,6 @@ class UsuarioController
                 $email = new Email($usuario->email, $usuario->userName, $usuario->token);
 
                 $email->enviarConfirmacion();
-
-
-
-
-
                 $usuario->crear();
                 $alertas['exito'][] = 'Usuario creado correctamente';
                 //Redireccionar a la pagina de usuarios
@@ -173,7 +166,7 @@ class UsuarioController
             Usuario::setAlerta('exito', 'Cuenta Comprobada Correctamente');
         }
 
-        $router->render('auth/confirmar-cuenta', [
+        $router->renderLogin('auth/confirmar-cuenta', [
             'titulo' => 'Confirmar Cuenta',
             'alertas' => $alertas,
             'token' => $token
@@ -204,7 +197,7 @@ class UsuarioController
             }
         }
         $alertas = Usuario::getAlertas();
-        $router->render('auth/recuperar-olvide', [
+        $router->renderLogin('auth/recuperar-olvide', [
             'alertas' => $alertas,
             'titulo' => 'Olvide mi contraseña'
         ]);
@@ -241,7 +234,7 @@ class UsuarioController
             }
         }
         $alertas = Usuario::getAlertas();
-        $router->render('auth/recuperar-password', [
+        $router->renderLogin('auth/recuperar-password', [
             'alertas' => $alertas,
             'error' => $error,
             'titulo' => 'Recuperar Password'

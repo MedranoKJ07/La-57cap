@@ -26,7 +26,7 @@ class LoginController
                 // Buscar usuario por email o userName
                 $campo = filter_var($auth->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'userName';
                 $usuario = Usuario::wherelogico($campo, $auth->email);
-              
+
 
                 if (!$usuario) {
                     Usuario::setAlerta('error', 'El usuario no existe');
@@ -59,7 +59,6 @@ class LoginController
 
                     $dbPorRol = conectarSegunRol($usuario->id_roles);
                     ActiveRecord::setDB($dbPorRol);
-
 
                     if (session_status() === PHP_SESSION_NONE) {
                         session_start();
@@ -114,9 +113,10 @@ class LoginController
                             break;
                         default:
                             $_SESSION = [];
-                            debuguear('No se encontró el rol del usuario');
-                            header('Location: /');
-                            break;
+                            // Rol no encontrado -> mostrar vista 404
+                            http_response_code(404);
+                            include __DIR__ . "/views/errores/404.php";
+                            exit;
                     }
                     exit;
                 }
@@ -125,7 +125,7 @@ class LoginController
             }
         }
 
-        $router->render('auth/login', [
+        $router->renderLogin('auth/login', [
             'titulo' => 'Iniciar Sesión',
             'alertas' => $alertas,
             'usuario' => $auth

@@ -43,7 +43,9 @@ class VendedorController
             $vendedor->sincronizar($_POST['vendedor']);
             $usuario->id_roles = 2; // Rol vendedor
             $alertas = $usuario->validarUsuario();
-
+            $usuario->existeUsuario();
+            $usuario->existeEmail();
+            $alertas = $usuario->getalertas();
             if ($_FILES['usuario']['tmp_name']['f_perfil']) {
                 $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
                 $manager = new ImageManager(Driver::class);
@@ -148,7 +150,7 @@ class VendedorController
 
             // Buscar vendedor
             $vendedor = Vendedor::find($id, 'idvendedor');
-           
+
             if (!$vendedor) {
                 header('Location: /admin/GestionarVendedores');
                 exit;

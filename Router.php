@@ -43,7 +43,7 @@ class Router
             exit;
         }
     }
-    function render($view, $datos = [])
+    function renderLanding($view, $datos = [])
     {
         foreach ($datos as $key => $value) {
             //variable de variable $$key
@@ -55,7 +55,21 @@ class Router
         ob_start();// inicia a guardar datos en memoria
         include __DIR__ . "/views/$view.php";
         $contenido = ob_get_clean();// limpia los datos en la variable
-        include __DIR__ . "/views/layout/layout.php";
+        include __DIR__ . "/views/layout/layoutLanding.php";
+    }
+    function renderLogin($view, $datos = [])
+    {
+        foreach ($datos as $key => $value) {
+            //variable de variable $$key
+            //para generar variables dinamicas
+            // para mostrar el valor de la variable 
+            $$key = $value;
+        }
+
+        ob_start();// inicia a guardar datos en memoria
+        include __DIR__ . "/views/$view.php";
+        $contenido = ob_get_clean();// limpia los datos en la variable
+        include __DIR__ . "/views/layout/layoutLogin.php";
     }
     function renderAdmin($view, $datos = [])
     {
@@ -85,6 +99,7 @@ class Router
         $contenido = ob_get_clean();// limpia los datos en la variable
         include __DIR__ . "/views/layout/layoutVendedor.php";
     }
+
     function renderRepartidor($view, $datos = [])
     {
         foreach ($datos as $key => $value) {
