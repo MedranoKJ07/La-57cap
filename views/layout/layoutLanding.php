@@ -15,45 +15,43 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="/build/css/fontawesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="/build/css/app.css">
 </head>
 
 <body>
-<!-- Start Top Nav --> 
-<nav class="navbar navbar-expand-lg bg-white navbar-light d-none d-lg-block" id="templatemo_nav_top">
-    <div class="container text-dark">
-        <div class="w-100 d-flex justify-content-between">
-            <div>
-                <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-dark text-decoration-none" href="mailto:info@company.com">correo@correo.com</a>
-                <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-dark text-decoration-none" href="tel:010-020-0340">NUMERO</a>
-            </div>
-            <div>
-                <a class="text-dark" href="https://fb.com/templatemo" target="_blank" rel="sponsored">
-                    <i class="fab fa-facebook-f fa-sm fa-fw me-2"></i>
-                </a>
-                <a class="text-dark" href="https://www.instagram.com/" target="_blank">
-                    <i class="fab fa-instagram fa-sm fa-fw me-2"></i>
-                </a>
-                <a class="text-dark" href="https://twitter.com/" target="_blank">
-                    <i class="fab fa-twitter fa-sm fa-fw me-2"></i>
-                </a>
-                <a class="text-dark" href="https://www.linkedin.com/" target="_blank">
-                    <i class="fab fa-linkedin fa-sm fa-fw"></i>
-                </a>
+    <!-- Start Top Nav -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light d-none d-lg-block" id="templatemo_nav_top">
+        <div class="container text-dark">
+            <div class="w-100 d-flex justify-content-between">
+                <div>
+                    <i class="fa fa-envelope mx-2"></i>
+                    <a class="navbar-sm-brand text-dark text-decoration-none"
+                        href="mailto:info@company.com">correo@correo.com</a>
+                    <i class="fa fa-phone mx-2"></i>
+                    <a class="navbar-sm-brand text-dark text-decoration-none" href="tel:010-020-0340">NUMERO</a>
+                </div>
+                <div>
+                    <a class="text-dark" href="https://fb.com/templatemo" target="_blank" rel="sponsored">
+                        <i class="fab fa-facebook-f fa-sm fa-fw me-2"></i>
+                    </a>
+                    <a class="text-dark" href="https://www.instagram.com/" target="_blank">
+                        <i class="fab fa-instagram fa-sm fa-fw me-2"></i>
+                    </a>
+                    <a class="text-dark" href="https://twitter.com/" target="_blank">
+                        <i class="fab fa-twitter fa-sm fa-fw me-2"></i>
+                    </a>
+                    <a class="text-dark" href="https://www.linkedin.com/" target="_blank">
+                        <i class="fab fa-linkedin fa-sm fa-fw"></i>
+                    </a>
 
-                <!-- Sesión -->
-                <?php if (!empty($_SESSION['login']) || !empty($_SESSION['autenticado_Cliente'])): ?>
-                    <a class="text-dark ms-3" href="/logout"><i class="fa fa-sign-out-alt me-1"></i> Cerrar Sesión</a>
-                <?php else: ?>
-                    <a class="text-dark ms-3" href="/login"><i class="fa fa-user me-1"></i> Iniciar Sesión</a>
-                <?php endif; ?>
+
+                </div>
             </div>
         </div>
-    </div>
-</nav>
-<!-- Close Top Nav -->
+    </nav>
+    <!-- Close Top Nav -->
 
 
 
@@ -116,9 +114,17 @@
             </div>
 
         </div>
+        <div class="ms-3">
+            <!-- Sesión -->
+            <?php if (!empty($_SESSION['login']) || !empty($_SESSION['autenticado_Cliente'])): ?>
+                <a class="text-dark ms-3" href="/logout"><i class="fa fa-sign-out-alt me-1"></i> Cerrar Sesión</a>
+            <?php else: ?>
+                <a class="text-dark ms-3" href="/login"><i class="fa fa-user me-1"></i> Iniciar Sesión</a>
+            <?php endif; ?>
+        </div>
         <div class="form-check form-switch ms-3">
-            <input class="form-check-input" type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
-            <label class="form-check-label text-dark" for="darkModeSwitch">🌙 Modo Oscuro</label>
+            <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
+            <label for="darkModeSwitch" class="toggle-icon"></label>
         </div>
     </nav>
     <!-- Close Header -->
@@ -178,7 +184,7 @@
                             </li>
                         <?php endforeach; ?>
                     </ul>
-                    
+
 
                 </div>
 
@@ -243,5 +249,7 @@
 <script src="/build/js/bootstrap.bundle.min.js"></script>
 <script src="/build/js/templatemo.js"></script>
 <script src="/build/js/custom.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </html>

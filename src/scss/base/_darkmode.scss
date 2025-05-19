@@ -44,7 +44,7 @@ body.dark-mode {
 }
 
 .dark-mode .input-group-text {
-    background-color: #3e3e3e !important;
+    background-color: #3e3e3e00 !important;
     color: #ffffff !important;
     border-color: #555 !important;
 }
@@ -65,4 +65,38 @@ body.dark-mode {
 
 .dark-mode .modal-backdrop.show {
     background-color: rgba(0, 0, 0, 0.7);
+}
+/* Oculta el input original */
+#darkModeSwitch {
+  display: none;
+}
+
+/* El switch visual */
+.toggle-icon {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  font-size: 28px;
+  text-align: center;
+  line-height: 50px;
+  border-radius: 50%;
+  background-color: #ffc10700; /* Fondo sol */
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+/* Sol por defecto */
+.toggle-icon::before {
+  content: "☀️";
+}
+
+/* Cuando está activado, muestra la luna */
+#darkModeSwitch:checked + .toggle-icon {
+  background-color: #343a40; /* Fondo luna */
+}
+
+#darkModeSwitch:checked + .toggle-icon::before {
+  content: "🌙";
 }
