@@ -21,18 +21,6 @@ class LandingController
             'titulo' => 'Bienvenido'
         ]);
     }
-    public static function shop(Router $router)
-    {
-        $categorias2 = CategoriaProducto::obtenerLimite(7);
-        $productos = Producto::obtenerDestacados(9);
-        $categorias = CategoriaProducto::obtener7Categorias();
-        $router->renderLanding('/Main/shop', [
-            'categorias2' => $categorias2,
-            'productos' => $productos,
-            'categorias' => $categorias,
-            'titulo' => 'Bienvenido'
-        ]);
-    }
     public static function about(Router $router)
     {
         $categorias = CategoriaProducto::obtener7Categorias();

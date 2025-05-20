@@ -15,6 +15,8 @@ use Controllers\ProductoController;
 use Controllers\CompraController;
 use Controllers\RegistroController;
 use Controllers\LandingController;
+use Controllers\TiendaController;
+use Controllers\CarritoController;
 use MVC\Router;
 $router = new Router();
 
@@ -42,7 +44,16 @@ $router->post('/reenviar-confirmacion', [RegistroController::class, 'reenviarCon
 $router->get('/', [LandingController::class, 'index']);
 
 
-$router->get('/mostrarProductos', [LandingController::class, 'shop']);
+$router->get('/tienda', [TiendaController::class, 'shop']);
+$router->post('/tienda', fn: [TiendaController::class, 'shop']);
+
+$router->get('/carrito', [CarritoController::class, 'mostrar']);
+$router->get('/carrito/agregar', [CarritoController::class, 'agregar']);
+$router->get('/carrito/eliminar', [CarritoController::class, 'eliminar']);
+$router->post('/carrito/actualizar', [CarritoController::class, 'actualizar']);
+
+
+
 $router->get('/SobreNosotros', [LandingController::class, 'about']);
 $router->get('/Contactanos', [LandingController::class, 'contact']);
 

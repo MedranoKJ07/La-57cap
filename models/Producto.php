@@ -25,7 +25,9 @@ class Producto extends ActiveRecord
     public $eliminado;
     public $Foto;
     public $categoria_nombre;
-
+    // 👇 propiedades virtuales para el carrito
+    public $cantidad;
+    public $subtotal;
 
     public function __construct($args = [])
     {
@@ -38,6 +40,8 @@ class Producto extends ActiveRecord
         $this->eliminado = $args['eliminado'] ?? 0;
         $this->Foto = $args['Foto'] ?? 'f_perfil_deaulft.png';
         $this->categoria_nombre = $args['categoria_nombre'] ?? '';
+        $this->cantidad = $args['cantidad'] ?? '';
+        $this->subtotal = $args['subtotal'] ?? '';
     }
 
     public function validar()
@@ -168,6 +172,56 @@ class Producto extends ActiveRecord
 
         return $productos;
     }
+
+    public static function obtenerPorCategoria($categoriaId = null, $buscar = null, $orden = null, $limit = 9, $offset = 0)
+    {
+        $query = "SELECT * FROM producto WHERE eliminado = 0";
+
+        if ($categoriaId) {
+            $query .= " AND id_categoria = " . self::$db->quote($categoriaId);
+        }
+
+        if ($buscar) {
+            $buscar = self::$db->real_escape_string($buscar);
+            $query .= " AND nombre_producto LIKE '%$buscar%'";
+        }
+
+        if ($orden === 'asc') {
+            $query .= " ORDER BY precio ASC";
+        } elseif ($orden === 'desc') {
+            $query .= " ORDER BY precio DESC";
+        }
+
+        $query .= " LIMIT $limit OFFSET $offset";
+
+        return self::consultarSQL($query);
+    }
+
+    public static function contarPorCategoria($categoriaId = null, $buscar = null)
+    {
+        $query = "SELECT COUNT(*) as total FROM producto WHERE eliminado = 0";
+
+        if ($categoriaId) {
+            $query .= " AND id_categoria = " . self::$db->quote($categoriaId);
+        }
+
+        if ($buscar) {
+            $buscar = self::$db->real_escape_string($buscar);
+            $query .= " AND nombre_producto LIKE '%$buscar%'";
+        }
+
+        $resultado = self::$db->query($query);
+        $fila = $resultado->fetch_assoc();
+        return $fila['total'] ?? 0;
+    }
+    public static function obtenerPorId($id)
+    {
+        $id = self::$db->real_escape_string($id); // Usar correctamente mysqli
+        $query = "SELECT * FROM producto WHERE idproducto = '$id' LIMIT 1";
+        $resultado = self::consultarSQL($query);
+        return array_shift($resultado);
+    }
+
 
 
 }
