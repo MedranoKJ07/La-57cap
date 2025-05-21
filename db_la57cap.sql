@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MysqlLocal
+ Source Server         : MySqlLocal
  Source Server Type    : MySQL
- Source Server Version : 80041
+ Source Server Version : 80040
  Source Host           : localhost:3306
  Source Schema         : db_la57cap
 
  Target Server Type    : MySQL
- Target Server Version : 80041
+ Target Server Version : 80040
  File Encoding         : 65001
 
- Date: 20/05/2025 22:57:32
+ Date: 21/05/2025 15:48:43
 */
 
 SET NAMES utf8mb4;
@@ -167,7 +167,7 @@ CREATE TABLE `detalles_ventas`  (
   INDEX `fk_detalles_ventas_ventas1_idx`(`ventas_idventas`) USING BTREE,
   CONSTRAINT `detalles_ventas_productos` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_detalles_ventas_ventas1` FOREIGN KEY (`ventas_idventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of detalles_ventas
@@ -196,6 +196,11 @@ CREATE TABLE `devolucion_detalles`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of devolucion_detalles
+-- ----------------------------
+INSERT INTO `devolucion_detalles` VALUES (1, 1, 'ffdsfd', 7, 9);
+
+-- ----------------------------
 -- Table structure for devoluciones
 -- ----------------------------
 DROP TABLE IF EXISTS `devoluciones`;
@@ -216,6 +221,19 @@ CREATE TABLE `devoluciones`  (
   CONSTRAINT `fk_Devoluciones_cliente1` FOREIGN KEY (`cliente_idcliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Devoluciones_ventas1` FOREIGN KEY (`ventas_idventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of devoluciones
+-- ----------------------------
+INSERT INTO `devoluciones` VALUES (1, '2025-05-21 21:17:39', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
+INSERT INTO `devoluciones` VALUES (2, '2025-05-21 21:20:12', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
+INSERT INTO `devoluciones` VALUES (3, '2025-05-21 21:21:11', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
+INSERT INTO `devoluciones` VALUES (4, '2025-05-21 21:24:50', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
+INSERT INTO `devoluciones` VALUES (5, '2025-05-21 21:25:03', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
+INSERT INTO `devoluciones` VALUES (6, '2025-05-21 21:26:50', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
+INSERT INTO `devoluciones` VALUES (7, '2025-05-21 21:26:54', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
+INSERT INTO `devoluciones` VALUES (8, '2025-05-21 21:31:05', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
+INSERT INTO `devoluciones` VALUES (9, '2025-05-21 21:32:46', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
 
 -- ----------------------------
 -- Table structure for inventario
@@ -277,7 +295,7 @@ CREATE TABLE `pedidos`  (
   CONSTRAINT `pedido_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_repartidor` FOREIGN KEY (`id_repartidor`) REFERENCES `repartidor` (`idrepartidor`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_ventas` FOREIGN KEY (`id_ventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pedidos
@@ -458,7 +476,7 @@ CREATE TABLE `ventas`  (
   PRIMARY KEY (`idventas`) USING BTREE,
   INDEX `ventas_vendedor_idx`(`id_vendedor`) USING BTREE,
   CONSTRAINT `ventas_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`idvendedor`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ventas
