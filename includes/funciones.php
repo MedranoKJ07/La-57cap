@@ -55,3 +55,7 @@ function verificarId($id, $cadena)
         header('Location: /' . $cadena);
     }
 }
+function obtenerCantidadCarrito(): int
+{
+    return array_sum($_SESSION['carrito'] ?? []);
+}

@@ -18,6 +18,7 @@ class LandingController
             'categoriasMes' => $categoriasMes,
             'productosDestacados' => $productosDestacados,
             'categorias' => $categorias,
+            'carritoCantidad' => obtenerCantidadCarrito(),
             'titulo' => 'Bienvenido'
         ]);
     }
@@ -26,6 +27,7 @@ class LandingController
         $categorias = CategoriaProducto::obtener7Categorias();
         $router->renderLanding('/Main/about', [
             'categorias' => $categorias,
+            'carritoCantidad' => obtenerCantidadCarrito(),
             'titulo' => 'Bienvenido'
         ]);
     }
@@ -34,6 +36,7 @@ class LandingController
         $categorias = CategoriaProducto::obtener7Categorias();
         $router->renderLanding('/Main/contact', [
             'categorias' => $categorias,
+            'carritoCantidad' => obtenerCantidadCarrito(),
             'titulo' => 'Bienvenido'
         ]);
     }

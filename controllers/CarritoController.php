@@ -8,6 +8,8 @@ use MVC\Router;
 
 class CarritoController
 {
+    
+
 
     public static function agregar()
     {
@@ -17,17 +19,17 @@ class CarritoController
             exit;
         }
 
-        // Iniciar carrito si no existe
         if (!isset($_SESSION['carrito'])) {
             $_SESSION['carrito'] = [];
         }
 
-        // Sumar al carrito
         $_SESSION['carrito'][$id] = ($_SESSION['carrito'][$id] ?? 0) + 1;
 
+        // ✅ Redirige directamente al carrito
         header('Location: /carrito');
         exit;
     }
+
 
     public static function eliminar()
     {
@@ -57,9 +59,11 @@ class CarritoController
         }
 
         $router->renderLanding('/Main/carrito', [
+            
             'productos' => $productos,
             'categorias' => $categorias,
             'total' => $total,
+            'carritoCantidad' => obtenerCantidadCarrito(),
             'titulo' => 'Tu Carrito'
         ]);
     }
