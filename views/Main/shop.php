@@ -6,11 +6,13 @@
             <h1 class="h2 pb-4">Categorías</h1>
             <ul class="list-unstyled templatemo-accordion">
                 <li class="pb-2">
-                    <a class="h5 text-decoration-none" href="/tienda">Todas</a>
+                    <a class="h5 text-decoration-none <?= empty($categoriaSeleccionada) ? 'fw-bold text-primary' : '' ?>"
+                        href="/tienda">Todas</a>
                 </li>
                 <?php foreach ($categorias as $categoria): ?>
                     <li class="pb-2">
-                        <a class="h5 text-decoration-none" href="/tienda?categoria=<?= $categoria->idcategoria_producto ?>">
+                        <a class="h5 text-decoration-none <?= $categoriaSeleccionada == $categoria->idcategoria_producto ? 'fw-bold text-primary' : '' ?>"
+                            href="/tienda?categoria=<?= $categoria->idcategoria_producto ?>">
                             <?= s($categoria->titulo) ?>
                         </a>
                     </li>
@@ -19,22 +21,21 @@
 
             <!-- FILTROS BÁSICOS -->
             <form method="GET" action="/tienda">
-                <?php if (isset($_GET['categoria'])): ?>
-                    <input type="hidden" name="categoria" value="<?= s($_GET['categoria']) ?>">
+                <?php if (!empty($categoriaSeleccionada)): ?>
+                    <input type="hidden" name="categoria" value="<?= s($categoriaSeleccionada) ?>">
                 <?php endif; ?>
                 <div class="form-group mt-4">
                     <label for="buscar">Buscar</label>
-                    <input type="text" name="buscar" id="buscar" class="form-control"
-                        value="<?= s($_GET['buscar'] ?? '') ?>">
+                    <input type="text" name="buscar" id="buscar" class="form-control" value="<?= s($busqueda ?? '') ?>">
                 </div>
                 <div class="form-group mt-3">
                     <label for="orden">Ordenar por</label>
                     <select name="orden" id="orden" class="form-control">
                         <option value="">-- Seleccionar --</option>
-                        <option value="asc" <?= ($_GET['orden'] ?? '') === 'asc' ? 'selected' : '' ?>>Precio ascendente
+                        <option value="asc" <?= ($ordenSeleccionado ?? '') === 'asc' ? 'selected' : '' ?>>Precio ascendente
                         </option>
-                        <option value="desc" <?= ($_GET['orden'] ?? '') === 'desc' ? 'selected' : '' ?>>Precio descendente
-                        </option>
+                        <option value="desc" <?= ($ordenSeleccionado ?? '') === 'desc' ? 'selected' : '' ?>>Precio
+                            descendente</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3">Aplicar filtros</button>
@@ -43,6 +44,18 @@
 
         <!-- PRODUCTOS -->
         <div class="col-lg-9">
+            <div class="row mb-3">
+                <?php if (!empty($busqueda) || !empty($categoriaSeleccionada)): ?>
+                    <div class="col">
+                        <p class="text-muted">
+                            Filtrando
+                            <?= !empty($busqueda) ? "por nombre <strong>“" . s($busqueda) . "”</strong>" : '' ?>
+                            <?= !empty($categoriaNombre) ? "por categoría <strong>" . s($categoriaNombre) . "</strong>" : '' ?>
+                        </p>
+                    </div>
+                <?php endif; ?>
+            </div>
+
             <div class="row">
                 <?php if (empty($productos)): ?>
                     <div class="col-12">
@@ -59,11 +72,6 @@
                                     <div
                                         class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                         <ul class="list-unstyled">
-                                            <li>
-                                                <a class="btn btn-light text-dark" href="#">
-                                                    <i class="far fa-heart"></i> <!-- Wishlist -->
-                                                </a>
-                                            </li>
                                             <li>
                                                 <a class="btn btn-success text-white mt-2"
                                                     href="/producto?id=<?= $producto->idproducto ?>">
@@ -97,7 +105,6 @@
                         <ul class="pagination">
                             <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
                                 <?php
-                                // Conservar filtros en los enlaces
                                 $params = $_GET;
                                 $params['pagina'] = $i;
                                 $url = '/tienda?' . http_build_query($params);
@@ -110,8 +117,18 @@
                     </nav>
                 </div>
             </div>
-
         </div>
 
     </div>
 </div>
+<script>
+    document.querySelectorAll('a[href]:not([data-ignore])').forEach(link => {
+        link.addEventListener('click', function (e) {
+            // Si no es botón, ni modal, ni JS especial, deja pasar
+            const href = this.getAttribute('href');
+            if (href.startsWith('#') || this.classList.contains('js-only')) return;
+            // ✅ Reforzar navegación
+            window.location.href = href;
+        });
+    });
+</script>

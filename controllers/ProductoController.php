@@ -238,5 +238,24 @@ class ProductoController
             'producto' => $producto
         ]);
     }
+    public static function ver(Router $router)
+    {
+        $id = $_GET['id'] ?? null;
+        FilterValidateInt($id, 'tienda');
+
+        $producto = Producto::obtenerPorId($id);
+        if (!$producto) {
+            header('Location: /tienda');
+            exit;
+        }
+
+        $categorias = CategoriaProducto::obtener7Categorias();
+        $router->renderLanding('/Main/ver_producto', [
+            'producto' => $producto,
+            'categorias' => $categorias,
+            'carritoCantidad' => obtenerCantidadCarrito(),
+            'titulo' => $producto->nombre_producto
+        ]);
+    }
 
 }

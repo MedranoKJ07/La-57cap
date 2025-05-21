@@ -43143,21 +43143,19 @@
 })();
 //# sourceMappingURL=app.js.map
 
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  document.getElementById("darkModeSwitch").checked = isDark;
+}
 
-    function toggleDarkMode() {
-        document.body.classList.toggle('dark-mode');
-        const isDark = document.body.classList.contains('dark-mode');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        document.getElementById('darkModeSwitch').checked = isDark;
-    }
-
-    // Al cargar la página, aplicar tema guardado
-    window.onload = function () {
-        const savedTheme = localStorage.getItem('theme');
-        const isDark = savedTheme === 'dark';
-        if (isDark) {
-            document.body.classList.add('dark-mode');
-        }
-        document.getElementById('darkModeSwitch').checked = isDark;
-    }
-
+// Al cargar la página, aplicar tema guardado
+window.onload = function () {
+  const savedTheme = localStorage.getItem("theme");
+  const isDark = savedTheme === "dark";
+  if (isDark) {
+    document.body.classList.add("dark-mode");
+  }
+  document.getElementById("darkModeSwitch").checked = isDark;
+};

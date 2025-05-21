@@ -126,23 +126,62 @@ class Producto extends ActiveRecord
 
         if (!empty($categoriaSeleccionada)) {
             $categoriaSeleccionada = self::$db->real_escape_string($categoriaSeleccionada);
-            $condiciones[] = "producto.id_categoria = '$categoriaSeleccionada'";
+            $condiciones[] = "producto.id_categoria = $categoriaSeleccionada";
         }
 
-        $where = count($condiciones) ? 'WHERE ' . implode(' AND ', $condiciones) : '';
+        $where = !empty($condiciones) ? 'WHERE ' . implode(' AND ', $condiciones) : '';
 
-        $query = "SELECT 
+        $query = "
+        SELECT 
             producto.*, 
-            categoria_producto.titulo AS categoria_nombre 
-          FROM producto
-          INNER JOIN categoria_producto 
+            categoria_producto.titulo AS categoria_nombre
+        FROM producto
+        INNER JOIN categoria_producto 
             ON producto.id_categoria = categoria_producto.idcategoria_producto
-          $where
-          ORDER BY producto.idproducto DESC";
-
+        $where
+        ORDER BY producto.idproducto DESC
+    ";
 
         return self::consultarSQL($query);
     }
+    public static function filtrar2($categoria = '', $busqueda = '', $orden = '')
+{
+    $condiciones = ["producto.eliminado = 0"];
+
+    if ($categoria !== '') {
+        $categoria = self::$db->real_escape_string($categoria);
+        $condiciones[] = "producto.id_categoria = '$categoria'";
+    }
+
+    if ($busqueda !== '') {
+        $busqueda = self::$db->real_escape_string($busqueda);
+        $condiciones[] = "(producto.nombre_producto LIKE '%$busqueda%' OR categoria_producto.titulo LIKE '%$busqueda%')";
+    }
+
+    $where = 'WHERE ' . implode(' AND ', $condiciones);
+
+    // Validar y aplicar orden
+    $ordenSQL = '';
+    if (strtolower($orden) === 'asc') {
+        $ordenSQL = "ORDER BY producto.precio ASC";
+    } elseif (strtolower($orden) === 'desc') {
+        $ordenSQL = "ORDER BY producto.precio DESC";
+    } else {
+        $ordenSQL = "ORDER BY producto.idproducto DESC"; // por defecto
+    }
+
+    $query = "
+        SELECT producto.*, categoria_producto.titulo AS categoria_nombre
+        FROM producto
+        INNER JOIN categoria_producto ON producto.id_categoria = categoria_producto.idcategoria_producto
+        $where
+        $ordenSQL
+    ";
+
+    return self::consultarSQL($query);
+}
+
+
 
     public static function obtenerDestacados($limite = 3)
     {
@@ -221,6 +260,31 @@ class Producto extends ActiveRecord
         $resultado = self::consultarSQL($query);
         return array_shift($resultado);
     }
+    public static function contarFiltrados($categoria = null, $buscar = null)
+    {
+        $where = "WHERE eliminado = 0";
+
+        if ($categoria) {
+            $categoria = self::$db->escape_string($categoria);
+            $where .= " AND id_categoria = $categoria";
+        }
+
+        if ($buscar) {
+            $buscar = self::$db->escape_string($buscar);
+            $where .= " AND nombre_producto LIKE '%$buscar%'";
+        }
+
+        $query = "SELECT COUNT(*) as total FROM producto $where";
+        $resultado = self::$db->query($query);
+
+        if ($resultado) {
+            $row = $resultado->fetch_assoc();
+            return (int) $row['total'];
+        }
+
+        return 0;
+    }
+
 
 
 

@@ -86,6 +86,9 @@
                             <a class="nav-link" href="/Contactanos">Contact</a>
                         </li>
                     </ul>
+                    <ul>
+
+                    </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
                     <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
@@ -109,29 +112,38 @@
                             </span>
                         <?php endif; ?>
                     </a>
+                    <div class="dropdown">
+                        <a class="nav-icon position-relative text-decoration-none dropdown-toggle" href="#"
+                            role="button" id="usuarioMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                            <?php if (!empty($_SESSION['autenticado_Cliente'])): ?>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-dark">
+                                    <?= $_SESSION['nombre'][0] ?? '+' ?>
+                                </span>
+                            <?php endif; ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioMenu">
+                            <?php if (!empty($_SESSION['autenticado_Cliente'])): ?>
+                                <li><a class="dropdown-item" href="/cliente/pedidos">Mis Pedidos</a></li>
+                                <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+                            <?php else: ?>
+                                <li><a class="dropdown-item" href="/login">Iniciar Sesión</a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
 
 
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span
-                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
-                    </a>
                 </div>
             </div>
 
-        </div>
-        <div class="ms-3">
-            <!-- Sesión -->
-            <?php if (!empty($_SESSION['login']) || !empty($_SESSION['autenticado_Cliente'])): ?>
-                <a class="text-dark ms-3" href="/logout"><i class="fa fa-sign-out-alt me-1"></i> Cerrar Sesión</a>
-            <?php else: ?>
-                <a class="text-dark ms-3" href="/login"><i class="fa fa-user me-1"></i> Iniciar Sesión</a>
-            <?php endif; ?>
         </div>
         <div class="form-check form-switch ms-3">
             <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
             <label for="darkModeSwitch" class="toggle-icon"></label>
         </div>
+       
+
     </nav>
     <!-- Close Header -->
 

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../includes/app.php'; 
+require_once __DIR__ . '/../includes/app.php';
 
 use Controllers\InventarioController;
 use Controllers\LoginController;
@@ -17,6 +17,8 @@ use Controllers\RegistroController;
 use Controllers\LandingController;
 use Controllers\TiendaController;
 use Controllers\CarritoController;
+use Controllers\CheckoutController;
+use Controllers\ClientePanelController;
 use MVC\Router;
 $router = new Router();
 
@@ -42,16 +44,24 @@ $router->get('/reenviar-confirmacion', [RegistroController::class, 'reenviarConf
 $router->post('/reenviar-confirmacion', [RegistroController::class, 'reenviarConfirmacion']);
 //Landing page
 $router->get('/', [LandingController::class, 'index']);
+$router->get('/cliente/pedidos', [ClientePanelController::class, 'pedidos']);
 
 
 $router->get('/tienda', [TiendaController::class, 'shop']);
 $router->post('/tienda', fn: [TiendaController::class, 'shop']);
+$router->get('/producto', [ProductoController::class, 'ver']);
+
 
 $router->get('/carrito', [CarritoController::class, 'mostrar']);
 $router->get('/carrito/agregar', [CarritoController::class, 'agregar']);
 $router->get('/carrito/eliminar', [CarritoController::class, 'eliminar']);
 $router->post('/carrito/actualizar', [CarritoController::class, 'actualizar']);
 
+$router->get('/checkout', [CheckoutController::class, 'mostrar']);
+$router->post('/checkout/confirmar', [CheckoutController::class, 'confirmar']);
+$router->get('/checkout/exito', [CheckoutController::class, 'exito']);
+
+$router->get('/cliente/pedido', [ClienteController::class, 'pedido']);
 
 
 $router->get('/SobreNosotros', [LandingController::class, 'about']);

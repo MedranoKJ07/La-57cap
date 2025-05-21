@@ -91,6 +91,7 @@ class LoginController
                         case '4': // Cliente
                             $cliente = Cliente::where('id_usuario', $usuario->idusuario);
                             $_SESSION['autenticado_Cliente'] = true;
+                            $_SESSION['id_cliente'] = $cliente->idcliente;
                             $_SESSION['nombre'] = "$cliente->p_nombre $cliente->p_apellido";
                             $_SESSION['telefono'] = $cliente->n_telefono;
                             break;

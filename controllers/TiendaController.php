@@ -10,32 +10,51 @@ class TiendaController
 {
     public static function shop(Router $router)
     {
-        $categoriaId = $_GET['categoria'] ?? null;
-        $buscar = $_GET['buscar'] ?? null;
-        $orden = $_GET['orden'] ?? null;
-
-        if ($categoriaId) {
-            FilterValidateInt($categoriaId, 'tienda');
+        // Obtener parámetros desde la URL
+        $categoriaId = $_GET['categoria'] ?? '';
+        $buscar = $_GET['buscar'] ?? '';
+        $orden = $_GET['orden'] ?? '';
+        $pagina = isset($_GET['pagina']) ? (int) $_GET['pagina'] : 1;
+        $porPagina = 9;
+        $categoriaNombre = '';
+        if ($categoriaId !== '') {
+            $categoria = CategoriaProducto::find($categoriaId, 'idcategoria_producto');
+            $categoriaNombre = $categoria->titulo ?? '';
         }
 
-        $paginaActual = isset($_GET['pagina']) ? max(1, (int) $_GET['pagina']) : 1;
-        $productosPorPagina = 9;
-        $offset = ($paginaActual - 1) * $productosPorPagina;
 
-        $totalProductos = Producto::contarPorCategoria($categoriaId, $buscar);
-        $totalPaginas = ceil($totalProductos / $productosPorPagina);
+        // Sanitizar
+        $categoriaId = trim($categoriaId);
+        $buscar = trim($buscar);
+        $orden = trim($orden);
 
-        $productos = Producto::obtenerPorCategoria($categoriaId, $buscar, $orden, $productosPorPagina, $offset);
+        if ($pagina < 1)
+            $pagina = 1;
+
+        // Filtrar productos
+        $productos = Producto::filtrar2($categoriaId, $buscar, $orden, $pagina, $porPagina);
+
+        // Obtener el total para paginación
+        $totalProductos = Producto::contarFiltrados($categoriaId, $buscar);
+        $totalPaginas = max(1, ceil($totalProductos / $porPagina));
+
+        // Cargar categorías
         $categorias = CategoriaProducto::obtener7Categorias();
 
+        // Renderizar vista
         $router->renderLanding('/Main/shop', [
-            'categorias' => $categorias,
             'productos' => $productos,
+            'categorias' => $categorias,
+            'titulo' => 'Tienda',
+            'paginaActual' => $pagina,
             'totalPaginas' => $totalPaginas,
-            'paginaActual' => $paginaActual,
-            'titulo' => 'Tienda'
+            'categoriaSeleccionada' => $categoriaId,
+            'categoriaNombre' => $categoriaNombre,
+            'busqueda' => $buscar,
+            'ordenSeleccionado' => $orden
         ]);
     }
+
 
 
 
