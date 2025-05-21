@@ -46,6 +46,12 @@ $router->post('/reenviar-confirmacion', [RegistroController::class, 'reenviarCon
 $router->get('/', [LandingController::class, 'index']);
 $router->get('/cliente/pedidos', [ClientePanelController::class, 'pedidos']);
 
+$router->get('/cliente/devolucion', [ClienteController::class, 'solicitarDevolucion']);
+$router->post('/cliente/devolucion', [ClienteController::class, 'registrarDevolucion']);
+
+
+$router->post('/cliente/devolucion/guardar', [ClienteController::class, 'guardarDevolucion']);
+
 
 $router->get('/tienda', [TiendaController::class, 'shop']);
 $router->post('/tienda', fn: [TiendaController::class, 'shop']);

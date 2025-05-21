@@ -2,11 +2,17 @@
 
 namespace Controllers;
 use MVC\Router;
-use Model\Usuario;
+
 use Model\Cliente;
-use Model\Rol;
+
 use Model\Pedido;
 use Model\CategoriaProducto;
+use Model\Devolucion;
+use Model\DevolucionDetalle;
+
+
+
+
 class ClienteController
 {
     public static function GestionarCliente(Router $router)
@@ -69,6 +75,106 @@ class ClienteController
             'categorias' => $categorias,
             'productos' => $productos,
             'titulo' => 'Detalle del Pedido'
+        ]);
+    }
+    public static function guardarDevolucion(Router $router)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $pedidoId = $_POST['pedido_id'] ?? null;
+            $productosSolicitados = $_POST['productos'] ?? [];
+
+            if (!$pedidoId || empty($productosSolicitados)) {
+                header('Location: /cliente/pedidos');
+                exit;
+            }
+
+            $cliente = Cliente::where('id_usuario', $_SESSION['id']);
+            if (!$cliente) {
+                header('Location: /login');
+                exit;
+            }
+
+            // Crear solicitud de devolución
+            $devolucion = new Devolucion([
+                'fecha_solicitud' => date('Y-m-d H:i:s'),
+                'motivo' => 'Múltiples productos', // Se pueden mejorar más adelante
+                'Aprobado' => 0,
+                'tipo_reembolso' => 'mixto',
+                'observaciones' => '',
+                'ventas_idventas' => Pedido::find($pedidoId, 'idpedidos')->id_ventas,
+                'cliente_idcliente' => $cliente->idcliente,
+                'Estado' => 'Pendiente'
+            ]);
+
+            $resultado = $devolucion->crear();
+
+
+            if (!$resultado['resultado']) {
+                // Error al guardar
+                header('Location: /cliente/pedido?id=' . $pedidoId);
+                exit;
+            }
+
+            $idDevolucion = $resultado['id'];
+
+            // Guardar detalles de la devolución
+            foreach ($productosSolicitados as $idProducto => $datos) {
+                $cantidad = (int) $datos['cantidad'];
+                $estado = trim($datos['motivo'] ?? 'No especificado');
+                $tipo = trim($datos['tipo'] ?? 'dinero');
+
+                if ($cantidad <= 0)
+                    continue;
+
+                $detalle = new DevolucionDetalle([
+                    'cantidad' => $cantidad,
+                    'Estado_Producto' => $estado,
+                    'producto_idproducto' => $idProducto,
+                    'Devoluciones_idDevoluciones' => $idDevolucion
+                ]);
+
+                $detalle->guardar();
+            }
+
+            header('Location: /cliente/pedidos?devolucion=ok');
+            exit;
+        }
+    }
+    public static function solicitarDevolucion(Router $router)
+    {
+        if (!isset($_SESSION['autenticado_Cliente'])) {
+            header('Location: /login');
+            exit;
+        }
+
+        $idPedido = $_GET['id'] ?? null;
+
+        if (!$idPedido) {
+            header('Location: /cliente/pedidos');
+            exit;
+        }
+
+        // Verifica que el pedido pertenezca al cliente actual
+        $cliente = Cliente::where('id_usuario', $_SESSION['id']);
+        if (!$cliente) {
+            header('Location: /cliente/pedidos');
+            exit;
+        }
+
+        $pedido = Pedido::where('idpedidos', $idPedido);
+        if (!$pedido || $pedido->id_cliente != $cliente->idcliente) {
+            header('Location: /cliente/pedidos');
+            exit;
+        }
+        
+        // Obtener productos del pedido
+        $productos = Pedido::obtenerProductosConDetalles($idPedido);
+
+        $router->renderLanding('/cliente/formularioDevolucion', [
+            'titulo' => 'Solicitar Devolución',
+            'pedido' => $pedido,
+            'productos' => $productos
         ]);
     }
 
