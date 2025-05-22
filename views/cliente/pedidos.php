@@ -30,9 +30,16 @@
                                 <a href="/cliente/pedido?id=<?= $pedido->idpedidos ?>" class="btn btn-info btn-sm">
                                     Ver Detalles
                                 </a>
-                                <a href="/cliente/devolucion?id=<?= $pedido->idpedidos ?>" class="btn btn-warning btn-sm">
-                                    Solicitar Devolución
-                                </a>
+
+                                <?php if ($pedido->estado_venta === 'En devolución'): ?>
+                                    <span class="badge bg-secondary">Devolución en proceso</span>
+                                <?php else: ?>
+                                    <a href="/cliente/devolucion?id=<?= $pedido->idpedidos ?>" class="btn btn-warning btn-sm">
+                                        Solicitar Devolución
+                                    </a>
+                                <?php endif; ?>
+
+
                             </td>
                         </tr>
                     <?php endforeach; ?>

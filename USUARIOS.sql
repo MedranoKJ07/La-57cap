@@ -10,6 +10,7 @@ GRANT SELECT ON db_la57cap.producto TO 'lectorlogin'@'localhost';
 GRANT SELECT ON db_la57cap.roles TO 'lectorlogin'@'localhost';
 GRANT SELECT ON db_la57cap.detalles_ventas TO 'cliente57'@'localhost';
 GRANT INSERT ON db_la57cap.devolucion_detalles TO 'cliente57'@'localhost';
+GRANT UPDATE ON db_la57cap.ventas TO 'lectorlogin'@'localhost';
 
 
 FLUSH PRIVILEGES;

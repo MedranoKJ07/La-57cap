@@ -28,6 +28,8 @@ class Devolucion extends ActiveRecord
     public $eliminado;
     public $Estado;
 
+    public $cliente_nombre;
+
     public function __construct($args = [])
     {
         $this->idDevoluciones = $args['idDevoluciones'] ?? null;
@@ -40,5 +42,34 @@ class Devolucion extends ActiveRecord
         $this->cliente_idcliente = $args['cliente_idcliente'] ?? null;
         $this->eliminado = 0;
         $this->Estado = 'Pendiente';
+        $this->cliente_nombre = $args['cliente_nombre'] ?? null;
+
     }
+    public function aprobar()
+    {
+        $this->Aprobado = 1;
+        $this->Estado = 'Aprobado';
+        return $this->actualizar($this->idDevoluciones);    
+    }
+
+    public function rechazar($motivo = '')
+    {
+        $this->Aprobado = 0;
+        $this->Estado = 'Rechazado';
+        $this->observaciones = $motivo;
+        return $this->actualizar($this->idDevoluciones);    
+    }
+    public static function obtenerTodasConCliente()
+    {
+        $query = "
+            SELECT d.*, CONCAT(c.p_nombre, ' ', c.p_apellido) AS cliente_nombre
+            FROM devoluciones d
+            JOIN cliente c ON d.cliente_idcliente = c.idcliente
+            WHERE d.eliminado = 0
+            ORDER BY d.fecha_solicitud DESC
+        ";
+
+        return self::consultarSQL($query);
+    }
+
 }

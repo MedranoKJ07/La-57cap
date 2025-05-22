@@ -90,6 +90,16 @@
                             </span>
                         </a>
                     </li>
+                    <li class="sidebar-header">
+                        Gestionar Devoluciones
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/devoluciones">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                                Devoluciones
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>

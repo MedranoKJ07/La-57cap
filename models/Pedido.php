@@ -32,45 +32,44 @@ class Pedido extends ActiveRecord
     public $estado;
     public $pago_confirmado;
 
-    // Propiedades adicionales no presentes directamente en la tabla
     public $total_venta;
     public $total;
     public $estado_venta;
+    public $tiene_devolucion;
+    public $en_devolucion;
+
 
     public function __construct($args = [])
     {
-        $this->idpedidos          = $args['idpedidos'] ?? null;
-        $this->id_ventas          = $args['id_ventas'] ?? null;
-        $this->id_cliente         = $args['id_cliente'] ?? null;
-        $this->id_repartidor      = $args['id_repartidor'] ?? null;
-        $this->creado             = $args['creado'] ?? date('Y-m-d H:i:s');
-        $this->fecha_entregar     = $args['fecha_entregar'] ?? date('Y-m-d', strtotime('+2 days'));
-        $this->hora_entregar      = $args['hora_entregar'] ?? '12:00:00';
+        $this->idpedidos = $args['idpedidos'] ?? null;
+        $this->id_ventas = $args['id_ventas'] ?? null;
+        $this->id_cliente = $args['id_cliente'] ?? null;
+        $this->id_repartidor = $args['id_repartidor'] ?? null;
+        $this->creado = $args['creado'] ?? date('Y-m-d H:i:s');
+        $this->fecha_entregar = $args['fecha_entregar'] ?? date('Y-m-d', strtotime('+2 days'));
+        $this->hora_entregar = $args['hora_entregar'] ?? '12:00:00';
         $this->direccion_entregar = $args['direccion_entregar'] ?? '';
-        $this->comentarios        = $args['comentarios'] ?? '';
-        $this->estado             = $args['estado'] ?? 0;
-        $this->pago_confirmado    = $args['pago_confirmado'] ?? 0;
+        $this->comentarios = $args['comentarios'] ?? '';
+        $this->estado = $args['estado'] ?? 0;
+        $this->pago_confirmado = $args['pago_confirmado'] ?? 0;
     }
 
     public function guardar()
     {
-        return $this->crear(); // Devuelve el resultado si es necesario
+        $this->crear();
     }
 
-    // Obtiene todos los pedidos de un cliente con datos de la venta
     public static function obtenerPorCliente($idCliente)
     {
         $idCliente = self::$db->real_escape_string($idCliente);
 
-        $query = "
-            SELECT pedidos.*, 
-                   ventas.total AS total_venta, 
-                   ventas.estado AS estado_venta
-            FROM pedidos
-            INNER JOIN ventas ON pedidos.id_ventas = ventas.idventas
-            WHERE pedidos.id_cliente = '$idCliente'
-            ORDER BY pedidos.creado DESC
-        ";
+        $query = "SELECT pedidos.*, 
+                     ventas.total AS total_venta, 
+                     ventas.estado AS estado_venta
+              FROM pedidos
+              INNER JOIN ventas ON pedidos.id_ventas = ventas.idventas
+              WHERE pedidos.id_cliente = '$idCliente'
+              ORDER BY pedidos.creado DESC";
 
         $resultados = self::consultarSQL($query);
 
@@ -78,12 +77,15 @@ class Pedido extends ActiveRecord
             $pedido->total = $pedido->total_venta;
             unset($pedido->total_venta);
             $pedido->estado_venta = $pedido->estado_venta ?? 'Pendiente';
+
+            //  Verificar si hay devolución en proceso
+            $pedido->en_devolucion = self::ventaEnProcesoDevolucion($pedido->id_ventas);
         }
 
         return $resultados;
     }
 
-    // Obtiene los productos de un pedido con detalles de venta
+
     public static function obtenerProductosConDetalles($idPedido)
     {
         $idPedido = self::$db->real_escape_string($idPedido);
@@ -105,14 +107,28 @@ class Pedido extends ActiveRecord
 
         $resultado = self::$db->query($query);
 
-        $productos = [];
-        if ($resultado) {
-            while ($registro = $resultado->fetch_assoc()) {
-                $productos[] = (object) $registro;
-            }
-            $resultado->free();
+        $array = [];
+        while ($registro = $resultado->fetch_assoc()) {
+            $array[] = (object) $registro;
         }
 
-        return $productos;
+        $resultado->free();
+        return $array;
     }
+    public static function ventaEnProcesoDevolucion($idVenta)
+    {
+        $idVenta = self::$db->real_escape_string($idVenta);
+
+        $query = "SELECT idDevoluciones FROM devoluciones 
+              WHERE ventas_idventas = $idVenta 
+              AND Estado = 'Pendiente' 
+              AND eliminado = 0 
+              LIMIT 1";
+
+        $resultado = self::$db->query($query);
+
+        return $resultado && $resultado->num_rows > 0;
+    }
+
+
 }

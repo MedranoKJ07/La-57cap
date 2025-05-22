@@ -9,7 +9,7 @@ use Model\Pedido;
 use Model\CategoriaProducto;
 use Model\Devolucion;
 use Model\DevolucionDetalle;
-
+use Model\Venta;
 
 
 
@@ -63,11 +63,14 @@ class ClienteController
             header('Location: /cliente/pedidos');
             return;
         }
-        $categorias = CategoriaProducto::obtener7Categorias();
 
         $categorias = CategoriaProducto::obtener7Categorias();
+
         $pedido = Pedido::find($id, 'idpedidos'); // Busca pedido
         $productos = Pedido::obtenerProductosConDetalles($id); // Productos del pedido
+
+        // Verifica si ya tiene una devolución en proceso
+        $pedido->en_devolucion = Pedido::ventaEnProcesoDevolucion($pedido->id_ventas);
 
         $router->renderLanding('cliente/DetallePedido', [
             'pedido' => $pedido,
@@ -77,6 +80,7 @@ class ClienteController
             'titulo' => 'Detalle del Pedido'
         ]);
     }
+
     public static function guardarDevolucion(Router $router)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -95,23 +99,27 @@ class ClienteController
                 exit;
             }
 
+            $pedido = Pedido::find($pedidoId, 'idpedidos');
+            if (!$pedido) {
+                header('Location: /cliente/pedidos');
+                exit;
+            }
+
             // Crear solicitud de devolución
             $devolucion = new Devolucion([
                 'fecha_solicitud' => date('Y-m-d H:i:s'),
-                'motivo' => 'Múltiples productos', // Se pueden mejorar más adelante
+                'motivo' => 'Múltiples productos', // Mejora: podrías recoger los motivos individuales
                 'Aprobado' => 0,
                 'tipo_reembolso' => 'mixto',
                 'observaciones' => '',
-                'ventas_idventas' => Pedido::find($pedidoId, 'idpedidos')->id_ventas,
+                'ventas_idventas' => $pedido->id_ventas,
                 'cliente_idcliente' => $cliente->idcliente,
                 'Estado' => 'Pendiente'
             ]);
 
             $resultado = $devolucion->crear();
 
-
             if (!$resultado['resultado']) {
-                // Error al guardar
                 header('Location: /cliente/pedido?id=' . $pedidoId);
                 exit;
             }
@@ -137,10 +145,18 @@ class ClienteController
                 $detalle->guardar();
             }
 
+            //  CAMBIAR ESTADO DE LA VENTA A "En devolución"
+            $venta = Venta::find($pedido->id_ventas , 'idventas');
+            if ($venta) {
+                $venta->estado = 'En devolución';
+                $venta->actualizar($venta->idventas);
+            }
+
             header('Location: /cliente/pedidos?devolucion=ok');
             exit;
         }
     }
+
     public static function solicitarDevolucion(Router $router)
     {
         if (!isset($_SESSION['autenticado_Cliente'])) {
@@ -167,7 +183,7 @@ class ClienteController
             header('Location: /cliente/pedidos');
             exit;
         }
-        
+
         // Obtener productos del pedido
         $productos = Pedido::obtenerProductosConDetalles($idPedido);
 

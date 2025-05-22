@@ -19,6 +19,9 @@ use Controllers\TiendaController;
 use Controllers\CarritoController;
 use Controllers\CheckoutController;
 use Controllers\ClientePanelController;
+use Controllers\AdminDevolucionController;
+
+
 use MVC\Router;
 $router = new Router();
 
@@ -145,6 +148,12 @@ $router->get('/admin/GestionarCompras', [CompraController::class, 'GestionarComp
 $router->get('/admin/CrearCompra', [CompraController::class, 'CrearCompra']);
 $router->post('/admin/CrearCompra', [CompraController::class, 'CrearCompra']);
 $router->get('/admin/DetalleCompra', [CompraController::class, 'VerDetalleCompra']);
+
+$router->get('/admin/devoluciones', [AdminDevolucionController::class, 'GestionarDevoluciones']);
+$router->post('/admin/devoluciones/aprobar', [AdminDevolucionController::class, 'aprobar']);
+$router->post('/admin/devoluciones/rechazar', [AdminDevolucionController::class, 'rechazar']);
+$router->get('/admin/devoluciones/detalle', [AdminDevolucionController::class, 'detalle']);
+
 
 //PANEL DE VENDEDORES
 $router->get('/Vendedor', [VendedorController::class, 'Vendedor']);
