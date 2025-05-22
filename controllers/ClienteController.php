@@ -55,31 +55,38 @@ class ClienteController
         ]);
     }
     public static function pedido(Router $router)
-    {
-        isAuth(); // Asegúrate que solo accede si está autenticado
+{
+    isAuth(); // Verifica si el usuario está autenticado
 
-        $id = $_GET['id'] ?? null;
-        if (!$id) {
-            header('Location: /cliente/pedidos');
-            return;
-        }
-
-        $categorias = CategoriaProducto::obtener7Categorias();
-
-        $pedido = Pedido::find($id, 'idpedidos'); // Busca pedido
-        $productos = Pedido::obtenerProductosConDetalles($id); // Productos del pedido
-
-        // Verifica si ya tiene una devolución en proceso
-        $pedido->en_devolucion = Pedido::ventaEnProcesoDevolucion($pedido->id_ventas);
-
-        $router->renderLanding('cliente/DetallePedido', [
-            'pedido' => $pedido,
-            'carritoCantidad' => obtenerCantidadCarrito(),
-            'categorias' => $categorias,
-            'productos' => $productos,
-            'titulo' => 'Detalle del Pedido'
-        ]);
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        header('Location: /cliente/pedidos');
+        return;
     }
+
+    $categorias = CategoriaProducto::obtener7Categorias();
+
+    $pedido = Pedido::find($id, 'idpedidos'); // Buscar el pedido
+    if (!$pedido) {
+        header('Location: /cliente/pedidos');
+        return;
+    }
+
+    $productos = Pedido::obtenerProductosConDetalles($id); // Productos del pedido
+
+    // Verifica si tiene una devolución en proceso
+    $enDevolucion = Pedido::ventaEnProcesoDevolucion($pedido->id_ventas);
+
+    $router->renderLanding('cliente/DetallePedido', [
+        'pedido' => $pedido,
+        'carritoCantidad' => obtenerCantidadCarrito(),
+        'categorias' => $categorias,
+        'productos' => $productos,
+        'titulo' => 'Detalle del Pedido',
+        'enDevolucion' => $enDevolucion // Se pasa como parámetro separado
+    ]);
+}
+
 
     public static function guardarDevolucion(Router $router)
     {
@@ -142,7 +149,7 @@ class ClienteController
                     'Devoluciones_idDevoluciones' => $idDevolucion
                 ]);
 
-                $detalle->guardar();
+                $detalle->crear();
             }
 
             //  CAMBIAR ESTADO DE LA VENTA A "En devolución"

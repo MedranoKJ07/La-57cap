@@ -1,4 +1,5 @@
 <?php
+
 namespace Model;
 
 class DevolucionDetalle extends ActiveRecord
@@ -28,27 +29,34 @@ class DevolucionDetalle extends ActiveRecord
         $this->Devoluciones_idDevoluciones = $args['Devoluciones_idDevoluciones'] ?? null;
     }
 
-    public function guardar()
+
+
+    public static function obtenerPorDevolucion($id)
     {
-        return $this->crear();
+        $id = self::$db->real_escape_string($id);
+        $query = "
+            SELECT dd.*, p.nombre_producto, p.Foto
+            FROM devolucion_detalles dd
+            JOIN producto p ON p.idproducto = dd.producto_idproducto
+            WHERE dd.Devoluciones_idDevoluciones = $id
+        ";
+        return self::consultarSQL($query);
     }
-    public static function obtenerPorDevolucion($idDevolucion)
+    // 🔍 Método requerido
+    public static function obtenerDetallesConProducto($idDevolucion)
     {
         $idDevolucion = self::$db->real_escape_string($idDevolucion);
 
         $query = "
-            SELECT 
-                dd.*, 
-                p.nombre_producto, 
-                p.Foto 
+            SELECT dd.*, p.nombre_producto, p.Foto
             FROM devolucion_detalles dd
             JOIN producto p ON p.idproducto = dd.producto_idproducto
-            WHERE dd.Devoluciones_idDevoluciones = $idDevolucion
+            WHERE dd.Devoluciones_idDevoluciones = '$idDevolucion'
         ";
 
         $resultado = self::$db->query($query);
-
         $detalles = [];
+
         while ($row = $resultado->fetch_assoc()) {
             $detalles[] = (object) $row;
         }
@@ -56,5 +64,4 @@ class DevolucionDetalle extends ActiveRecord
         $resultado->free();
         return $detalles;
     }
-
 }

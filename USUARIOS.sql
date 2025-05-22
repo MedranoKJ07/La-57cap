@@ -36,7 +36,7 @@ GRANT SELECT, INSERT , UPDATE ON db_la57cap.cliente TO 'cliente57'@'localhost';
 GRANT SELECT ON db_la57cap.categoria_producto TO 'cliente57'@'localhost';
 
 GRANT SELECT, INSERT ON db_la57cap.pedidos TO 'cliente57'@'localhost';
-GRANT SELECT, INSERT ON db_la57cap.ventas TO 'cliente57'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON db_la57cap.ventas TO 'cliente57'@'localhost';
 GRANT SELECT ON db_la57cap.vendedor TO 'cliente57'@'localhost';
 GRANT SELECT ON db_la57cap.repartidor TO 'cliente57'@'localhost';
 

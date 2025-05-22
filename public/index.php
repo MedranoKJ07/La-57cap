@@ -20,6 +20,7 @@ use Controllers\CarritoController;
 use Controllers\CheckoutController;
 use Controllers\ClientePanelController;
 use Controllers\AdminDevolucionController;
+use Controllers\DevolucionController;
 
 
 use MVC\Router;
@@ -47,6 +48,8 @@ $router->get('/reenviar-confirmacion', [RegistroController::class, 'reenviarConf
 $router->post('/reenviar-confirmacion', [RegistroController::class, 'reenviarConfirmacion']);
 //Landing page
 $router->get('/', [LandingController::class, 'index']);
+
+
 $router->get('/cliente/pedidos', [ClientePanelController::class, 'pedidos']);
 
 $router->get('/cliente/devolucion', [ClienteController::class, 'solicitarDevolucion']);
@@ -54,6 +57,8 @@ $router->post('/cliente/devolucion', [ClienteController::class, 'registrarDevolu
 
 
 $router->post('/cliente/devolucion/guardar', [ClienteController::class, 'guardarDevolucion']);
+
+
 
 
 $router->get('/tienda', [TiendaController::class, 'shop']);
@@ -144,15 +149,16 @@ $router->get('/admin/VerProducto', [ProductoController::class, 'VerProducto']);
 //Inventario 
 $router->get('/admin/InventarioGeneral', [InventarioController::class, 'GestionarInventario']);
 //Compras
-$router->get('/admin/GestionarCompras', [CompraController::class, 'GestionarCompras']);
-$router->get('/admin/CrearCompra', [CompraController::class, 'CrearCompra']);
-$router->post('/admin/CrearCompra', [CompraController::class, 'CrearCompra']);
-$router->get('/admin/DetalleCompra', [CompraController::class, 'VerDetalleCompra']);
 
-$router->get('/admin/devoluciones', [AdminDevolucionController::class, 'GestionarDevoluciones']);
-$router->post('/admin/devoluciones/aprobar', [AdminDevolucionController::class, 'aprobar']);
-$router->post('/admin/devoluciones/rechazar', [AdminDevolucionController::class, 'rechazar']);
-$router->get('/admin/devoluciones/detalle', [AdminDevolucionController::class, 'detalle']);
+
+$router->get('/admin/devoluciones', [DevolucionController::class, 'gestionar']);
+$router->get('/admin/devoluciones/detalle', [DevolucionController::class, 'detalle']);
+$router->post('/admin/devoluciones/aprobar', [DevolucionController::class, 'aprobar']);
+$router->post('/admin/devoluciones/rechazar', [DevolucionController::class, 'rechazar']);
+
+
+
+
 
 
 //PANEL DE VENDEDORES

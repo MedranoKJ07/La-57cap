@@ -1,10 +1,12 @@
 <?php
+
 namespace Model;
 
 class Devolucion extends ActiveRecord
 {
     protected static $tabla = 'devoluciones';
     protected static $columnasDB = [
+        'idDevoluciones',
         'fecha_solicitud',
         'motivo',
         'Aprobado',
@@ -28,37 +30,20 @@ class Devolucion extends ActiveRecord
     public $eliminado;
     public $Estado;
 
-    public $cliente_nombre;
-
     public function __construct($args = [])
     {
         $this->idDevoluciones = $args['idDevoluciones'] ?? null;
-        $this->fecha_solicitud = date('Y-m-d H:i:s');
+        $this->fecha_solicitud = $args['fecha_solicitud'] ?? date('Y-m-d H:i:s');
         $this->motivo = $args['motivo'] ?? '';
-        $this->Aprobado = 0;
-        $this->tipo_reembolso = $args['tipo_reembolso'] ?? '';
+        $this->Aprobado = $args['Aprobado'] ?? 0;
+        $this->tipo_reembolso = $args['tipo_reembolso'] ?? 'dinero';
         $this->observaciones = $args['observaciones'] ?? '';
         $this->ventas_idventas = $args['ventas_idventas'] ?? null;
         $this->cliente_idcliente = $args['cliente_idcliente'] ?? null;
-        $this->eliminado = 0;
-        $this->Estado = 'Pendiente';
-        $this->cliente_nombre = $args['cliente_nombre'] ?? null;
-
-    }
-    public function aprobar()
-    {
-        $this->Aprobado = 1;
-        $this->Estado = 'Aprobado';
-        return $this->actualizar($this->idDevoluciones);    
+        $this->eliminado = $args['eliminado'] ?? 0;
+        $this->Estado = $args['Estado'] ?? 'Pendiente';
     }
 
-    public function rechazar($motivo = '')
-    {
-        $this->Aprobado = 0;
-        $this->Estado = 'Rechazado';
-        $this->observaciones = $motivo;
-        return $this->actualizar($this->idDevoluciones);    
-    }
     public static function obtenerTodasConCliente()
     {
         $query = "
@@ -68,8 +53,6 @@ class Devolucion extends ActiveRecord
             WHERE d.eliminado = 0
             ORDER BY d.fecha_solicitud DESC
         ";
-
         return self::consultarSQL($query);
     }
-
 }
