@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MySqlLocal
+ Source Server         : MysqlLocal
  Source Server Type    : MySQL
- Source Server Version : 80040
+ Source Server Version : 80041
  Source Host           : localhost:3306
  Source Schema         : db_la57cap
 
  Target Server Type    : MySQL
- Target Server Version : 80040
+ Target Server Version : 80041
  File Encoding         : 65001
 
- Date: 22/05/2025 21:03:08
+ Date: 22/05/2025 22:22:44
 */
 
 SET NAMES utf8mb4;
@@ -92,6 +92,7 @@ INSERT INTO `cliente` VALUES (3, 83, ' Kerlint', 'Josue', 'Medrano', 'Murillo', 
 INSERT INTO `cliente` VALUES (5, NULL, ' Kerlint', 'Josue', 'Medrano', 'Murillo', '85741341', 'a la par de mi vecino', 'Managua ', 0);
 INSERT INTO `cliente` VALUES (6, 98, 'dasdasd', 'dasdasd', 'dasdasd', 'asdasd', '85741341', 'dasdasd', 'dad ', 0);
 INSERT INTO `cliente` VALUES (7, 99, 'dasdas', 'dasdas', 'dasdas', 'dasd', 'dasd', 'asdas', 'dasd ', 0);
+INSERT INTO `cliente` VALUES (12, 105, 'prueba', 'prueba', 'prueba', 'prueba', '1234567890', 'prueba', 'prueba ', 0);
 
 -- ----------------------------
 -- Table structure for compra_detalles
@@ -177,6 +178,7 @@ INSERT INTO `detalles_ventas` VALUES (2, 5, 8, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (3, 6, 7, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (4, 14, 8, 2, 58.00);
 INSERT INTO `detalles_ventas` VALUES (5, 15, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (6, 16, 8, 2, 116.00);
 
 -- ----------------------------
 -- Table structure for devolucion_detalles
@@ -193,7 +195,7 @@ CREATE TABLE `devolucion_detalles`  (
   INDEX `fk_Devolucion_Detalles_Devoluciones1_idx`(`Devoluciones_idDevoluciones`) USING BTREE,
   CONSTRAINT `fk_Devolucion_Detalles_Devoluciones1` FOREIGN KEY (`Devoluciones_idDevoluciones`) REFERENCES `devoluciones` (`idDevoluciones`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Devolucion_Detalles_producto1` FOREIGN KEY (`producto_idproducto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of devolucion_detalles
@@ -223,7 +225,7 @@ CREATE TABLE `devoluciones`  (
   INDEX `fk_Devoluciones_cliente1_idx`(`cliente_idcliente`) USING BTREE,
   CONSTRAINT `fk_Devoluciones_cliente1` FOREIGN KEY (`cliente_idcliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Devoluciones_ventas1` FOREIGN KEY (`ventas_idventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of devoluciones
@@ -301,6 +303,7 @@ CREATE TABLE `pedidos`  (
 INSERT INTO `pedidos` VALUES (1, 6, 3, NULL, '2025-05-21 02:13:28', '2025-05-23', '12:00:00', 'a la par de mi vecino', 'dsad', 0, 0);
 INSERT INTO `pedidos` VALUES (2, 14, 3, NULL, '2025-05-21 04:50:21', '2025-05-23', '12:00:00', 'a la par de mi vecino', 'asdsadsad', 0, 0);
 INSERT INTO `pedidos` VALUES (3, 15, 3, NULL, '2025-05-21 04:51:35', '2025-06-06', '13:54:00', 'a la par de mi vecino', '', 0, 0);
+INSERT INTO `pedidos` VALUES (4, 16, 3, NULL, '2025-05-23 04:16:51', '2025-05-30', '16:16:00', 'a la par de mi vecino', '', 0, 0);
 
 -- ----------------------------
 -- Table structure for producto
@@ -431,6 +434,8 @@ INSERT INTO `usuario` VALUES (88, 3, '', 'a', '$2y$10$khTtLSYVMd42l7ldmN0Ga.X.wP
 INSERT INTO `usuario` VALUES (89, 2, 'fondo.jpg', 'cambio', 'dfdsfdf', 'a@gmail.com', 1, '', '2025-05-18 04:59:48', '2025-05-18 04:59:48', 1, 0);
 INSERT INTO `usuario` VALUES (98, 4, '', 'dasdasd', '$2y$10$v8JUSJznr/AytDj3sUwuNeup2DkIQK26IiO4sXjhGO4/TZyuoq3Ma', 'dadasd@gmail.com', 0, '', '2025-05-18 05:31:34', '2025-05-18 05:31:34', 1, 0);
 INSERT INTO `usuario` VALUES (99, 4, '', 'KJ', '$2y$10$CGHIteHNWr3g3jL4a77.X..kGlg./1ztFXoTL3KnrI1htdCekmez2', 'ksadsj@gmail.com', 0, '', '2025-05-18 17:08:55', '2025-05-18 17:08:55', 1, 0);
+INSERT INTO `usuario` VALUES (102, 2, 'logo.png', 'Prueba vendedor', '$2y$10$Ta8iphwS14Ax0xvdEOETo.L2snvUggp6ft4VwhAO8chJzt/ysmyZK', 'vendedor@gmail.com', 1, '682fedb41083e', '2025-05-23 03:38:28', '2025-05-23 03:38:28', 0, 0);
+INSERT INTO `usuario` VALUES (105, 4, 'logo.png', 'prueba', '$2y$10$tYFKo5KYbMpraA18ytCFJOJ2Hc0fwHa3uZScCzwnn39cv50Rl5S32', 'prueba@gmail.com', 1, '682ff435e026f', '2025-05-23 04:03:31', '2025-05-23 04:03:31', 0, 0);
 
 -- ----------------------------
 -- Table structure for vendedor
@@ -456,6 +461,7 @@ CREATE TABLE `vendedor`  (
 INSERT INTO `vendedor` VALUES (1, NULL, 'Vendedor', 'Online', 'Tienda', 'Online', '00000000', 0);
 INSERT INTO `vendedor` VALUES (22, 73, 'Kerlint ', 'Josue', 'Medrano', 'Murillo', '85741341 ', 0);
 INSERT INTO `vendedor` VALUES (23, 89, 'Kerlint  dad', 'Josue', 'dasdas', 'gdfgdfgf', '85741341  ', 1);
+INSERT INTO `vendedor` VALUES (24, 102, 'Prueba vendedor', 'Prueba vendedor', 'Prueba vendedor', 'Prueba vendedor', '1234567689 ', 0);
 
 -- ----------------------------
 -- Table structure for ventas
@@ -492,5 +498,6 @@ INSERT INTO `ventas` VALUES (12, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025
 INSERT INTO `ventas` VALUES (13, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:46:23', 0);
 INSERT INTO `ventas` VALUES (14, 1, 58.00, 0.00, 8.70, 66.70, 'Visitar tienda', '2025-05-21 04:50:21', 0);
 INSERT INTO `ventas` VALUES (15, 1, 58.00, 0.00, 8.70, 66.70, 'Devolución aprobada', '2025-05-21 04:51:35', 0);
+INSERT INTO `ventas` VALUES (16, 1, 116.00, 0.00, 17.40, 133.40, 'Pendiente', '2025-05-23 04:16:51', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
