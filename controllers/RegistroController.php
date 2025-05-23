@@ -59,9 +59,13 @@ class RegistroController
                     $cliente->id_usuario = $idUsuario;
 
                     $resultadoCliente = $cliente->crear();
-
+                    // Enviar el Email
+                    $email = new Email($usuario->email, $usuario->userName, $usuario->token);
+                    $email->enviarConfirmacion();
                     if ($resultadoCliente['resultado']) {
+
                         header('Location: /mensaje-confirmacion');
+
                         exit;
                     } else {
                         // Si falla cliente, eliminar usuario para mantener coherencia

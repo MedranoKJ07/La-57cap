@@ -11,8 +11,7 @@
 
             <div class="col-12 d-flex justify-content-between">
 
-                <a href="/admin/CancelarUsuarioVendedor?id_usuario=<?php echo $id_usuario; ?>"
-                    class="btn btn-danger">Cancelar</a>
+                
 
 
                 <input type="submit" class="btn btn-primary" value="Guardar Vendedor">

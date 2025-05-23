@@ -37,7 +37,7 @@ class Email
         ]);
 
         $mail->Body = $contenido;
-        // $mail->send();
+        $mail->send();
     }
 
     public function enviarInstrucciones()
@@ -52,7 +52,7 @@ class Email
         ]);
 
         $mail->Body = $contenido;
-        // $mail->send();
+        $mail->send();
     }
 
     // 🔒 Configuración común de PHPMailer

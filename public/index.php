@@ -149,6 +149,12 @@ $router->get('/admin/VerProducto', [ProductoController::class, 'VerProducto']);
 //Inventario 
 $router->get('/admin/InventarioGeneral', [InventarioController::class, 'GestionarInventario']);
 //Compras
+$router->get('/admin/GestionarCompras', [CompraController::class, 'GestionarCompras']);
+$router->get('/admin/CrearCompra', [CompraController::class, 'CrearCompra']);
+$router->post('/admin/CrearCompra', [CompraController::class, 'CrearCompra']);
+$router->get('/admin/DetalleCompra', [CompraController::class, 'VerDetalleCompra']);
+
+
 
 
 $router->get('/admin/devoluciones', [DevolucionController::class, 'gestionar']);
