@@ -28,64 +28,42 @@ class ClienteController
             'titulo' => 'Gestionar Clientes'
         ]);
     }
-    public static function pedidos(Router $router)
+
+    public static function pedido(Router $router)
     {
         if (empty($_SESSION['autenticado_Cliente'])) {
             header('Location: /login');
             exit;
         }
 
-        $categorias = CategoriaProducto::obtener7Categorias();
-        $idUsuario = $_SESSION['id'] ?? null;
-
-        // Buscar el cliente
-        $cliente = Cliente::where('id_usuario', $idUsuario);
-        if (!$cliente) {
-            header('Location: /');
-            exit;
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header('Location: /cliente/pedidos');
+            return;
         }
 
-        // Obtener pedidos del cliente
-        $pedidos = Pedido::obtenerPorCliente($cliente->idcliente);
+        $categorias = CategoriaProducto::obtener7Categorias();
 
-        $router->renderLanding('Cliente/MisPedidos', [
-            'titulo' => 'Mis Pedidos',
-            'pedidos' => $pedidos,
-            'categorias' => $categorias
+        $pedido = Pedido::find($id, 'idpedidos'); // Buscar el pedido
+        if (!$pedido) {
+            header('Location: /cliente/pedidos');
+            return;
+        }
+
+        $productos = Pedido::obtenerProductosConDetalles($id); // Productos del pedido
+
+        // Verifica si tiene una devolución en proceso
+        $enDevolucion = Pedido::ventaEnProcesoDevolucion($pedido->id_ventas);
+
+        $router->renderLanding('cliente/DetallePedido', [
+            'pedido' => $pedido,
+            'carritoCantidad' => obtenerCantidadCarrito(),
+            'categorias' => $categorias,
+            'productos' => $productos,
+            'titulo' => 'Detalle del Pedido',
+            'enDevolucion' => $enDevolucion // Se pasa como parámetro separado
         ]);
     }
-    public static function pedido(Router $router)
-{
-    isAuth(); // Verifica si el usuario está autenticado
-
-    $id = $_GET['id'] ?? null;
-    if (!$id) {
-        header('Location: /cliente/pedidos');
-        return;
-    }
-
-    $categorias = CategoriaProducto::obtener7Categorias();
-
-    $pedido = Pedido::find($id, 'idpedidos'); // Buscar el pedido
-    if (!$pedido) {
-        header('Location: /cliente/pedidos');
-        return;
-    }
-
-    $productos = Pedido::obtenerProductosConDetalles($id); // Productos del pedido
-
-    // Verifica si tiene una devolución en proceso
-    $enDevolucion = Pedido::ventaEnProcesoDevolucion($pedido->id_ventas);
-
-    $router->renderLanding('cliente/DetallePedido', [
-        'pedido' => $pedido,
-        'carritoCantidad' => obtenerCantidadCarrito(),
-        'categorias' => $categorias,
-        'productos' => $productos,
-        'titulo' => 'Detalle del Pedido',
-        'enDevolucion' => $enDevolucion // Se pasa como parámetro separado
-    ]);
-}
 
 
     public static function guardarDevolucion(Router $router)
@@ -153,7 +131,7 @@ class ClienteController
             }
 
             //  CAMBIAR ESTADO DE LA VENTA A "En devolución"
-            $venta = Venta::find($pedido->id_ventas , 'idventas');
+            $venta = Venta::find($pedido->id_ventas, 'idventas');
             if ($venta) {
                 $venta->estado = 'En devolución';
                 $venta->actualizar($venta->idventas);

@@ -11,7 +11,7 @@
  Target Server Version : 80040
  File Encoding         : 65001
 
- Date: 21/05/2025 15:48:43
+ Date: 22/05/2025 21:03:08
 */
 
 SET NAMES utf8mb4;
@@ -175,7 +175,7 @@ CREATE TABLE `detalles_ventas`  (
 INSERT INTO `detalles_ventas` VALUES (1, 4, 8, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (2, 5, 8, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (3, 6, 7, 1, 58.00);
-INSERT INTO `detalles_ventas` VALUES (4, 14, 8, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (4, 14, 8, 2, 58.00);
 INSERT INTO `detalles_ventas` VALUES (5, 15, 7, 1, 58.00);
 
 -- ----------------------------
@@ -193,12 +193,15 @@ CREATE TABLE `devolucion_detalles`  (
   INDEX `fk_Devolucion_Detalles_Devoluciones1_idx`(`Devoluciones_idDevoluciones`) USING BTREE,
   CONSTRAINT `fk_Devolucion_Detalles_Devoluciones1` FOREIGN KEY (`Devoluciones_idDevoluciones`) REFERENCES `devoluciones` (`idDevoluciones`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Devolucion_Detalles_producto1` FOREIGN KEY (`producto_idproducto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of devolucion_detalles
 -- ----------------------------
-INSERT INTO `devolucion_detalles` VALUES (1, 1, 'ffdsfd', 7, 9);
+INSERT INTO `devolucion_detalles` VALUES (5, 1, 'sucia', 7, 15);
+INSERT INTO `devolucion_detalles` VALUES (6, 1, 'a', 7, 16);
+INSERT INTO `devolucion_detalles` VALUES (7, 1, 'dsdd', 7, 17);
+INSERT INTO `devolucion_detalles` VALUES (8, 1, 'a', 8, 18);
 
 -- ----------------------------
 -- Table structure for devoluciones
@@ -220,20 +223,15 @@ CREATE TABLE `devoluciones`  (
   INDEX `fk_Devoluciones_cliente1_idx`(`cliente_idcliente`) USING BTREE,
   CONSTRAINT `fk_Devoluciones_cliente1` FOREIGN KEY (`cliente_idcliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Devoluciones_ventas1` FOREIGN KEY (`ventas_idventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of devoluciones
 -- ----------------------------
-INSERT INTO `devoluciones` VALUES (1, '2025-05-21 21:17:39', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
-INSERT INTO `devoluciones` VALUES (2, '2025-05-21 21:20:12', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
-INSERT INTO `devoluciones` VALUES (3, '2025-05-21 21:21:11', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
-INSERT INTO `devoluciones` VALUES (4, '2025-05-21 21:24:50', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
-INSERT INTO `devoluciones` VALUES (5, '2025-05-21 21:25:03', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
-INSERT INTO `devoluciones` VALUES (6, '2025-05-21 21:26:50', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
-INSERT INTO `devoluciones` VALUES (7, '2025-05-21 21:26:54', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
-INSERT INTO `devoluciones` VALUES (8, '2025-05-21 21:31:05', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
-INSERT INTO `devoluciones` VALUES (9, '2025-05-21 21:32:46', 'Múltiples productos', 0, 'mixto', '', 15, 3, 0, 'Pendiente ');
+INSERT INTO `devoluciones` VALUES (15, '2025-05-22 22:34:19', 'Múltiples productos', 0, 'mixto', 'no cubre la garantia', 15, 3, 0, 'Rechazado');
+INSERT INTO `devoluciones` VALUES (16, '2025-05-22 23:26:12', 'Múltiples productos', 1, 'mixto', '', 15, 3, 0, 'Aprobado');
+INSERT INTO `devoluciones` VALUES (17, '2025-05-22 23:29:46', 'Múltiples productos', 1, 'mixto', '', 15, 3, 0, 'Aprobado');
+INSERT INTO `devoluciones` VALUES (18, '2025-05-23 02:14:48', 'Múltiples productos', 0, 'mixto', '', 14, 3, 0, 'Visitar tienda');
 
 -- ----------------------------
 -- Table structure for inventario
@@ -484,7 +482,7 @@ CREATE TABLE `ventas`  (
 INSERT INTO `ventas` VALUES (3, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 02:05:21', 0);
 INSERT INTO `ventas` VALUES (4, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 02:10:23', 0);
 INSERT INTO `ventas` VALUES (5, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 02:13:06', 0);
-INSERT INTO `ventas` VALUES (6, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 02:13:28', 0);
+INSERT INTO `ventas` VALUES (6, 1, 58.00, 0.00, 8.70, 66.70, 'Entregado', '2025-05-21 02:13:28', 0);
 INSERT INTO `ventas` VALUES (7, 1, 58.00, 0.00, 0.00, 58.00, 'Pendiente', '2025-05-21 04:41:37', 0);
 INSERT INTO `ventas` VALUES (8, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:44:01', 0);
 INSERT INTO `ventas` VALUES (9, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:44:15', 0);
@@ -492,7 +490,7 @@ INSERT INTO `ventas` VALUES (10, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025
 INSERT INTO `ventas` VALUES (11, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:46:09', 0);
 INSERT INTO `ventas` VALUES (12, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:46:09', 0);
 INSERT INTO `ventas` VALUES (13, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:46:23', 0);
-INSERT INTO `ventas` VALUES (14, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:50:21', 0);
-INSERT INTO `ventas` VALUES (15, 1, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:51:35', 0);
+INSERT INTO `ventas` VALUES (14, 1, 58.00, 0.00, 8.70, 66.70, 'Visitar tienda', '2025-05-21 04:50:21', 0);
+INSERT INTO `ventas` VALUES (15, 1, 58.00, 0.00, 8.70, 66.70, 'Devolución aprobada', '2025-05-21 04:51:35', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

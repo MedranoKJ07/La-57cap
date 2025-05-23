@@ -19,6 +19,29 @@ class DevolucionController
             'devoluciones' => $devoluciones
         ]);
     }
+    public static function detalle(Router $router)
+    {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header('Location: /admin/devoluciones');
+            exit;
+        }
+
+        // Obtener devolución con datos del cliente
+        $devolucion = Devolucion::obtenerConCliente($id);
+        if (!$devolucion) {
+            header('Location: /admin/devoluciones');
+            exit;
+        }
+
+        // Obtener los productos solicitados en la devolución
+        $detalles = DevolucionDetalle::obtenerDetallesConProducto($id);
+
+        $router->renderAdmin('admin/devoluciones/detalle', [
+            'devolucion' => $devolucion,
+            'detalles' => $detalles
+        ]);
+    }
 
 
     public static function aprobar(Router $router)
@@ -75,28 +98,30 @@ class DevolucionController
             header('Location: /admin/devoluciones');
         }
     }
-    public static function detalle(Router $router)
-{
-    if (!isset($_GET['id'])) {
-        header('Location: /admin/devoluciones');
-        exit;
+
+    public static function visitarTienda(Router $router)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            if (!$id) {
+                header('Location: /admin/devoluciones');
+                return;
+            }
+
+            $devolucion = Devolucion::find($id, 'idDevoluciones');
+            if ($devolucion) {
+                $devolucion->Estado = 'Visitar tienda';
+                $devolucion->actualizar($devolucion->idDevoluciones);
+                $venta = Venta::find($devolucion->ventas_idventas, 'idventas');
+                if ($venta) {
+                    $venta->estado = 'Visitar tienda';
+                    $venta->actualizar($venta->idventas);
+                }
+            }
+
+            header('Location: /admin/devoluciones');
+        }
     }
 
-    $id = $_GET['id'];
-    $devolucion = Devolucion::find($id, 'idDevoluciones');
-
-    if (!$devolucion) {
-        header('Location: /admin/devoluciones');
-        exit;
-    }
-
-    $detalles = DevolucionDetalle::obtenerDetallesConProducto($id);
-
-    $router->renderAdmin('admin/devoluciones/detalle', [
-        'titulo' => 'Detalle de Devolución',
-        'devolucion' => $devolucion,
-        'detalles' => $detalles
-    ]);
-}
 
 }

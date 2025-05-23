@@ -29,6 +29,7 @@ class Devolucion extends ActiveRecord
     public $cliente_idcliente;
     public $eliminado;
     public $Estado;
+    public $cliente_nombre;
 
     public function __construct($args = [])
     {
@@ -55,4 +56,20 @@ class Devolucion extends ActiveRecord
         ";
         return self::consultarSQL($query);
     }
+    public static function obtenerConCliente($idDevolucion)
+    {
+        $idDevolucion = self::$db->real_escape_string($idDevolucion);
+
+        $query = "
+        SELECT d.*, CONCAT(c.p_nombre, ' ', c.p_apellido) AS cliente_nombre
+        FROM devoluciones d
+        JOIN cliente c ON d.cliente_idcliente = c.idcliente
+        WHERE d.idDevoluciones = $idDevolucion
+        LIMIT 1
+    ";
+
+        $resultado = self::consultarSQL($query);
+        return $resultado[0] ?? null;
+    }
+
 }

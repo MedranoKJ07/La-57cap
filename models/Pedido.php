@@ -37,6 +37,8 @@ class Pedido extends ActiveRecord
     public $estado_venta;
     public $tiene_devolucion;
     public $en_devolucion;
+        // ✅ Agrega esta línea:
+    public $no_disponible_para_devolver;
 
 
     public function __construct($args = [])
@@ -76,14 +78,16 @@ class Pedido extends ActiveRecord
         foreach ($resultados as $pedido) {
             $pedido->total = $pedido->total_venta;
             unset($pedido->total_venta);
-            $pedido->estado_venta = $pedido->estado_venta ?? 'Pendiente';
 
-            //  Verificar si hay devolución en proceso
-            $pedido->en_devolucion = self::ventaEnProcesoDevolucion($pedido->id_ventas);
+            $pedido->estado_venta = trim($pedido->estado_venta ?? 'Pendiente');
+
+            // ✅ Agrega esta línea:
+            $pedido->no_disponible_para_devolver = self::ventaSinProductosDisponibles($pedido->id_ventas);
         }
 
         return $resultados;
     }
+
 
 
     public static function obtenerProductosConDetalles($idPedido)
@@ -130,5 +134,29 @@ class Pedido extends ActiveRecord
         return $resultado && $resultado->num_rows > 0;
     }
 
+    public static function ventaSinProductosDisponibles($idVenta)
+    {
+        $idVenta = self::$db->real_escape_string($idVenta);
+
+        // Total de productos vendidos en esa venta
+        $queryVenta = "
+        SELECT SUM(dv.cantidad) AS cantidad_vendida
+        FROM detalles_ventas dv
+        WHERE dv.ventas_idventas = $idVenta
+    ";
+
+        // Total de productos ya solicitados en devoluciones aprobadas o pendientes
+        $queryDevoluciones = "
+        SELECT SUM(dd.cantidad) AS cantidad_devuelta
+        FROM devolucion_detalles dd
+        INNER JOIN devoluciones d ON dd.Devoluciones_idDevoluciones = d.idDevoluciones
+        WHERE d.ventas_idventas = $idVenta AND d.eliminado = 0
+    ";
+
+        $vendidos = self::$db->query($queryVenta)->fetch_assoc()['cantidad_vendida'] ?? 0;
+        $devueltos = self::$db->query($queryDevoluciones)->fetch_assoc()['cantidad_devuelta'] ?? 0;
+
+        return $devueltos >= $vendidos;
+    }
 
 }

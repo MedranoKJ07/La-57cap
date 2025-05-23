@@ -20,6 +20,7 @@
                 <td>C$ <?= number_format($producto->subtotal ?? 0, 2) ?></td>
             </tr>
         <?php endforeach; ?>
+        
     </tbody>
 </table>
 <div class="mt-4 d-flex justify-content-between">

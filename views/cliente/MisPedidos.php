@@ -10,7 +10,7 @@
                 $estados = ['Pendiente', 'En devolución', 'Aprobado', 'Rechazado', 'Entregar en tienda'];
                 $estadoSeleccionado = $_GET['estado'] ?? '';
                 foreach ($estados as $e):
-                ?>
+                    ?>
                     <option value="<?= $e ?>" <?= $estadoSeleccionado === $e ? 'selected' : '' ?>>
                         <?= $e ?>
                     </option>
@@ -44,13 +44,18 @@
                         $badgeClass = match ($estado) {
                             'Pendiente' => 'warning',
                             'En devolución' => 'info',
-                            'Aprobado' => 'success',
-                            'Rechazado' => 'danger',
-                            'Entregar en tienda' => 'primary',
+                            'Devolución aprobada' => 'success',
+                            'Devolución rechazada' => 'danger',
+                            'Visitar tienda' => 'primary',
+                            'En proceso' => 'info',
+                            'En camino' => 'info',
+                            'Entregado' => 'success',
                             default => 'secondary'
                         };
 
+
                         $enDevolucion = $pedido->estado_venta === 'En devolución';
+
                         ?>
                         <tr>
                             <td><?= $pedido->idpedidos ?></td>
@@ -59,16 +64,16 @@
                             <td><span class="badge bg-<?= $badgeClass ?>"><?= $estado ?></span></td>
                             <td><?= date('d/m/Y', strtotime($pedido->fecha_entregar)) ?></td>
                             <td>
-                                <a href="/cliente/pedido?id=<?= $pedido->idpedidos ?>" class="btn btn-outline-primary btn-sm mb-1">
+                                <a href="/cliente/pedido?id=<?= $pedido->idpedidos ?>"
+                                    class="btn btn-outline-primary btn-sm mb-1">
                                     Ver
                                 </a>
-                                <?php if (!$enDevolucion): ?>
+                                <?php if ($estado === 'Entregado'): ?>
                                     <a href="/cliente/devolucion?id=<?= $pedido->idpedidos ?>" class="btn btn-warning btn-sm">
                                         Solicitar Devolución
                                     </a>
-                                <?php else: ?>
-                                    <span class="badge bg-secondary">En proceso</span>
                                 <?php endif; ?>
+
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -1,63 +1,79 @@
 <div class="container py-4">
-    <div class="card">
-        <div class="card-header">
-            <h4>Detalle de Devolución #<?= s($devolucion->idDevoluciones) ?></h4>
-        </div>
+    <h2 class="mb-4">Detalle de Devolución #<?= $devolucion->idDevoluciones ?></h2>
+
+    <div class="card mb-4">
         <div class="card-body">
-
             <p><strong>Cliente:</strong> <?= s($devolucion->cliente_nombre ?? 'Desconocido') ?></p>
-            <p><strong>Motivo general:</strong> <?= s($devolucion->motivo) ?></p>
-            <p><strong>Fecha de solicitud:</strong> <?= date('d/m/Y H:i', strtotime($devolucion->fecha_solicitud)) ?></p>
-            <p><strong>Estado:</strong> <?= s(trim($devolucion->Estado)) ?></p>
 
-            <?php if (!empty(trim($devolucion->observaciones))): ?>
+            <p><strong>Fecha de Solicitud:</strong> <?= s($devolucion->fecha_solicitud) ?></p>
+            <p><strong>Motivo:</strong> <?= s($devolucion->motivo) ?></p>
+            <p><strong>Tipo de Reembolso:</strong> <?= s($devolucion->tipo_reembolso) ?></p>
+            <p><strong>Estado:</strong>
+                <?php
+                $estado = trim($devolucion->Estado);
+                $badgeClass = match ($estado) {
+                    'Pendiente' => 'warning',
+                    'En devolución' => 'info',
+                    'Devolución aprobada' => 'success',
+                    'Devolución rechazada' => 'danger',
+                    'Visitar tienda' => 'primary',
+                    'En proceso' => 'info',
+                    'En camino' => 'info',
+                    'Entregado' => 'success',
+                    default => 'secondary'
+                };
+
+                ?>
+                <span class="badge bg-<?= $badge ?>"><?= $estado ?></span>
+            </p>
+
+            <?php if (!empty($devolucion->observaciones)): ?>
                 <p><strong>Observaciones:</strong> <?= s($devolucion->observaciones) ?></p>
             <?php endif; ?>
-
-            <hr>
-
-            <h5>Productos Solicitados para Devolución</h5>
-
-            <div class="table-responsive">
-                <table class="table table-bordered text-center align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Producto</th>
-                            <th>Foto</th>
-                            <th>Cantidad</th>
-                            <th>Estado del Producto</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($detalles as $detalle): ?>
-                            <tr>
-                                <td><?= s($detalle->nombre_producto) ?></td>
-                                <td><img src="/img/productos/<?= s($detalle->Foto) ?>" width="60"></td>
-                                <td><?= s($detalle->cantidad) ?></td>
-                                <td><?= s($detalle->Estado_Producto) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-
-            <?php if (trim($devolucion->Estado) === 'Pendiente'): ?>
-                <div class="mt-4 d-flex gap-3">
-                    <form method="POST" action="/admin/devoluciones/aprobar">
-                        <input type="hidden" name="id" value="<?= s($devolucion->idDevoluciones) ?>">
-                        <button class="btn btn-success">Aprobar</button>
-                    </form>
-
-                    <form method="POST" action="/admin/devoluciones/rechazar">
-                        <input type="hidden" name="id" value="<?= s($devolucion->idDevoluciones) ?>">
-                        <div class="input-group">
-                            <input type="text" name="motivo" placeholder="Motivo de rechazo" class="form-control" required>
-                            <button class="btn btn-danger">Rechazar</button>
-                        </div>
-                    </form>
-                </div>
-            <?php endif; ?>
-
         </div>
     </div>
+
+    <h5>Productos Solicitados:</h5>
+    <table class="table table-sm table-bordered text-center">
+        <thead class="table-light">
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Motivo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($detalles as $detalle): ?>
+                <tr>
+                    <td><?= s($detalle->nombre_producto) ?></td>
+                    <td><?= $detalle->cantidad ?></td>
+                    <td><?= s($detalle->Estado_Producto) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <!-- Acciones según estado -->
+    <?php if ($estado === 'Pendiente'): ?>
+        <form method="POST" action="/admin/devoluciones/visitar-tienda">
+            <input type="hidden" name="id" value="<?= $devolucion->idDevoluciones ?>">
+            <button class="btn btn-primary">Marcar como “Visitar tienda”</button>
+        </form>
+    <?php elseif ($estado === 'Visitar tienda'): ?>
+        <div class="d-flex gap-2 mt-3">
+            <form method="POST" action="/admin/devoluciones/aprobar">
+                <input type="hidden" name="id" value="<?= $devolucion->idDevoluciones ?>">
+                <button class="btn btn-success">Aprobar Devolución</button>
+            </form>
+            <form method="POST" action="/admin/devoluciones/rechazar">
+                <input type="hidden" name="id" value="<?= $devolucion->idDevoluciones ?>">
+                <div class="d-flex align-items-center gap-2">
+                    <input type="text" name="motivo" class="form-control" placeholder="Motivo del rechazo" required>
+                    <button class="btn btn-danger">Rechazar Devolución</button>
+                </div>
+            </form>
+        </div>
+    <?php else: ?>
+        <div class="alert alert-info mt-3">Esta devolución ya fue procesada.</div>
+    <?php endif; ?>
 </div>

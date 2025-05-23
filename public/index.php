@@ -155,6 +155,7 @@ $router->get('/admin/devoluciones', [DevolucionController::class, 'gestionar']);
 $router->get('/admin/devoluciones/detalle', [DevolucionController::class, 'detalle']);
 $router->post('/admin/devoluciones/aprobar', [DevolucionController::class, 'aprobar']);
 $router->post('/admin/devoluciones/rechazar', [DevolucionController::class, 'rechazar']);
+$router->post('/admin/devoluciones/visitar-tienda', [DevolucionController::class, 'visitarTienda']);
 
 
 
