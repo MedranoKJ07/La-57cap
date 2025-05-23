@@ -47,7 +47,7 @@
         <a class="btn" href="<?php echo $url; ?>">Restablecer Contraseña</a>
         <p>Si no hiciste esta solicitud, puedes ignorar este mensaje.</p>
         <div class="footer">
-            &copy; <?php echo date('Y'); ?> AppSalón - Seguridad y estilo van de la mano 💅
+            &copy; <?php echo date('Y'); ?>La 57 Cap - Todos los derechos reservados
         </div>
     </div>
 </body>
