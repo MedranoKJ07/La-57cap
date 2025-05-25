@@ -1,26 +1,6 @@
 <div class="container py-5">
     <h2 class="mb-4 text-center">Mis Pedidos</h2>
 
-    <!-- Filtro por estado -->
-    <form method="GET" class="row g-2 justify-content-end mb-3">
-        <div class="col-auto">
-            <select name="estado" class="form-select form-select-sm">
-                <option value="">-- Todos los estados --</option>
-                <?php
-                $estados = ['Pendiente', 'En devolución', 'Aprobado', 'Rechazado', 'Entregar en tienda'];
-                $estadoSeleccionado = $_GET['estado'] ?? '';
-                foreach ($estados as $e):
-                    ?>
-                    <option value="<?= $e ?>" <?= $estadoSeleccionado === $e ? 'selected' : '' ?>>
-                        <?= $e ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
-        </div>
-    </form>
 
     <?php if (empty($pedidos)): ?>
         <div class="alert alert-info text-center">No tienes pedidos registrados.</div>

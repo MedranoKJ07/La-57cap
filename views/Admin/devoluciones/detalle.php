@@ -10,7 +10,7 @@
             <p><strong>Tipo de Reembolso:</strong> <?= s($devolucion->tipo_reembolso) ?></p>
             <p><strong>Estado:</strong>
                 <?php
-                $estado = trim($devolucion->Estado);
+                $estado = $devolucion->Estado;
                 $badgeClass = match ($estado) {
                     'Pendiente' => 'warning',
                     'En devolución' => 'info',
@@ -24,7 +24,7 @@
                 };
 
                 ?>
-                <span class="badge bg-<?= $badge ?>"><?= $estado ?></span>
+                <span class="badge bg-<?= $badgeClass ?>"><?= $estado ?></span>
             </p>
 
             <?php if (!empty($devolucion->observaciones)): ?>
