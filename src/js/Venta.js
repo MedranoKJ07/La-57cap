@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
           nombre: data.nombre_producto,
           precio: parseFloat(data.precio),
           cantidad: 1,
+          Foto: data.Foto || "default.png", 
         });
       }
 
@@ -69,10 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
     productos.forEach((p, index) => {
       const subtotalProducto = p.precio * p.cantidad;
       subtotal += subtotalProducto;
-
+        console.log(productos);
       const fila = document.createElement("tr");
       fila.innerHTML = `
                 <td>${p.codigo}</td>
+                <td><img src="/img/productos/${p.Foto}" width="40" height="40"
+                                         class="rounded-circle" alt="Imagen producto"></td>
                 <td>${p.nombre}</td>
                 <td>C$ ${p.precio.toFixed(2)}</td>
                 <td>
@@ -116,4 +119,5 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
 });

@@ -18,6 +18,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>Código</th>
+                            <th>Imagen</th> 
                             <th>Nombre</th>
                             <th>Precio</th>
                             <th>Cantidad</th>
