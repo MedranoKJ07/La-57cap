@@ -23,8 +23,8 @@
                         Vender
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="#">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
+                        <a class="sidebar-link" href="/vendedor/realizar-venta">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Realizar Venta
                             </span>
                         </a>
                     </li>

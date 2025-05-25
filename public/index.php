@@ -176,10 +176,7 @@ $router->get('/vendedor/realizar-venta', [VendedorController::class, 'realizarVe
 $router->post('/vendedor/realizar-venta', [VendedorController::class, 'realizarVenta']);
 
 $router->get('/api/producto', [ApiVentaController::class, 'buscar']);
-$router->post('/api/venta', [ApiVentaController::class, 'registrarVenta']);
 
-
-$router->get('/vendedor/ticket', [VendedorController::class, 'ticket']);
 
 
 //PANEL DE REPARTIDORES
