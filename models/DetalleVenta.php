@@ -2,7 +2,8 @@
 
 namespace Model;
 
-class DetalleVenta extends ActiveRecord {
+class DetalleVenta extends ActiveRecord
+{
     protected static $tabla = 'detalles_ventas';
     protected static $columnasDB = [
         'iddetalles_ventas',
@@ -19,7 +20,8 @@ class DetalleVenta extends ActiveRecord {
     public $cantidad;
     public $subtotal;
 
-    public function __construct($args = []) {
+    public function __construct($args = [])
+    {
         $this->iddetalles_ventas = $args['iddetalles_ventas'] ?? null;
         $this->ventas_idventas = $args['ventas_idventas'] ?? null;
         $this->id_producto = $args['id_producto'] ?? null;
@@ -27,7 +29,39 @@ class DetalleVenta extends ActiveRecord {
         $this->subtotal = $args['subtotal'] ?? 0.00;
     }
 
-    public function guardar() {
+    public function guardar()
+    {
         $this->crear(); // No necesitas el ID aquí
     }
+
+
+
+
+    public static function obtenerPorVenta($idVenta)
+    {
+        $idVenta = self::$db->real_escape_string($idVenta);
+
+        $query = "
+            SELECT 
+                dv.*, 
+                p.nombre_producto, 
+                p.codigo_producto, 
+                p.precio, 
+                p.Foto
+            FROM detalles_ventas dv
+            JOIN producto p ON dv.id_producto = p.idproducto
+            WHERE dv.ventas_idventas = '$idVenta'
+        ";
+
+        $resultado = self::$db->query($query);
+        $array = [];
+
+        while ($registro = $resultado->fetch_assoc()) {
+            $array[] = (object) $registro;
+        }
+
+        return $array;
+    }
+
+
 }

@@ -167,7 +167,16 @@ class ActiveRecord
               WHERE $columna = '" . self::$db->escape_string($valor) . "' 
               AND eliminado = 0";
 
-        return self::consultarSQL($query);
+        $resultado = self::consultarSQL($query);
+        return array_shift($resultado);
+    }
+    public static function whereAll2($columna, $valor)
+    {
+        $query = "SELECT * FROM " . static::$tabla . " 
+              WHERE $columna = '" . self::$db->escape_string($valor) . "' 
+              AND eliminado = 0";
+
+        return array_shift($resultado);
     }
     public static function wherelogico($columna, $valor)
     {

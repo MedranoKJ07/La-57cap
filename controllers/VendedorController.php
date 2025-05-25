@@ -8,6 +8,9 @@ use Model\Rol;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Classes\Email;
+use Model\Venta;
+use Model\DetalleVenta;
+
 class VendedorController
 {
     public static function Vendedor(Router $router)
@@ -178,6 +181,35 @@ class VendedorController
             exit;
         }
     }
+    public static function realizarVenta(Router $router)
+    {
+        $router->renderVendedor('vendedor/RealizarVenta', [
+            'titulo' => 'Realizar Venta'
+        ]);
+    }
 
+    public static function guardarVenta(Router $router)
+    {
+        // Aquí manejarías la lógica para guardar la venta en BD (lo haremos luego)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Procesar datos recibidos por POST
+        }
+    }
+    public static function ticket(Router $router)
+    {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header('Location: /vendedor/realizar-venta');
+            return;
+        }
+
+        $venta = Venta::find($id);
+        $detalles = DetalleVenta::obtenerPorVenta($id);
+
+        $router->render('vendedor/ticket', [
+            'venta' => $venta,
+            'detalles' => $detalles
+        ]);
+    }
 
 }

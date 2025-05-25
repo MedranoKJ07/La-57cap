@@ -19,8 +19,8 @@ use Controllers\TiendaController;
 use Controllers\CarritoController;
 use Controllers\CheckoutController;
 use Controllers\ClientePanelController;
-use Controllers\AdminDevolucionController;
 use Controllers\DevolucionController;
+use Controllers\ApiVentaController;
 
 
 use MVC\Router;
@@ -171,8 +171,20 @@ $router->post('/admin/devoluciones/visitar-tienda', [DevolucionController::class
 //PANEL DE VENDEDORES
 $router->get('/Vendedor', [VendedorController::class, 'Vendedor']);
 
+
+$router->get('/vendedor/realizar-venta', [VendedorController::class, 'realizarVenta']);
+$router->post('/vendedor/realizar-venta', [VendedorController::class, 'realizarVenta']);
+
+$router->get('/api/producto', [ApiVentaController::class, 'buscar']);
+
+
+$router->get('/vendedor/ticket', [VendedorController::class, 'ticket']);
+
+
 //PANEL DE REPARTIDORES
 $router->get('/Repartidor', [RepartidorControllers::class, 'Repartidor']);
+
+
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();
