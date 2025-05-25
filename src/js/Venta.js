@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
     productos.forEach((p, index) => {
       const subtotalProducto = p.precio * p.cantidad;
       subtotal += subtotalProducto;
-        console.log(productos);
+        
       const fila = document.createElement("tr");
       fila.innerHTML = `
                 <td>${p.codigo}</td>
