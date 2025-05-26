@@ -82,6 +82,7 @@ class CheckoutController
         // Guardar venta
         $venta = new Venta([
             'id_vendedor' => $idVendedor,
+            'id_cliente' => $idCliente,
             'subtotal' => $subtotal,
             'descuento' => $descuento,
             'iva' => $iva,

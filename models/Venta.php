@@ -7,6 +7,7 @@ class Venta extends ActiveRecord {
     protected static $columnasDB = [
         'idventas',
         'id_vendedor',
+        'id_cliente',
         'subtotal',
         'descuento',
         'iva',
@@ -18,6 +19,7 @@ class Venta extends ActiveRecord {
     protected static $id = 'idventas';
 
     public $idventas;
+    public $id_cliente; 
     public $id_vendedor;
     public $subtotal;
     public $descuento;
@@ -30,6 +32,7 @@ class Venta extends ActiveRecord {
     public function __construct($args = []) {
         $this->idventas = $args['idventas'] ?? null;
         $this->id_vendedor = $args['id_vendedor'] ?? null;
+        $this->id_cliente = $args['id_cliente'] ?? null;
         $this->subtotal = $args['subtotal'] ?? 0.00;
         $this->descuento = $args['descuento'] ?? 0.00;
         $this->iva = $args['iva'] ?? 0.00;
