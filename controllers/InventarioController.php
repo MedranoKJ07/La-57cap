@@ -17,6 +17,16 @@ class InventarioController
             'registros' => $registros
         ]);
     }
+    public static function Inventario(Router $router)
+    {
+        $registros = Inventario::obtenerTodoConProducto();
+
+        $router->renderVendedor('Vendedor/inventario/inventario', [
+            'titulo' => 'Inventario General',
+            'registros' => $registros
+        ]);
+    }
+    
 
     public static function AjustarInventario(Router $router)
     {

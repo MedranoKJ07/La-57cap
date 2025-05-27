@@ -37,7 +37,7 @@ class Pedido extends ActiveRecord
     public $estado_venta;
     public $tiene_devolucion;
     public $en_devolucion;
-        // ✅ Agrega esta línea:
+    // ✅ Agrega esta línea:
     public $no_disponible_para_devolver;
 
 
@@ -158,5 +158,23 @@ class Pedido extends ActiveRecord
 
         return $devueltos >= $vendidos;
     }
+    public static function pendientesConClienteYVenta()
+    {
+        $sql = "SELECT 
+                p.idpedidos, p.direccion_entregar, p.fecha_entregar, p.hora_entregar, 
+                v.total, v.estado AS estado_venta,
+                c.p_nombre, c.s_nombre, c.p_apellido, c.s_apellido,
+                c.n_telefono, c.direccion
+            FROM pedidos p
+            INNER JOIN ventas v ON p.id_ventas = v.idventas
+            INNER JOIN cliente c ON p.id_cliente = c.idcliente
+            WHERE p.estado = 0 AND v.estado = 'Pendiente'
+            ORDER BY p.creado DESC";
+
+        $resultado = self::$db->query($sql);
+        return $resultado->fetch_all(MYSQLI_ASSOC);
+    }
+
+
 
 }

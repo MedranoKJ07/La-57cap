@@ -180,6 +180,12 @@ $router->get('/vendedor/ticket-pdf', [VendedorController::class, 'ticketPDF']);
 $router->get('/api/producto', [ApiVentaController::class, 'buscar']);
 $router->get('/api/cliente', [ApiVentaController::class, 'buscarCliente']);
 
+$router->get('/vendedor/pedidos', [VendedorController::class, 'listarPedidosPendientes']);
+$router->get('/vendedor/inventario', [InventarioController::class, 'Inventario']);
+
+$router->get('/vendedor/VerProducto', [VendedorController::class, 'VerProducto']);
+$router->get('/vendedor/GenerarCodigoBarras', [VendedorController::class, 'VerCodigoBarras']);
+$router->get('/vendedor/DescargarCodigoBarras', [VendedorController::class, 'DescargarCodigoBarras']);
 
 //PANEL DE REPARTIDORES
 $router->get('/Repartidor', [RepartidorControllers::class, 'Repartidor']);

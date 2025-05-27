@@ -1,15 +1,14 @@
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h2 class="card-title mb-0">Detalles del Producto</h2>
-        <a href="/admin/GestionarProducto" class="btn btn-secondary">Volver a Productos</a>
+        <a href="/vendedor/inventario" class="btn btn-secondary">Volver a Productos</a>
     </div>
     <div class="card-body row g-4">
         <div class="col-md-4 text-center">
-            <img  width="200px" src="/img/productos/<?= $producto->Foto ?? 'default.jpg' ?>" alt="Imagen del producto">
+            <img width="200px" src="/img/productos/<?= $producto->Foto ?? 'default.jpg' ?>" alt="Imagen del producto">
         </div>
         <div class="col-md-8">
             <dl class="row mb-0">
-                
                 <dt class="col-sm-4">Código:</dt>
                 <dd class="col-sm-8"><?= $producto->codigo_producto ?></dd>
 

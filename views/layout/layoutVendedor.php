@@ -14,7 +14,7 @@
     <div class="wrapper">
         <nav id="sidebar" class="sidebar js-sidebar ">
             <div class="sidebar-content js-simplebar bg-dark text-white">
-                <a class="sidebar-brand" href="/admin">
+                <a class="sidebar-brand" href="/Vendedor">
                     <span class="align-middle">La 57 Cap</span>
                 </a>
 
@@ -25,6 +25,21 @@
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/vendedor/realizar-venta">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">Realizar Venta
+                            </span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/vendedor/inventario">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Inventario
+                            </span>
+                        </a>
+                    </li>
+                    <li class="sidebar-header">
+                        Atender Pedidos 
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/vendedor/pedidos">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Pedidos Onlines
                             </span>
                         </a>
                     </li>
