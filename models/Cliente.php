@@ -94,6 +94,9 @@ class Cliente extends ActiveRecord
         return $objetos;
     }
 
+    
+
+
 
 
 

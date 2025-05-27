@@ -181,18 +181,105 @@ class VendedorController
             exit;
         }
     }
+
     public static function realizarVenta(Router $router)
     {
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             debuguear($_POST);
+            // header('Location: /vendedor/realizar-venta');
+            // return;
         }
-
-
         $router->renderVendedor('vendedor/RealizarVenta', [
             'titulo' => 'Realizar Venta'
         ]);
+        //     // Validar sesión
+        //     $idVendedor = $_SESSION['id'] ?? null;
+        //     if (!$idVendedor) {
+        //         header('Location: /login');
+        //         exit;
+        //     }
+
+        //     // Obtener datos del formulario
+        //     $productos = $_POST['productos'] ?? [];
+        //     $requierePedido = $_POST['entregaDomicilio'] === '1';
+        //     $direccion = $_POST['direccion'] ?? '';
+        //     $fechaEntrega = $_POST['fechaEntrega'] ?? '';
+        //     $horaEntrega = $_POST['horaEntrega'] ?? '';
+        //     $comentario = $_POST['Comentario'] ?? '';
+
+        //     // Validar que haya productos
+        //     if (empty($productos)) {
+        //         $_SESSION['error'] = 'No se agregaron productos a la venta.';
+        //         header('Location: /vendedor/realizar-venta');
+        //         return;
+        //     }
+
+        //     // Calcular totales
+        //     $subtotal = 0;
+        //     foreach ($productos as $producto) {
+        //         $precio = floatval($producto['precio']);
+        //         $cantidad = intval($producto['cantidad']);
+        //         $subtotal += $precio * $cantidad;
+        //     }
+        //     $iva = $subtotal * 0.15;
+        //     $total = $subtotal + $iva;
+
+        //     // Crear venta
+        //     $venta = new Venta([
+        //         'id_vendedor' => $idVendedor,
+        //         // 'id_cliente' => $idCliente,
+        //         'subtotal' => $subtotal,
+        //         'descuento' => 0,
+        //         'iva' => $iva,
+        //         'total' => $total,
+        //         'estado' => $requierePedido ? 'En Proceso' : 'Completado',
+        //         'creado' => date('Y-m-d H:i:s'),
+        //         'eliminado' => 0
+        //     ]);
+
+        //     $resVenta = $venta->crear();
+        //     if (!$resVenta['resultado']) {
+        //         $_SESSION['error'] = 'No se pudo registrar la venta.';
+        //         header('Location: /vendedor/realizar-venta');
+        //         return;
+        //     }
+
+        //     $idVenta = $resVenta['id'];
+
+        //     // Crear detalles de venta
+        //     foreach ($productos as $producto) {
+        //         $detalle = new DetalleVenta([
+        //             'ventas_idventas' => $idVenta,
+        //             'id_producto' => $producto['id'],
+        //             'cantidad' => $producto['cantidad'],
+        //             'subtotal' => $producto['cantidad'] * $producto['precio']
+        //         ]);
+        //         $detalle->guardar();
+        //     }
+
+        //     // Crear pedido si aplica
+        //     if ($requierePedido) {
+        //         $cliente = Cliente::where('id_usuario', $_SESSION['id']);
+        //         $pedido = new Pedido([
+        //             'id_ventas' => $idVenta,
+        //             'id_cliente' => $cliente->idcliente ?? 1, // Genérico
+        //             'id_repartidor' => null,
+        //             'creado' => date('Y-m-d H:i:s'),
+        //             'fecha_entregar' => $fechaEntrega ?: date('Y-m-d'),
+        //             'hora_entregar' => $horaEntrega ?: '12:00:00',
+        //             'direccion_entregar' => $direccion,
+        //             'comentarios' => $comentario,
+        //             'estado' => 0,
+        //             'pago_confirmado' => 1
+        //         ]);
+        //         $pedido->crear();
+        //     }
+
+        //     // Redirigir al ticket
+        //     header('Location: /vendedor/ticket?id=' . $idVenta);
+        // }
+
+
     }
-
-  
-
 }
