@@ -15,9 +15,10 @@ use Model\Cliente;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Model\Producto;
-use Picqer\Barcode\BarcodeGeneratorPNG; 
-use Picqer\Barcode\BarcodeGeneratorSVG; 
-    
+use Picqer\Barcode\BarcodeGeneratorPNG;
+use Picqer\Barcode\BarcodeGeneratorSVG;
+use Model\Repartidor;
+
 
 
 class VendedorController
@@ -402,7 +403,7 @@ class VendedorController
             'producto' => $producto
         ]);
     }
-        public static function VerCodigoBarras(Router $router)
+    public static function VerCodigoBarras(Router $router)
     {
         $id = $_GET['id'];
         $producto = Producto::find($id, 'idproducto');
@@ -478,6 +479,84 @@ class VendedorController
                 header("Content-Disposition: attachment; filename=$nombreArchivo.png");
                 echo $generator->getBarcode($codigo, $generator::TYPE_CODE_128);
                 break;
+        }
+    }
+    public static function atenderPedido(Router $router)
+    {
+        $idPedido = $_GET['id'] ?? null;
+
+        if (!$idPedido) {
+            header('Location: /vendedor/pedidos');
+            return;
+        }
+
+        // Buscar pedido
+        $pedido = Pedido::find($idPedido, 'idpedidos');
+        if (!$pedido) {
+            $_SESSION['error'] = 'Pedido no encontrado';
+            header('Location: /vendedor/pedidos');
+            return;
+        }
+
+        // Buscar venta asociada
+        $venta = Venta::find($pedido->id_ventas, 'idventas');
+        if (!$venta || $venta->estado !== 'Pendiente') {
+            $_SESSION['error'] = 'La venta ya fue atendida o no es válida.';
+            header('Location: /vendedor/pedidos');
+            return;
+        }
+
+        // Cambiar estado de la venta
+        $venta->estado = 'En Proceso';
+        $venta->actualizar($venta->idventas);
+
+        $_SESSION['mensaje'] = 'Pedido marcado como "En Proceso".';
+        header('Location: /vendedor/pedidos');
+    }
+    public static function asignarRepartidorVista(Router $router)
+    {
+        $pedidos = Pedido::pedidosEnProceso();
+        $repartidores = Repartidor::all();
+
+        $router->renderVendedor('Vendedor/pedidos/asignarRepartidor', [
+            'titulo' => 'Asignar Repartidor',
+            'pedidos' => $pedidos,
+            'repartidores' => $repartidores
+        ]);
+    }
+    public static function asignarRepartidor(Router $router)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $idPedido = $_POST['id_pedido'] ?? null;
+            $idRepartidor = $_POST['id_repartidor'] ?? null;
+
+            if (!$idPedido || !$idRepartidor) {
+                $_SESSION['error'] = 'Datos incompletos para asignar repartidor.';
+                header('Location: /vendedor/asignar-repartidor');
+                return;
+            }
+
+            // Buscar pedido
+            $pedido = Pedido::find($idPedido , 'idpedidos');
+            if (!$pedido) {
+                $_SESSION['error'] = 'Pedido no encontrado.';
+                header('Location: /vendedor/asignar-repartidor');
+                return;
+            }
+
+            // Asignar repartidor al pedido
+            $pedido->id_repartidor = $idRepartidor;
+            $pedido->actualizar($pedido->idpedidos);
+
+            // Cambiar estado de la venta a "En Camino"
+            $venta = Venta::find($pedido->id_ventas , 'idventas');
+            if ($venta && $venta->estado === 'En Proceso') {
+                $venta->estado = 'En Camino';
+                $venta->actualizar($venta->idventas);   
+            }
+
+            $_SESSION['mensaje'] = 'Repartidor asignado y pedido marcado como "En Camino".';
+            header('Location: /vendedor/asignar-repartidor');
         }
     }
 }

@@ -61,6 +61,9 @@ GRANT SELECT ON db_la57cap.vendedor TO 'repartidor57'@'localhost';
 GRANT SELECT ON db_la57cap.producto TO 'repartidor57'@'localhost';
 GRANT SELECT ON db_la57cap.categoria_producto TO 'repartidor57'@'localhost';
 GRANT SELECT ON db_la57cap.notificacion TO 'repartidor57'@'localhost';
+GRANT UPDATE ON db_la57cap.ventas TO 'repartidor57'@'localhost';
+GRANT SELECT ON db_la57cap.detalles_ventas TO 'repartidor57'@'localhost';
+
 
 -- ========================================
 -- USUARIO: vendedor57
@@ -85,6 +88,9 @@ GRANT SELECT ON db_la57cap.devolucion_detalles TO 'vendedor57'@'localhost';
 GRANT SELECT ON db_la57cap.notificacion TO 'vendedor57'@'localhost';
 GRANT SELECT ON db_la57cap.vendedor TO 'vendedor57'@'localhost';
 GRANT SELECT ON db_la57cap.usuario TO 'vendedor57'@'localhost';
+GRANT SELECT UPDATE ON db_la57cap.pedidos TO 'vendedor57'@'localhost';
+
+
 
 -- ========================================
 -- Aplicar cambios

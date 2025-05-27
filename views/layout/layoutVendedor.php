@@ -43,6 +43,12 @@
                             </span>
                         </a>
                     </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/vendedor/asignar-repartidor">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Asignar Pedidos
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>

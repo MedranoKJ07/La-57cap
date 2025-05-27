@@ -175,6 +175,39 @@ class Pedido extends ActiveRecord
         return $resultado->fetch_all(MYSQLI_ASSOC);
     }
 
+    public static function pedidosEnProceso()
+    {
+        $sql = "SELECT 
+                p.idpedidos, p.direccion_entregar, p.fecha_entregar, p.hora_entregar, 
+                p.id_ventas, p.id_cliente,
+                v.total, v.estado AS estado_venta,
+                c.p_nombre, c.s_nombre, c.p_apellido, c.s_apellido
+            FROM pedidos p
+            INNER JOIN ventas v ON p.id_ventas = v.idventas
+            INNER JOIN cliente c ON p.id_cliente = c.idcliente
+            WHERE v.estado = 'En Proceso' AND p.id_repartidor IS NULL
+            ORDER BY p.creado DESC";
+
+        $resultado = self::$db->query($sql);
+        return $resultado->fetch_all(MYSQLI_ASSOC);
+    }
+    public static function pedidosAsignadosEnCamino($idRepartidor)
+    {
+        $sql = "SELECT 
+                p.idpedidos, p.fecha_entregar, p.hora_entregar, p.direccion_entregar, 
+                v.total,
+                c.p_nombre, c.s_nombre, c.p_apellido, c.s_apellido
+            FROM pedidos p
+            INNER JOIN ventas v ON p.id_ventas = v.idventas
+            INNER JOIN cliente c ON p.id_cliente = c.idcliente
+            WHERE p.id_repartidor = {$idRepartidor}
+              AND v.estado = 'En Camino'
+              AND p.estado = 0
+            ORDER BY p.fecha_entregar ASC";
+
+        $resultado = self::$db->query($sql);
+        return $resultado->fetch_all(MYSQLI_ASSOC);
+    }
 
 
 }

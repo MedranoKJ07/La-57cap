@@ -187,8 +187,15 @@ $router->get('/vendedor/VerProducto', [VendedorController::class, 'VerProducto']
 $router->get('/vendedor/GenerarCodigoBarras', [VendedorController::class, 'VerCodigoBarras']);
 $router->get('/vendedor/DescargarCodigoBarras', [VendedorController::class, 'DescargarCodigoBarras']);
 
+$router->get('/vendedor/atender-pedido', [VendedorController::class, 'atenderPedido']);
+$router->get('/vendedor/asignar-repartidor', [VendedorController::class, 'asignarRepartidorVista']);
+$router->post('/vendedor/asignar-repartidor', [VendedorController::class, 'asignarRepartidor']);
+
 //PANEL DE REPARTIDORES
 $router->get('/Repartidor', [RepartidorControllers::class, 'Repartidor']);
+$router->get('/repartidor/pedidos-en-camino', [RepartidorControllers::class, 'pedidosEnCamino']);
+$router->post('/repartidor/confirmar-entrega', [RepartidorControllers::class, 'confirmarEntrega']);
+$router->get('/repartidor/pedido', [RepartidorControllers::class, 'verDetalle']);
 
 
 

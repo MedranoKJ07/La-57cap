@@ -14,17 +14,17 @@
     <div class="wrapper">
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar bg-dark text-white">
-                <a class="sidebar-brand" href="/admin">
+                <a class="sidebar-brand" href="/Repartidor">
                     <span class="align-middle">La 57 Cap</span>
                 </a>
 
                 <ul class="sidebar-nav">
                     <li class="sidebar-header">
-                        Repartidor
+                        Gestionar entregas
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="#">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Gestionar
+                        <a class="sidebar-link" href="/repartidor/pedidos-en-camino">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Pedidos asignados
                             </span>
                         </a>
                     </li>

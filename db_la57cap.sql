@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MysqlLocal
+ Source Server         : MySqlLocal
  Source Server Type    : MySQL
- Source Server Version : 80041
+ Source Server Version : 80040
  Source Host           : localhost:3306
  Source Schema         : db_la57cap
 
  Target Server Type    : MySQL
- Target Server Version : 80041
+ Target Server Version : 80040
  File Encoding         : 65001
 
- Date: 26/05/2025 23:45:34
+ Date: 27/05/2025 12:15:08
 */
 
 SET NAMES utf8mb4;
@@ -168,7 +168,7 @@ CREATE TABLE `detalles_ventas`  (
   INDEX `fk_detalles_ventas_ventas1_idx`(`ventas_idventas`) USING BTREE,
   CONSTRAINT `detalles_ventas_productos` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_detalles_ventas_ventas1` FOREIGN KEY (`ventas_idventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of detalles_ventas
@@ -302,7 +302,7 @@ CREATE TABLE `pedidos`  (
   CONSTRAINT `pedido_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_repartidor` FOREIGN KEY (`id_repartidor`) REFERENCES `repartidor` (`idrepartidor`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_ventas` FOREIGN KEY (`id_ventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pedidos
@@ -312,8 +312,8 @@ INSERT INTO `pedidos` VALUES (2, 14, 3, NULL, '2025-05-21 04:50:21', '2025-05-23
 INSERT INTO `pedidos` VALUES (3, 15, 3, NULL, '2025-05-21 04:51:35', '2025-06-06', '13:54:00', 'a la par de mi vecino', '', 0, 0);
 INSERT INTO `pedidos` VALUES (4, 16, 3, NULL, '2025-05-23 04:16:51', '2025-05-30', '16:16:00', 'a la par de mi vecino', '', 0, 0);
 INSERT INTO `pedidos` VALUES (5, 17, 3, NULL, '2025-05-26 19:17:28', '2025-05-29', '15:19:00', 'a la par de mi vecino', 'a', 0, 0);
-INSERT INTO `pedidos` VALUES (6, 18, 3, NULL, '2025-05-26 19:19:07', '2025-05-28', '14:20:00', 'a', 'a', 0, 0);
-INSERT INTO `pedidos` VALUES (7, 21, 2, NULL, '2025-05-27 04:35:59', '2025-06-06', '22:40:00', 'a', 'Persona a Recibir : KERLINT MEDRANO', 0, 1);
+INSERT INTO `pedidos` VALUES (6, 18, 3, 13, '2025-05-26 19:19:07', '2025-05-28', '14:20:00', 'a', 'a', 0, 0);
+INSERT INTO `pedidos` VALUES (7, 21, 2, 12, '2025-05-27 04:35:59', '2025-06-06', '22:40:00', 'a', 'Persona a Recibir : KERLINT MEDRANO', 1, 1);
 
 -- ----------------------------
 -- Table structure for producto
@@ -493,7 +493,7 @@ CREATE TABLE `ventas`  (
   INDEX `ventas_cliente`(`id_cliente`) USING BTREE,
   CONSTRAINT `ventas_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ventas_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`idvendedor`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ventas
@@ -513,10 +513,10 @@ INSERT INTO `ventas` VALUES (14, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Visitar tie
 INSERT INTO `ventas` VALUES (15, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Devolución aprobada', '2025-05-21 04:51:35', 0);
 INSERT INTO `ventas` VALUES (16, 1, NULL, 116.00, 0.00, 17.40, 133.40, 'Pendiente', '2025-05-23 04:16:51', 0);
 INSERT INTO `ventas` VALUES (17, 1, NULL, 290.00, 0.00, 43.50, 333.50, 'Pendiente', '2025-05-26 19:17:28', 0);
-INSERT INTO `ventas` VALUES (18, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-26 19:19:07', 0);
+INSERT INTO `ventas` VALUES (18, 1, 3, 58.00, 0.00, 8.70, 66.70, 'En Camino', '2025-05-26 19:19:07', 0);
 INSERT INTO `ventas` VALUES (19, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 01:49:42', 0);
 INSERT INTO `ventas` VALUES (20, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 03:42:09', 0);
-INSERT INTO `ventas` VALUES (21, 22, 2, 58.00, 0.00, 8.70, 66.70, 'En Proceso', '2025-05-27 04:35:59', 0);
+INSERT INTO `ventas` VALUES (21, 22, 2, 58.00, 0.00, 8.70, 66.70, 'Entregado', '2025-05-27 04:35:59', 0);
 INSERT INTO `ventas` VALUES (22, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 04:47:41', 0);
 INSERT INTO `ventas` VALUES (23, 22, 2, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 04:48:01', 0);
 

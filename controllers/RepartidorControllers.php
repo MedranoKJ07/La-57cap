@@ -8,6 +8,11 @@ use Model\Rol;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Classes\Email;
+use Model\Pedido;
+use Model\Venta;
+use Model\Cliente;
+use Model\DetalleVenta;
+
 
 class RepartidorControllers
 {
@@ -191,4 +196,95 @@ class RepartidorControllers
             exit;
         }
     }
+
+
+    public static function pedidosEnCamino(Router $router)
+    {
+        $idUsuario = $_SESSION['id'] ?? null;
+
+        if (!$idUsuario) {
+            header('Location: /login');
+            return;
+        }
+
+        // Obtener el repartidor según el id_usuario
+        $repartidor = Repartidor::where('id_usuario', $idUsuario);
+        if (!$repartidor) {
+            $_SESSION['error'] = 'Repartidor no válido.';
+            header('Location: /login');
+            return;
+        }
+
+        $pedidos = Pedido::pedidosAsignadosEnCamino($repartidor->idrepartidor);
+
+        $router->renderRepartidor('Repartidor/PedidosAsignados', [
+            'titulo' => 'Pedidos Asignados',
+            'pedidos' => $pedidos
+        ]);
+    }
+    public static function confirmarEntrega(Router $router)
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $idPedido = $_POST['id_pedido'] ?? null;
+        $pagoConfirmado = isset($_POST['pago_confirmado']) ? 1 : 0;
+
+        if (!$idPedido) {
+            $_SESSION['error'] = 'Pedido inválido.';
+            header('Location: /repartidor/pedidos-en-camino');
+            return;
+        }
+
+        $pedido = Pedido::find($idPedido, 'idpedidos');
+        if (!$pedido) {
+            $_SESSION['error'] = 'Pedido no encontrado.';
+            header('Location: /repartidor/pedidos-en-camino');
+            return;
+        }
+
+        // Marcar como entregado y registrar pago
+        $pedido->estado = 1;
+        $pedido->pago_confirmado = $pagoConfirmado;
+        $pedido->actualizar($pedido ->idpedidos);
+
+        // Cambiar estado de la venta
+        $venta = Venta::find($pedido->id_ventas , 'idventas');
+        if ($venta) {
+            $venta->estado = 'Entregado';
+            $venta->actualizar($venta->idventas);
+        }
+
+        $_SESSION['mensaje'] = 'Entrega confirmada correctamente.';
+        header('Location: /repartidor/pedidos-en-camino');
+    }
+}
+public static function verDetalle(Router $router)
+{
+    $idPedido = $_GET['id'] ?? null;
+
+    if (!$idPedido) {
+        header('Location: /repartidor/pedidos-en-camino');
+        return;
+    }
+
+    $pedido = Pedido::find($idPedido , 'idpedidos');
+    if (!$pedido) {
+        header('Location: /repartidor/pedidos-en-camino');
+        return;
+    }
+
+    $venta = Venta::find($pedido->id_ventas , 'idventas');
+    $cliente = Cliente::find($pedido->id_cliente , 'idcliente');
+    $detalles = DetalleVenta::obtenerPorVenta($venta->idventas);
+
+
+    $router->renderRepartidor('Repartidor/DetallePedido', [
+        'pedido' => $pedido,
+        'cliente' => $cliente,
+        'venta' => $venta,
+        'detalles' => $detalles,
+        'titulo' => 'Detalle del Pedido'
+    ]);
+}
+
+
 }
