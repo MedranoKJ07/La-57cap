@@ -10,6 +10,11 @@ use Intervention\Image\ImageManager;
 use Classes\Email;
 use Model\Venta;
 use Model\DetalleVenta;
+use Model\Pedido;
+use Model\Cliente;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 
 class VendedorController
 {
@@ -184,102 +189,188 @@ class VendedorController
 
     public static function realizarVenta(Router $router)
     {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Validar sesión
+            $idUsuario = $_SESSION['id'] ?? null;
+            if (!$idUsuario) {
+                header('Location: /login');
+                exit;
+            }
 
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            debuguear($_POST);
-            // header('Location: /vendedor/realizar-venta');
-            // return;
+            // Obtener vendedor asociado
+            $vendedor = Vendedor::where('id_usuario', $idUsuario);
+            if (!$vendedor) {
+                $_SESSION['error'] = 'Vendedor no válido.';
+                header('Location: /vendedor/realizar-venta');
+                return;
+            }
+
+            // Obtener productos del formulario
+            $productos = $_POST['productos'] ?? [];
+            if (empty($productos)) {
+                $_SESSION['error'] = 'No se agregaron productos a la venta.';
+                header('Location: /vendedor/realizar-venta');
+                return;
+            }
+
+            // Calcular totales
+            $subtotal = 0;
+            foreach ($productos as $producto) {
+                $precio = floatval($producto['precio']);
+                $cantidad = intval($producto['cantidad']);
+                $subtotal += $precio * $cantidad;
+            }
+            $iva = $subtotal * 0.15;
+            $total = $subtotal + $iva;
+
+            // Determinar cliente
+            $idCliente = $_POST['id_cliente_registrado'] ?? null;
+            $sinRegistro = isset($_POST['cliente_sin_registro']);
+
+            if ($sinRegistro || empty($idCliente)) {
+                $idCliente = null; // se usará cliente genérico
+            }
+
+            // Determinar si hay datos de pedido
+            $requierePedido = !empty($_POST['direccion']) && !empty($_POST['fechaEntrega']) && !empty($_POST['horaEntrega']);
+            $direccion = $_POST['direccion'] ?? '';
+            $fechaEntrega = $_POST['fechaEntrega'] ?? '';
+            $horaEntrega = $_POST['horaEntrega'] ?? '';
+            $comentario = $_POST['Comentario'] ?? '';
+
+            // Crear venta
+            $venta = new Venta([
+                'id_vendedor' => $vendedor->idvendedor,
+                'id_cliente' => $idCliente,
+                'subtotal' => $subtotal,
+                'descuento' => 0,
+                'iva' => $iva,
+                'total' => $total,
+                'estado' => $requierePedido ? 'En Proceso' : 'Completado',
+                'creado' => date('Y-m-d H:i:s'),
+                'eliminado' => 0
+            ]);
+
+            $resVenta = $venta->crear();
+            if (!$resVenta['resultado']) {
+                $_SESSION['error'] = 'No se pudo registrar la venta.';
+                header('Location: /vendedor/realizar-venta');
+                return;
+            }
+
+            $idVenta = $resVenta['id'];
+
+            // Guardar detalles de venta
+            foreach ($productos as $producto) {
+                $detalle = new DetalleVenta([
+                    'ventas_idventas' => $idVenta,
+                    'id_producto' => $producto['id'],
+                    'cantidad' => $producto['cantidad'],
+                    'subtotal' => $producto['cantidad'] * $producto['precio']
+                ]);
+                $detalle->guardar();
+            }
+
+            // Crear pedido si hay datos completos
+            if ($requierePedido) {
+                $pedido = new Pedido([
+                    'id_ventas' => $idVenta,
+                    'id_cliente' => $idCliente ?? 1, // cliente genérico si null
+                    'id_repartidor' => null,
+                    'creado' => date('Y-m-d H:i:s'),
+                    'fecha_entregar' => $fechaEntrega,
+                    'hora_entregar' => $horaEntrega,
+                    'direccion_entregar' => $direccion,
+                    'comentarios' => $comentario,
+                    'estado' => 0,
+                    'pago_confirmado' => 1
+                ]);
+                $pedido->crear();
+            }
+
+            // Redirigir al ticket
+            header('Location: /vendedor/ticket?id=' . $idVenta);
+            exit;
         }
+
+        // Renderizado en caso de GET
         $router->renderVendedor('vendedor/RealizarVenta', [
             'titulo' => 'Realizar Venta'
         ]);
-        //     // Validar sesión
-        //     $idVendedor = $_SESSION['id'] ?? null;
-        //     if (!$idVendedor) {
-        //         header('Location: /login');
-        //         exit;
-        //     }
+    }
 
-        //     // Obtener datos del formulario
-        //     $productos = $_POST['productos'] ?? [];
-        //     $requierePedido = $_POST['entregaDomicilio'] === '1';
-        //     $direccion = $_POST['direccion'] ?? '';
-        //     $fechaEntrega = $_POST['fechaEntrega'] ?? '';
-        //     $horaEntrega = $_POST['horaEntrega'] ?? '';
-        //     $comentario = $_POST['Comentario'] ?? '';
+    public static function ticket(Router $router)
+    {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header('Location: /vendedor/realizar-venta');
+            return;
+        }
 
-        //     // Validar que haya productos
-        //     if (empty($productos)) {
-        //         $_SESSION['error'] = 'No se agregaron productos a la venta.';
-        //         header('Location: /vendedor/realizar-venta');
-        //         return;
-        //     }
+        $venta = Venta::find($id, 'idventas');
+        if (!$venta) {
+            header('Location: /vendedor/realizar-venta');
+            return;
+        }
 
-        //     // Calcular totales
-        //     $subtotal = 0;
-        //     foreach ($productos as $producto) {
-        //         $precio = floatval($producto['precio']);
-        //         $cantidad = intval($producto['cantidad']);
-        //         $subtotal += $precio * $cantidad;
-        //     }
-        //     $iva = $subtotal * 0.15;
-        //     $total = $subtotal + $iva;
+        // Obtener cliente (si existe)
+        $cliente = null;
+        if ($venta->id_cliente) {
+            $cliente = Cliente::find($venta->id_cliente, 'idcliente');
+        }
 
-        //     // Crear venta
-        //     $venta = new Venta([
-        //         'id_vendedor' => $idVendedor,
-        //         // 'id_cliente' => $idCliente,
-        //         'subtotal' => $subtotal,
-        //         'descuento' => 0,
-        //         'iva' => $iva,
-        //         'total' => $total,
-        //         'estado' => $requierePedido ? 'En Proceso' : 'Completado',
-        //         'creado' => date('Y-m-d H:i:s'),
-        //         'eliminado' => 0
-        //     ]);
+        $detalles = DetalleVenta::obtenerDetalleConProductoPorVenta($venta->idventas);
 
-        //     $resVenta = $venta->crear();
-        //     if (!$resVenta['resultado']) {
-        //         $_SESSION['error'] = 'No se pudo registrar la venta.';
-        //         header('Location: /vendedor/realizar-venta');
-        //         return;
-        //     }
+        $router->renderVendedor('Vendedor/TicketVenta', [
+            'titulo' => 'Ticket de Venta',
+            'venta' => $venta,
+            'cliente' => $cliente,
+            'detalles' => $detalles
+        ]);
+    }
+    public static function ticketPDF(Router $router)
+    {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header('Location: /vendedor/realizar-venta');
+            return;
+        }
 
-        //     $idVenta = $resVenta['id'];
+        $venta = Venta::find($id, 'idventas');
+        if (!$venta) {
+            header('Location: /vendedor/realizar-venta');
+            return;
+        }
 
-        //     // Crear detalles de venta
-        //     foreach ($productos as $producto) {
-        //         $detalle = new DetalleVenta([
-        //             'ventas_idventas' => $idVenta,
-        //             'id_producto' => $producto['id'],
-        //             'cantidad' => $producto['cantidad'],
-        //             'subtotal' => $producto['cantidad'] * $producto['precio']
-        //         ]);
-        //         $detalle->guardar();
-        //     }
+        $cliente = $venta->id_cliente ? Cliente::find($venta->id_cliente, 'idcliente') : null;
+        $detalles = DetalleVenta::obtenerDetalleConProductoPorVenta($venta->idventas);
 
-        //     // Crear pedido si aplica
-        //     if ($requierePedido) {
-        //         $cliente = Cliente::where('id_usuario', $_SESSION['id']);
-        //         $pedido = new Pedido([
-        //             'id_ventas' => $idVenta,
-        //             'id_cliente' => $cliente->idcliente ?? 1, // Genérico
-        //             'id_repartidor' => null,
-        //             'creado' => date('Y-m-d H:i:s'),
-        //             'fecha_entregar' => $fechaEntrega ?: date('Y-m-d'),
-        //             'hora_entregar' => $horaEntrega ?: '12:00:00',
-        //             'direccion_entregar' => $direccion,
-        //             'comentarios' => $comentario,
-        //             'estado' => 0,
-        //             'pago_confirmado' => 1
-        //         ]);
-        //         $pedido->crear();
-        //     }
+        // Renderizar HTML desde vista parcial
+        ob_start();
+        include __DIR__ . '/../views/Vendedor/PDFTicket.php';
+        $html = ob_get_clean();
 
-        //     // Redirigir al ticket
-        //     header('Location: /vendedor/ticket?id=' . $idVenta);
-        // }
+        // Opciones de Dompdf
+        $options = new Options();
+        $options->set('defaultFont', 'Courier'); // monospace para ticket
+        $dompdf = new Dompdf($options);
+        $logoPath = __DIR__ . '/../public/img/logo.png';
+        $logoBase64 = base64_encode(file_get_contents($logoPath));
+        $logoMime = mime_content_type($logoPath);
+        $logoDataUri = "data:$logoMime;base64,$logoBase64";
+
+        $alto_por_linea = 20;
+        $lineas_base = 180;
+        $lineas_producto = count($detalles) * $alto_por_linea;
+
+        $alto_final = $lineas_base + $lineas_producto;
 
 
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper([0, 0, 226.77, $alto_final], 'portrait');
+        $dompdf->render();
+
+        $dompdf->stream("ticket_venta_{$venta->idventas}.pdf", ['Attachment' => false]);
     }
 }

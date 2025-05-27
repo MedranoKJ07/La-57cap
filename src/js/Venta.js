@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const inputCodigo = document.getElementById("codigoProducto");
-  const inputCliente = document.getElementById("idCliente");
+
   const tabla = document
     .getElementById("tablaProductos")
     .querySelector("tbody");
@@ -9,9 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalSpan = document.getElementById("totalVenta");
 
   const entregaDomicilio = document.getElementById("entregaDomicilio");
-  const clientenoTieneRegistro = document.getElementById(
-    "clientenoTieneRegistro"
-  );
+
   const bloqueEntregaAdicional = document.getElementById(
     "bloqueEntregaAdicional"
   );
@@ -23,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("formVenta");
 
   let productos = [];
-  
 
   inputCodigo.addEventListener("keydown", async (e) => {
     if (e.key === "Enter") {
@@ -41,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ? "block"
       : "none";
   });
-
 
   async function agregarProducto(codigo) {
     try {
@@ -176,4 +172,75 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+  const checkbox = document.getElementById("clientenoTieneRegistro");
+
+  // Al cargar la página, ocultar si está chequeado
+  if (checkbox.checked) {
+    buscarDiv.style.display = "none";
+  }
+
+  const buscarBtn = document.getElementById("buscarClienteBtn");
+  const sinRegistroCheckbox = document.getElementById("clientenoTieneRegistro");
+
+  const inputCliente = document.getElementById("idCliente");
+  const buscarDiv = document.getElementById("buscar"); // contenedor del botón Buscar
+  const datosClienteDiv = document.getElementById("datosCliente"); // contenedor de los datos
+
+  const idClienteInput = document.getElementById("id_cliente_registrado");
+  const nombreClienteInput = document.getElementById("nombre_cliente_mostrado");
+  const telefonoClienteInput = document.getElementById("telefono_cliente_mostrado");
+  const direccionClienteInput = document.getElementById("direccion_cliente_mostrado");
+
+  sinRegistroCheckbox.addEventListener("change", function () {
+    if (this.checked) {
+      buscarDiv.style.display = "none";
+      datosClienteDiv.style.display = "none";
+      inputCliente.placeholder = "Escribir nombre del cliente";
+      limpiarDatosCliente();
+    } else {
+      inputCliente.placeholder = "Buscar por nombre del cliente";
+      datosClienteDiv.style.display = "block";
+      buscarDiv.style.display = "block";
+    }
+  });
+
+  buscarBtn.addEventListener("click", async () => {
+    if (sinRegistroCheckbox.checked) {
+      limpiarDatosCliente();
+      return;
+    }
+
+    const nombre = inputCliente.value.trim();
+    if (nombre === "") return;
+
+    const cliente = await buscarCliente(nombre);
+
+    if (cliente) {
+      idClienteInput.value = cliente.idcliente;
+      nombreClienteInput.value = cliente.nombre_completo;
+      telefonoClienteInput.value = cliente.telefono;
+      direccionClienteInput.value = cliente.direccion;
+    } else {
+      limpiarDatosCliente();
+      alert("Cliente no encontrado.");
+    }
+  });
+
+  async function buscarCliente(nombre) {
+    try {
+      const res = await fetch(`/api/cliente?nombre=${encodeURIComponent(nombre)}`);
+      const data = await res.json();
+      return res.ok ? data : null;
+    } catch (error) {
+      console.error("Error al buscar cliente:", error);
+      return null;
+    }
+  }
+
+  function limpiarDatosCliente() {
+    idClienteInput.value = "";
+    nombreClienteInput.value = "";
+    telefonoClienteInput.value = "";
+    direccionClienteInput.value = "";
+  }
 });

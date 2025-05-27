@@ -174,6 +174,8 @@ $router->get('/Vendedor', [VendedorController::class, 'Vendedor']);
 
 $router->get('/vendedor/realizar-venta', [VendedorController::class, 'realizarVenta']);
 $router->post('/vendedor/realizar-venta', [VendedorController::class, 'realizarVenta']);
+$router->get('/vendedor/ticket', [VendedorController::class, 'ticket']);
+$router->get('/vendedor/ticket-pdf', [VendedorController::class, 'ticketPDF']);
 
 $router->get('/api/producto', [ApiVentaController::class, 'buscar']);
 $router->get('/api/cliente', [ApiVentaController::class, 'buscarCliente']);

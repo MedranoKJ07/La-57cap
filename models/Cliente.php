@@ -93,8 +93,19 @@ class Cliente extends ActiveRecord
 
         return $objetos;
     }
+    public static function buscarPorNombreCompleto($nombre)
+    {
+        // Conexión directa usando ActiveRecord::consultarSQL para mayor control
+        $query = "SELECT * FROM cliente 
+              WHERE eliminado = 0 AND 
+              CONCAT(p_nombre, ' ', s_nombre, ' ', p_apellido, ' ', s_apellido) LIKE '%" . self::$db->escape_string($nombre) . "%' 
+              LIMIT 1";
 
-    
+        $resultado = self::consultarSQL($query);
+        return array_shift($resultado); // Devuelve el primer cliente encontrado o null
+    }
+
+
 
 
 
