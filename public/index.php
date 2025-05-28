@@ -54,17 +54,11 @@ $router->get('/cliente/pedidos', [ClientePanelController::class, 'pedidos']);
 
 $router->get('/cliente/devolucion', [ClienteController::class, 'solicitarDevolucion']);
 $router->post('/cliente/devolucion', [ClienteController::class, 'registrarDevolucion']);
-
-
 $router->post('/cliente/devolucion/guardar', [ClienteController::class, 'guardarDevolucion']);
-
-
-
 
 $router->get('/tienda', [TiendaController::class, 'shop']);
 $router->post('/tienda', fn: [TiendaController::class, 'shop']);
 $router->get('/producto', [ProductoController::class, 'ver']);
-
 
 $router->get('/carrito', [CarritoController::class, 'mostrar']);
 $router->get('/carrito/agregar', [CarritoController::class, 'agregar']);
@@ -76,6 +70,9 @@ $router->post('/checkout/confirmar', [CheckoutController::class, 'confirmar']);
 $router->get('/checkout/exito', [CheckoutController::class, 'exito']);
 
 $router->get('/cliente/pedido', [ClienteController::class, 'pedido']);
+
+$router->post('/cliente/calificar', [ClientePanelController::class, 'calificarPedido']);
+$router->get('/cliente/calificar', [ClientePanelController::class, 'calificarPedido']);
 
 
 $router->get('/SobreNosotros', [LandingController::class, 'about']);
@@ -154,18 +151,16 @@ $router->get('/admin/CrearCompra', [CompraController::class, 'CrearCompra']);
 $router->post('/admin/CrearCompra', [CompraController::class, 'CrearCompra']);
 $router->get('/admin/DetalleCompra', [CompraController::class, 'VerDetalleCompra']);
 
-
-
-
 $router->get('/admin/devoluciones', [DevolucionController::class, 'gestionar']);
 $router->get('/admin/devoluciones/detalle', [DevolucionController::class, 'detalle']);
 $router->post('/admin/devoluciones/aprobar', [DevolucionController::class, 'aprobar']);
 $router->post('/admin/devoluciones/rechazar', [DevolucionController::class, 'rechazar']);
 $router->post('/admin/devoluciones/visitar-tienda', [DevolucionController::class, 'visitarTienda']);
 
+$router->get('/admin/historialPedidos', [AdminController::class, 'verPedidos']);
 
-
-
+$router->get('/admin/calificaciones', [AdminController::class, 'verCalificaciones']);           
+$router->get('/admin/detalle-calificacion', [AdminController::class, 'detalleCalificacion']);
 
 
 //PANEL DE VENDEDORES

@@ -99,7 +99,7 @@ class ClienteController
                 'observaciones' => '',
                 'ventas_idventas' => $pedido->id_ventas,
                 'cliente_idcliente' => $cliente->idcliente,
-                'Estado' => 'Pendiente'
+                'Estado' => 'En devolución'
             ]);
 
             $resultado = $devolucion->crear();

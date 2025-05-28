@@ -37,8 +37,15 @@ class Pedido extends ActiveRecord
     public $estado_venta;
     public $tiene_devolucion;
     public $en_devolucion;
-    // ✅ Agrega esta línea:
+   
     public $no_disponible_para_devolver;
+    public $cliente_nombre;
+    public $cliente_apellido;
+    public $telefono;
+
+    public $repartidor_nombre;
+    public $repartidor_apellido;
+    
 
 
     public function __construct($args = [])
@@ -208,6 +215,63 @@ class Pedido extends ActiveRecord
         $resultado = self::$db->query($sql);
         return $resultado->fetch_all(MYSQLI_ASSOC);
     }
+    
+public static function obtenerTodosConDetalles()
+{
+    $sql = "SELECT 
+                p.idpedidos,
+                p.direccion_entregar,
+                p.fecha_entregar,
+                p.hora_entregar,
+                p.pago_confirmado,
+                c.p_nombre AS cliente_nombre,
+                c.p_apellido AS cliente_apellido,
+                c.n_telefono AS telefono,
+                r.p_nombre AS repartidor_nombre,
+                r.p_apellido AS repartidor_apellido,
+                v.total,
+                v.estado AS estado_venta
+            FROM pedidos p
+            LEFT JOIN cliente c ON p.id_cliente = c.idcliente
+            LEFT JOIN repartidor r ON p.id_repartidor = r.idrepartidor
+            LEFT JOIN ventas v ON p.id_ventas = v.idventas
+            ORDER BY p.creado DESC";
+
+    $resultado = self::$db->query($sql);
+
+    $pedidos = [];
+    while ($registro = $resultado->fetch_object()) {
+        $pedidos[] = $registro;
+    }
+
+    return $pedidos;
+}
+
+public static function obtenerConCalificacionPorId($idPedido)
+{
+    $idPedido = self::$db->real_escape_string($idPedido);
+
+    $sql = "SELECT 
+                p.*, 
+                v.subtotal, v.iva, v.total,
+                cli.p_nombre AS cliente_nombre, cli.s_nombre AS cliente_sn, cli.p_apellido AS cliente_apellido, cli.s_apellido AS cliente_sa, cli.n_telefono, cli.direccion,
+                r.p_nombre AS repartidor_nombre, r.s_nombre AS repartidor_sn, r.p_apellido AS repartidor_apellido, r.s_apellido AS repartidor_sa,
+                c.puntuacion, c.comentario, c.fecha_clasificacion
+            FROM pedidos p
+            INNER JOIN ventas v ON v.idventas = p.id_ventas
+            INNER JOIN cliente cli ON cli.idcliente = p.id_cliente
+            INNER JOIN calificaciones c ON c.pedidos_idpedidos = p.idpedidos
+            LEFT JOIN repartidor r ON r.idrepartidor = p.id_repartidor
+            WHERE p.idpedidos = '$idPedido'
+            LIMIT 1";
+
+    $resultado = self::$db->query($sql);
+    return $resultado->fetch_assoc();
+}
+
+
+
+
 
 
 }

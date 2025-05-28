@@ -48,11 +48,20 @@
                                     class="btn btn-outline-primary btn-sm mb-1">
                                     Ver
                                 </a>
+
                                 <?php if ($estado === 'Entregado'): ?>
-                                    <a href="/cliente/devolucion?id=<?= $pedido->idpedidos ?>" class="btn btn-warning btn-sm">
+                                    <a href="/cliente/devolucion?id=<?= $pedido->idpedidos ?>" class="btn btn-warning btn-sm mb-1">
                                         Solicitar Devolución
                                     </a>
                                 <?php endif; ?>
+                                <?php if (empty($calificados[$pedido->idpedidos])): ?>
+                                    <a href="/cliente/calificar?id=<?= $pedido->idpedidos ?>" class="btn btn-success btn-sm">
+                                        Calificar
+                                    </a>
+                                <?php endif; ?>
+
+
+
 
                             </td>
                         </tr>

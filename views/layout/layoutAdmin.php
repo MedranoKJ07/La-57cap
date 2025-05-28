@@ -100,6 +100,24 @@
                             </span>
                         </a>
                     </li>
+                    <li class="sidebar-header">
+                        Gestionar Ventas -  Pedidos
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/historialPedidos">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                                Pedidos
+                            </span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/calificaciones">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                                Calificaciones Pedidos
+                            </span>
+                        </a>
+                    </li>
+                    
                 </ul>
             </div>
         </nav>

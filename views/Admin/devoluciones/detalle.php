@@ -54,7 +54,8 @@
     </table>
 
     <!-- Acciones según estado -->
-    <?php if ($estado === 'Pendiente'): ?>
+     <?php echo $estado?>
+    <?php if ($estado === 'En devolución'): ?>
         <form method="POST" action="/admin/devoluciones/visitar-tienda">
             <input type="hidden" name="id" value="<?= $devolucion->idDevoluciones ?>">
             <button class="btn btn-primary">Marcar como “Visitar tienda”</button>

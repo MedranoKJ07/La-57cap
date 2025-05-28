@@ -12,7 +12,7 @@
                 <select name="estado" class="form-select form-select-sm">
                     <option value="">-- Todos los estados --</option>
                     <?php
-                    $estados = ['Pendiente', 'Visitar tienda', 'Devolución aprobada', 'Devolución rechazada'];
+                    $estados = ['En devolución', 'Visitar tienda', 'Aprobado', 'Rechazado'];
                     $estadoSeleccionado = $_GET['estado'] ?? '';
                     foreach ($estados as $estado):
                     ?>
@@ -50,7 +50,7 @@
                         // Badge color según estado
                         $estado = trim($devolucion->Estado);
                         $badgeClass = match ($estado) {
-                            'Pendiente' => 'warning',
+                            'En devolución' => 'warning',
                             'Visitar tienda' => 'primary',
                             'Aprobado' => 'success',
                             'Rechazado' => 'danger',
