@@ -7,6 +7,8 @@ use Model\Producto;
 use Model\Venta;
 use Model\DetalleVenta;
 use Model\Pedido;
+use Model\Inventario;
+
 class CheckoutController
 {
     public static function mostrar(Router $router)
@@ -102,6 +104,8 @@ class CheckoutController
             ]);
             $detalle->guardar();
         }
+        Inventario::restarStock($prod->idproducto, $prod->cantidad);
+
 
         // Guardar pedido
         $pedido = new Pedido([

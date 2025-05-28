@@ -46,7 +46,8 @@ GRANT SELECT ON db_la57cap.devolucion_detalles TO 'cliente57'@'localhost';
 GRANT SELECT, INSERT ON db_la57cap.clasificaciones TO 'cliente57'@'localhost';
 GRANT SELECT, INSERT ON db_la57cap.detalles_ventas TO 'cliente57'@'localhost';
 GRANT SELECT ON db_la57cap.notificacion TO 'cliente57'@'localhost';
-GRANT SELECT INSERT ON db_la57cap.calificaciones TO 'cliente57'@'localhost';
+GRANT SELECT, INSERT ON db_la57cap.calificaciones TO 'cliente57'@'localhost';
+GRANT SELECT, UPDATE ON db_la57cap.inventario TO 'cliente57'@'localhost';
 -- ========================================
 -- USUARIO: repartidor57
 -- Rol: Repartidor
@@ -88,9 +89,9 @@ GRANT SELECT ON db_la57cap.devolucion_detalles TO 'vendedor57'@'localhost';
 GRANT SELECT ON db_la57cap.notificacion TO 'vendedor57'@'localhost';
 GRANT SELECT ON db_la57cap.vendedor TO 'vendedor57'@'localhost';
 GRANT SELECT ON db_la57cap.usuario TO 'vendedor57'@'localhost';
-GRANT SELECT UPDATE ON db_la57cap.pedidos TO 'vendedor57'@'localhost';
+GRANT SELECT, UPDATE ON db_la57cap.pedidos TO 'vendedor57'@'localhost';
 
-
+GRANT SELECT, UPDATE ON db_la57cap.inventario TO 'vendedor57'@'localhost';
 
 -- ========================================
 -- Aplicar cambios

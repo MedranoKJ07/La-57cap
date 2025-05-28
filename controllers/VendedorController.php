@@ -18,7 +18,7 @@ use Model\Producto;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Picqer\Barcode\BarcodeGeneratorSVG;
 use Model\Repartidor;
-
+use Model\Inventario;
 
 
 class VendedorController
@@ -285,7 +285,8 @@ class VendedorController
                 ]);
                 $detalle->guardar();
             }
-
+            // ✅ Restar del inventario usando el modelo Inventario
+            Inventario::restarStock($producto['id'], $producto['cantidad']);
             // Crear pedido si hay datos completos
             if ($requierePedido) {
                 $pedido = new Pedido([

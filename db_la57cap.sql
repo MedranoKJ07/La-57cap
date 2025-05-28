@@ -11,7 +11,7 @@
  Target Server Version : 80041
  File Encoding         : 65001
 
- Date: 27/05/2025 23:00:45
+ Date: 27/05/2025 23:13:53
 */
 
 SET NAMES utf8mb4;
@@ -194,6 +194,13 @@ INSERT INTO `detalles_ventas` VALUES (13, 23, 7, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (14, 24, 7, 2, 116.00);
 INSERT INTO `detalles_ventas` VALUES (15, 24, 8, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (16, 25, 8, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (17, 26, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (18, 27, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (19, 28, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (20, 29, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (21, 30, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (22, 31, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (23, 32, 7, 1, 58.00);
 
 -- ----------------------------
 -- Table structure for devolucion_detalles
@@ -272,7 +279,7 @@ CREATE TABLE `inventario`  (
 -- ----------------------------
 -- Records of inventario
 -- ----------------------------
-INSERT INTO `inventario` VALUES (2, 22, 5, '2025-05-20 22:51:21', 7);
+INSERT INTO `inventario` VALUES (2, 20, 5, '2025-05-27 23:13:33', 7);
 INSERT INTO `inventario` VALUES (3, 5, 5, '2025-05-20 22:51:51', 8);
 
 -- ----------------------------
@@ -328,6 +335,7 @@ INSERT INTO `pedidos` VALUES (6, 18, 3, 13, '2025-05-26 19:19:07', '2025-05-28',
 INSERT INTO `pedidos` VALUES (7, 21, 2, 12, '2025-05-27 04:35:59', '2025-06-06', '22:40:00', 'a', 'Persona a Recibir : KERLINT MEDRANO', 1, 1);
 INSERT INTO `pedidos` VALUES (8, 24, 1, 12, '2025-05-27 21:07:05', '2025-05-30', '18:09:00', 'a la par de mi vecino', 'Persona a Recibir : KERLINT MEDRANO', 1, 1);
 INSERT INTO `pedidos` VALUES (9, 25, 3, 12, '2025-05-28 02:36:12', '2025-05-28', '10:35:00', 'sa', 'a', 1, 1);
+INSERT INTO `pedidos` VALUES (10, 28, 3, NULL, '2025-05-28 05:09:35', '2025-05-28', '14:10:00', 'dasd', 'asdasd', 0, 0);
 
 -- ----------------------------
 -- Table structure for producto
@@ -528,5 +536,12 @@ INSERT INTO `ventas` VALUES (22, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado
 INSERT INTO `ventas` VALUES (23, 22, 2, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 04:48:01', 0);
 INSERT INTO `ventas` VALUES (24, 22, NULL, 174.00, 0.00, 26.10, 200.10, 'Entregado', '2025-05-27 21:07:05', 0);
 INSERT INTO `ventas` VALUES (25, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Entregado', '2025-05-28 02:36:12', 0);
+INSERT INTO `ventas` VALUES (26, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-28 05:08:32', 0);
+INSERT INTO `ventas` VALUES (27, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-28 05:09:10', 0);
+INSERT INTO `ventas` VALUES (28, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-28 05:09:35', 0);
+INSERT INTO `ventas` VALUES (29, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-28 05:10:44', 0);
+INSERT INTO `ventas` VALUES (30, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-28 05:11:56', 0);
+INSERT INTO `ventas` VALUES (31, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-28 05:12:25', 0);
+INSERT INTO `ventas` VALUES (32, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-28 05:13:33', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

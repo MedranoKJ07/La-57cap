@@ -79,6 +79,18 @@ class Inventario extends ActiveRecord
             $db->query($insert);
         }
     }
+    public static function restarStock($productoId, $cantidadVendida)
+    {
+        $productoId = self::$db->real_escape_string($productoId);
+        $cantidadVendida = (int) $cantidadVendida;
 
+        $query = "UPDATE inventario 
+                  SET cantidad_actual = cantidad_actual - $cantidadVendida, 
+                      fecha_actualizacion = NOW()
+                  WHERE producto_idproducto = '$productoId' 
+                  LIMIT 1";
+
+        return self::$db->query($query);
+    }
 
 }
