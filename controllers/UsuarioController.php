@@ -108,7 +108,7 @@ class UsuarioController
                 $manager = new ImageManager(Driver::class);
                 $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
                 $usuario->setImagen($nombreImagen);
-
+                 $usuario->delete_image();
                 if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
                     mkdir(CARPETAS_IMAGENES_PERFILES);
                 }

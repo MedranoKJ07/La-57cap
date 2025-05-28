@@ -13,6 +13,8 @@ class CategoriaProductoController
     {
         $busqueda = $_POST['busqueda'] ?? '';
         $categorias = CategoriaProducto::filtrar($busqueda);
+
+      
         
 
         $router->renderAdmin('Admin/categorias_producto/GestionCategoriasProducto', [
@@ -71,12 +73,14 @@ class CategoriaProductoController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $categoria->sincronizar($_POST['categoria']);
             $alertas = $categoria->validar();
+          
 
             if ($_FILES['categoria']['tmp_name']['foto']) {
                 $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
                 $manager = new ImageManager(Driver::class);
                 $imagen = $manager->read($_FILES['categoria']['tmp_name']['foto'])->cover(800, 600);
                 $categoria->setImagen($nombreImagen);
+                $categoria->delete_image();
 
                 if (!is_dir(CARPETAS_IMAGENES_CATEGORIAS)) {
                     mkdir(CARPETAS_IMAGENES_CATEGORIAS);

@@ -43,11 +43,13 @@ GRANT SELECT ON db_la57cap.repartidor TO 'cliente57'@'localhost';
 GRANT SELECT, INSERT ON db_la57cap.devoluciones TO 'cliente57'@'localhost';
 GRANT SELECT ON db_la57cap.devolucion_detalles TO 'cliente57'@'localhost';
 
-GRANT SELECT, INSERT ON db_la57cap.clasificaciones TO 'cliente57'@'localhost';
+
 GRANT SELECT, INSERT ON db_la57cap.detalles_ventas TO 'cliente57'@'localhost';
 GRANT SELECT ON db_la57cap.notificacion TO 'cliente57'@'localhost';
 GRANT SELECT, INSERT ON db_la57cap.calificaciones TO 'cliente57'@'localhost';
 GRANT SELECT, UPDATE ON db_la57cap.inventario TO 'cliente57'@'localhost';
+GRANT INSERT ON db_la57cap.detalles_ventas TO 'cliente57'@'localhost';
+GRANT SELECT ON db_la57cap.detalles_ventas TO 'cliente57'@'localhost';
 -- ========================================
 -- USUARIO: repartidor57
 -- Rol: Repartidor
