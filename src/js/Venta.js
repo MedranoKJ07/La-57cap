@@ -51,6 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      if (!data.disponible_para_venta) {
+        alert(
+          "Este producto no está disponible para la venta. El stock mínimo se alcanzó."
+        );
+        return;
+      }
+
       const productoExistente = productos.find(
         (p) => p.codigo === data.codigo_producto
       );
@@ -188,8 +195,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const idClienteInput = document.getElementById("id_cliente_registrado");
   const nombreClienteInput = document.getElementById("nombre_cliente_mostrado");
-  const telefonoClienteInput = document.getElementById("telefono_cliente_mostrado");
-  const direccionClienteInput = document.getElementById("direccion_cliente_mostrado");
+  const telefonoClienteInput = document.getElementById(
+    "telefono_cliente_mostrado"
+  );
+  const direccionClienteInput = document.getElementById(
+    "direccion_cliente_mostrado"
+  );
 
   sinRegistroCheckbox.addEventListener("change", function () {
     if (this.checked) {
@@ -228,7 +239,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function buscarCliente(nombre) {
     try {
-      const res = await fetch(`/api/cliente?nombre=${encodeURIComponent(nombre)}`);
+      const res = await fetch(
+        `/api/cliente?nombre=${encodeURIComponent(nombre)}`
+      );
       const data = await res.json();
       return res.ok ? data : null;
     } catch (error) {

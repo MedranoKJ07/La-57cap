@@ -144,9 +144,9 @@ class Producto extends ActiveRecord
 
         return self::consultarSQL($query);
     }
-    public static function filtrar2($categoria = '', $busqueda = '', $orden = '')
+public static function filtrar2($categoria = '', $busqueda = '', $orden = '')
 {
-    $condiciones = ["producto.eliminado = 0"];
+    $condiciones = ["producto.eliminado = 0", "inventario.cantidad_actual > inventario.cantidad_minima"];
 
     if ($categoria !== '') {
         $categoria = self::$db->real_escape_string($categoria);
@@ -160,26 +160,29 @@ class Producto extends ActiveRecord
 
     $where = 'WHERE ' . implode(' AND ', $condiciones);
 
-    // Validar y aplicar orden
-    $ordenSQL = '';
-    if (strtolower($orden) === 'asc') {
-        $ordenSQL = "ORDER BY producto.precio ASC";
-    } elseif (strtolower($orden) === 'desc') {
-        $ordenSQL = "ORDER BY producto.precio DESC";
-    } else {
-        $ordenSQL = "ORDER BY producto.idproducto DESC"; // por defecto
-    }
+    // Ordenar según opción
+    $ordenSQL = match (strtolower($orden)) {
+        'asc' => "ORDER BY producto.precio ASC",
+        'desc' => "ORDER BY producto.precio DESC",
+        default => "ORDER BY producto.idproducto DESC",
+    };
 
     $query = "
-        SELECT producto.*, categoria_producto.titulo AS categoria_nombre
+        SELECT 
+            producto.*, 
+            categoria_producto.titulo AS categoria_nombre,
+            inventario.cantidad_actual,
+            inventario.cantidad_minima
         FROM producto
         INNER JOIN categoria_producto ON producto.id_categoria = categoria_producto.idcategoria_producto
+        INNER JOIN inventario ON inventario.producto_idproducto = producto.idproducto
         $where
         $ordenSQL
     ";
 
     return self::consultarSQL($query);
 }
+
 
 
 
@@ -286,6 +289,43 @@ class Producto extends ActiveRecord
     }
 
 
+    public static function verificarDisponibilidadVenta($codigoProducto)
+    {
+        $codigo = self::$db->escape_string($codigoProducto);
+
+        $query = "
+        SELECT 
+            p.idproducto,
+            p.codigo_producto,
+            p.nombre_producto,
+            p.precio,
+            p.Foto,
+            i.cantidad_actual,
+            i.cantidad_minima
+        FROM producto p
+        INNER JOIN inventario i ON p.idproducto = i.producto_idproducto
+        WHERE p.codigo_producto = '$codigo' AND p.eliminado = 0
+        LIMIT 1
+    ";
+
+        $resultado = self::$db->query($query);
+
+        if ($resultado && $resultado->num_rows > 0) {
+            $producto = $resultado->fetch_assoc();
+            $disponible = (int) $producto['cantidad_actual'] - (int) $producto['cantidad_minima'];
+
+            // Solo permitir si hay más del mínimo
+            if ($disponible > 0) {
+                $producto['disponible_para_venta'] = true;
+                return $producto;
+            } else {
+                $producto['disponible_para_venta'] = false;
+                return $producto;
+            }
+        }
+
+        return null;
+    }
 
 
 }

@@ -27,7 +27,7 @@ class ApiVentaController
             return;
         }
 
-        $producto = Producto::whereAll('codigo_producto', $codigo);
+            $producto = Producto::verificarDisponibilidadVenta($codigo);
 
 
         if (!$producto) {
@@ -36,15 +36,7 @@ class ApiVentaController
             return;
         }
 
-        // Devolver datos JSON del producto
-        echo json_encode([
-            'idproducto' => $producto->idproducto,
-            'codigo_producto' => $producto->codigo_producto,
-            'nombre_producto' => $producto->nombre_producto,
-            'precio' => $producto->precio,
-            'Foto' => trim($producto->Foto)
-
-        ]);
+        echo json_encode($producto);
     }
     public static function buscarCliente()
     {
