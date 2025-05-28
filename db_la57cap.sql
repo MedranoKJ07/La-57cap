@@ -11,7 +11,7 @@
  Target Server Version : 80040
  File Encoding         : 65001
 
- Date: 27/05/2025 12:15:08
+ Date: 27/05/2025 19:50:47
 */
 
 SET NAMES utf8mb4;
@@ -186,6 +186,8 @@ INSERT INTO `detalles_ventas` VALUES (10, 20, 7, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (11, 21, 7, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (12, 22, 7, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (13, 23, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (14, 24, 7, 2, 116.00);
+INSERT INTO `detalles_ventas` VALUES (15, 24, 8, 1, 58.00);
 
 -- ----------------------------
 -- Table structure for devolucion_detalles
@@ -211,6 +213,7 @@ INSERT INTO `devolucion_detalles` VALUES (5, 1, 'sucia', 7, 15);
 INSERT INTO `devolucion_detalles` VALUES (6, 1, 'a', 7, 16);
 INSERT INTO `devolucion_detalles` VALUES (7, 1, 'dsdd', 7, 17);
 INSERT INTO `devolucion_detalles` VALUES (8, 1, 'a', 8, 18);
+INSERT INTO `devolucion_detalles` VALUES (9, 1, 'sucia', 7, 19);
 
 -- ----------------------------
 -- Table structure for devoluciones
@@ -240,7 +243,8 @@ CREATE TABLE `devoluciones`  (
 INSERT INTO `devoluciones` VALUES (15, '2025-05-22 22:34:19', 'Múltiples productos', 0, 'mixto', 'no cubre la garantia', 15, 3, 0, 'Rechazado');
 INSERT INTO `devoluciones` VALUES (16, '2025-05-22 23:26:12', 'Múltiples productos', 1, 'mixto', '', 15, 3, 0, 'Aprobado');
 INSERT INTO `devoluciones` VALUES (17, '2025-05-22 23:29:46', 'Múltiples productos', 1, 'mixto', '', 15, 3, 0, 'Aprobado');
-INSERT INTO `devoluciones` VALUES (18, '2025-05-23 02:14:48', 'Múltiples productos', 0, 'mixto', '', 14, 3, 0, 'Visitar tienda');
+INSERT INTO `devoluciones` VALUES (18, '2025-05-23 02:14:48', 'Múltiples productos', 0, 'mixto', 'tu madre', 14, 3, 0, 'Rechazado');
+INSERT INTO `devoluciones` VALUES (19, '2025-05-27 21:31:08', 'Múltiples productos', 0, 'mixto', '', 6, 3, 0, 'Visitar tienda');
 
 -- ----------------------------
 -- Table structure for inventario
@@ -311,9 +315,10 @@ INSERT INTO `pedidos` VALUES (1, 6, 3, NULL, '2025-05-21 02:13:28', '2025-05-23'
 INSERT INTO `pedidos` VALUES (2, 14, 3, NULL, '2025-05-21 04:50:21', '2025-05-23', '12:00:00', 'a la par de mi vecino', 'asdsadsad', 0, 0);
 INSERT INTO `pedidos` VALUES (3, 15, 3, NULL, '2025-05-21 04:51:35', '2025-06-06', '13:54:00', 'a la par de mi vecino', '', 0, 0);
 INSERT INTO `pedidos` VALUES (4, 16, 3, NULL, '2025-05-23 04:16:51', '2025-05-30', '16:16:00', 'a la par de mi vecino', '', 0, 0);
-INSERT INTO `pedidos` VALUES (5, 17, 3, NULL, '2025-05-26 19:17:28', '2025-05-29', '15:19:00', 'a la par de mi vecino', 'a', 0, 0);
+INSERT INTO `pedidos` VALUES (5, 17, 3, 12, '2025-05-26 19:17:28', '2025-05-29', '15:19:00', 'a la par de mi vecino', 'a', 0, 0);
 INSERT INTO `pedidos` VALUES (6, 18, 3, 13, '2025-05-26 19:19:07', '2025-05-28', '14:20:00', 'a', 'a', 0, 0);
 INSERT INTO `pedidos` VALUES (7, 21, 2, 12, '2025-05-27 04:35:59', '2025-06-06', '22:40:00', 'a', 'Persona a Recibir : KERLINT MEDRANO', 1, 1);
+INSERT INTO `pedidos` VALUES (8, 24, 1, 12, '2025-05-27 21:07:05', '2025-05-30', '18:09:00', 'a la par de mi vecino', 'Persona a Recibir : KERLINT MEDRANO', 1, 1);
 
 -- ----------------------------
 -- Table structure for producto
@@ -434,7 +439,7 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (59, 1, '4fab6662fe79843fdffa9013be93884a.jpg', 'KJ', '$2y$10$5C2QP0paeEA8n4ZCgJkn3eWRj7GoUbo5JoQuYcTeK5PA19r9D2M22', 'kmurillojosue75@gmail.com', 1, NULL, '2025-05-13 05:56:18', '2025-05-13 05:56:18', 0, 0);
+INSERT INTO `usuario` VALUES (59, 1, '4fab6662fe79843fdffa9013be93884a.jpg', 'KJ', '$2y$10$5C2QP0paeEA8n4ZCgJkn3eWRj7GoUbo5JoQuYcTeK5PA19r9D2M22', 'kmurillojosue75@gmail.com', 1, '68362efc9b058', '2025-05-13 05:56:18', '2025-05-13 05:56:18', 0, 0);
 INSERT INTO `usuario` VALUES (72, 1, '4d288312d85b9591c952f7a14ea1155f.jpg', 'a', '$2y$10$NW/1HEQ0tqvRApqoM3c6CenZKLzyhmkwR2TJEsVYImmohRzg9pt5C', 'a@gmail.com', 1, '', '2025-05-15 03:38:45', '2025-05-15 03:38:45', 1, 1);
 INSERT INTO `usuario` VALUES (73, 2, '6282b1484ede608da413179304d52e0c.jpg', 'KJ Vendedor', '$2y$10$35yBRFnfpu74u4IRAKMtOekuRgWSPG4YGLv/Q/ks6wkFVplyf/SKO', 'kmurillojosue75@gmail.com', 1, '', '2025-05-15 07:21:57', '2025-05-15 07:21:57', 0, 0);
 INSERT INTO `usuario` VALUES (74, 3, '0f08b57b3bd1c4fed42781937a60a12d.jpg', 'KJ Repartidor', '$2y$10$n4OwveYjZ/2fpvq5POXtOOF25pXq.TNU1OhyfrcXbJyqKHfMcDnOu', 'kmurillojosue275@gmail.com', 1, '682a3f0471d13', '2025-05-15 07:22:22', '2025-05-15 07:22:22', 0, 0);
@@ -501,7 +506,7 @@ CREATE TABLE `ventas`  (
 INSERT INTO `ventas` VALUES (3, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 02:05:21', 0);
 INSERT INTO `ventas` VALUES (4, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 02:10:23', 0);
 INSERT INTO `ventas` VALUES (5, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 02:13:06', 0);
-INSERT INTO `ventas` VALUES (6, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Entregado', '2025-05-21 02:13:28', 0);
+INSERT INTO `ventas` VALUES (6, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Visitar tienda', '2025-05-21 02:13:28', 0);
 INSERT INTO `ventas` VALUES (7, 1, NULL, 58.00, 0.00, 0.00, 58.00, 'Pendiente', '2025-05-21 04:41:37', 0);
 INSERT INTO `ventas` VALUES (8, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:44:01', 0);
 INSERT INTO `ventas` VALUES (9, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:44:15', 0);
@@ -509,15 +514,16 @@ INSERT INTO `ventas` VALUES (10, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente',
 INSERT INTO `ventas` VALUES (11, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:46:09', 0);
 INSERT INTO `ventas` VALUES (12, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:46:09', 0);
 INSERT INTO `ventas` VALUES (13, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:46:23', 0);
-INSERT INTO `ventas` VALUES (14, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Visitar tienda', '2025-05-21 04:50:21', 0);
+INSERT INTO `ventas` VALUES (14, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Devolución rechazada', '2025-05-21 04:50:21', 0);
 INSERT INTO `ventas` VALUES (15, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Devolución aprobada', '2025-05-21 04:51:35', 0);
 INSERT INTO `ventas` VALUES (16, 1, NULL, 116.00, 0.00, 17.40, 133.40, 'Pendiente', '2025-05-23 04:16:51', 0);
-INSERT INTO `ventas` VALUES (17, 1, NULL, 290.00, 0.00, 43.50, 333.50, 'Pendiente', '2025-05-26 19:17:28', 0);
+INSERT INTO `ventas` VALUES (17, 1, NULL, 290.00, 0.00, 43.50, 333.50, 'En Camino', '2025-05-26 19:17:28', 0);
 INSERT INTO `ventas` VALUES (18, 1, 3, 58.00, 0.00, 8.70, 66.70, 'En Camino', '2025-05-26 19:19:07', 0);
 INSERT INTO `ventas` VALUES (19, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 01:49:42', 0);
 INSERT INTO `ventas` VALUES (20, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 03:42:09', 0);
 INSERT INTO `ventas` VALUES (21, 22, 2, 58.00, 0.00, 8.70, 66.70, 'Entregado', '2025-05-27 04:35:59', 0);
 INSERT INTO `ventas` VALUES (22, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 04:47:41', 0);
 INSERT INTO `ventas` VALUES (23, 22, 2, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 04:48:01', 0);
+INSERT INTO `ventas` VALUES (24, 22, NULL, 174.00, 0.00, 26.10, 200.10, 'Entregado', '2025-05-27 21:07:05', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
