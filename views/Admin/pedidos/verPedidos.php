@@ -45,7 +45,7 @@
                                 <span class="badge bg-info"><?= $pedido->estado_venta ?></span>
                             </td>
                             <td>
-                                <a href="/admin/detalle-calificacion?id=<?= $pedido->idpedidos ?>"
+                                <a href="/admin/detalle-pedido?id=<?= $pedido->idpedidos ?>"
                                     class="btn btn-sm btn-outline-primary">
                                     Ver Detalle
                                 </a>

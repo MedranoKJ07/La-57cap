@@ -37,7 +37,7 @@ class Pedido extends ActiveRecord
     public $estado_venta;
     public $tiene_devolucion;
     public $en_devolucion;
-   
+
     public $no_disponible_para_devolver;
     public $cliente_nombre;
     public $cliente_apellido;
@@ -45,7 +45,7 @@ class Pedido extends ActiveRecord
 
     public $repartidor_nombre;
     public $repartidor_apellido;
-    
+
 
 
     public function __construct($args = [])
@@ -215,10 +215,10 @@ class Pedido extends ActiveRecord
         $resultado = self::$db->query($sql);
         return $resultado->fetch_all(MYSQLI_ASSOC);
     }
-    
-public static function obtenerTodosConDetalles()
-{
-    $sql = "SELECT 
+
+    public static function obtenerTodosConDetalles()
+    {
+        $sql = "SELECT 
                 p.idpedidos,
                 p.direccion_entregar,
                 p.fecha_entregar,
@@ -237,21 +237,21 @@ public static function obtenerTodosConDetalles()
             LEFT JOIN ventas v ON p.id_ventas = v.idventas
             ORDER BY p.creado DESC";
 
-    $resultado = self::$db->query($sql);
+        $resultado = self::$db->query($sql);
 
-    $pedidos = [];
-    while ($registro = $resultado->fetch_object()) {
-        $pedidos[] = $registro;
+        $pedidos = [];
+        while ($registro = $resultado->fetch_object()) {
+            $pedidos[] = $registro;
+        }
+
+        return $pedidos;
     }
 
-    return $pedidos;
-}
+    public static function obtenerConCalificacionPorId($idPedido)
+    {
+        $idPedido = self::$db->real_escape_string($idPedido);
 
-public static function obtenerConCalificacionPorId($idPedido)
-{
-    $idPedido = self::$db->real_escape_string($idPedido);
-
-    $sql = "SELECT 
+        $sql = "SELECT 
                 p.*, 
                 v.subtotal, v.iva, v.total,
                 cli.p_nombre AS cliente_nombre, cli.s_nombre AS cliente_sn, cli.p_apellido AS cliente_apellido, cli.s_apellido AS cliente_sa, cli.n_telefono, cli.direccion,
@@ -265,10 +265,44 @@ public static function obtenerConCalificacionPorId($idPedido)
             WHERE p.idpedidos = '$idPedido'
             LIMIT 1";
 
-    $resultado = self::$db->query($sql);
-    return $resultado->fetch_assoc();
-}
+        $resultado = self::$db->query($sql);
+        return $resultado->fetch_assoc();
+    }
 
+    public static function obtenerDetalleConCalificacion($idPedido)
+    {
+        $idPedido = self::$db->real_escape_string($idPedido);
+
+        $sql = "SELECT 
+                p.*, 
+                v.idventas AS id_ventas, 
+                v.subtotal, 
+                v.iva, 
+                v.total,
+                cli.p_nombre AS cliente_nombre, 
+                cli.s_nombre AS cliente_sn, 
+                cli.p_apellido AS cliente_apellido, 
+                cli.s_apellido AS cliente_sa, 
+                cli.n_telefono AS telefono, 
+                cli.direccion,
+                r.p_nombre AS repartidor_nombre, 
+                r.s_nombre AS repartidor_sn, 
+                r.p_apellido AS repartidor_apellido, 
+                r.s_apellido AS repartidor_sa,
+                c.puntuacion, 
+                c.comentario, 
+                c.fecha_clasificacion
+            FROM pedidos p
+            INNER JOIN ventas v ON v.idventas = p.id_ventas
+            INNER JOIN cliente cli ON cli.idcliente = p.id_cliente
+            LEFT JOIN calificaciones c ON c.pedidos_idpedidos = p.idpedidos
+            LEFT JOIN repartidor r ON r.idrepartidor = p.id_repartidor
+            WHERE p.idpedidos = '$idPedido'
+            LIMIT 1";
+
+        $resultado = self::$db->query($sql);
+        return $resultado->fetch_assoc();
+    }
 
 
 

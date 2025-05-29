@@ -55,7 +55,7 @@ class AdminController
     }
     public static function verPedidos(Router $router)
     {
-    
+
 
         $pedidos = Pedido::obtenerTodosConDetalles();
 
@@ -65,5 +65,32 @@ class AdminController
         ]);
     }
 
+    public static function detallePedido(Router $router)
+    {
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            header('Location: /admin/pedidos');
+            exit;
+        }
+
+        // Obtener datos del pedido, cliente, repartidor y calificación si existe
+        $pedido = Pedido::obtenerDetalleConCalificacion($id);
+
+        if (!$pedido) {
+            $_SESSION['error'] = 'Pedido no encontrado.';
+            header('Location: /admin/pedidos');
+            exit;
+        }
+
+        // Obtener productos de la venta asociada
+        $productos = DetalleVenta::obtenerPorVenta($pedido['id_ventas']);
+
+        $router->renderAdmin('Admin/pedidos/detalle', [
+            'titulo' => 'Detalle del Pedido',
+            'pedido' => $pedido,
+            'productos' => $productos
+        ]);
+    }
 
 }

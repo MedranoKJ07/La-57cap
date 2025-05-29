@@ -158,6 +158,7 @@ $router->post('/admin/devoluciones/rechazar', [DevolucionController::class, 'rec
 $router->post('/admin/devoluciones/visitar-tienda', [DevolucionController::class, 'visitarTienda']);
 
 $router->get('/admin/historialPedidos', [AdminController::class, 'verPedidos']);
+$router->get('/admin/detalle-pedido', [AdminController::class, 'detallePedido']);
 
 $router->get('/admin/calificaciones', [AdminController::class, 'verCalificaciones']);           
 $router->get('/admin/detalle-calificacion', [AdminController::class, 'detalleCalificacion']);
