@@ -77,7 +77,7 @@ $router->get('/cliente/calificar', [ClientePanelController::class, 'calificarPed
 
 
 $router->get('/SobreNosotros', [LandingController::class, 'about']);
-$router->get('/Contactanos', [LandingController::class, 'contact']);
+$router->get('/visit_us', [LandingController::class, 'visit_us']);
 
 
 

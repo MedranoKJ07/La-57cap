@@ -83,7 +83,7 @@
                             <a class="nav-link" href="/tienda">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Contactanos">Contact</a>
+                            <a class="nav-link" href="/visit_us">Contact</a>
                         </li>
                     </ul>
                     <ul>

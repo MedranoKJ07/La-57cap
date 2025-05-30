@@ -48,7 +48,7 @@ class LandingController
         ]);
     }
 
-    public static function contact(Router $router)
+    public static function visit_us(Router $router)
     {
         $categorias = CategoriaProducto::obtener7Categorias();
 
@@ -57,7 +57,7 @@ class LandingController
             $notificaciones = Notificacion::obtenerPorUsuario($_SESSION['id']);
         }
 
-        $router->renderLanding('/Main/contact', [
+        $router->renderLanding('/Main/visit_us', [
             'categorias' => $categorias,
             'carritoCantidad' => obtenerCantidadCarrito(),
             'titulo' => 'Contáctanos',
