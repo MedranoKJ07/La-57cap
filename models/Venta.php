@@ -2,7 +2,8 @@
 
 namespace Model;
 
-class Venta extends ActiveRecord {
+class Venta extends ActiveRecord
+{
     protected static $tabla = 'ventas';
     protected static $columnasDB = [
         'idventas',
@@ -19,7 +20,7 @@ class Venta extends ActiveRecord {
     protected static $id = 'idventas';
 
     public $idventas;
-    public $id_cliente; 
+    public $id_cliente;
     public $id_vendedor;
     public $subtotal;
     public $descuento;
@@ -29,7 +30,8 @@ class Venta extends ActiveRecord {
     public $creado;
     public $eliminado;
 
-    public function __construct($args = []) {
+    public function __construct($args = [])
+    {
         $this->idventas = $args['idventas'] ?? null;
         $this->id_vendedor = $args['id_vendedor'] ?? null;
         $this->id_cliente = $args['id_cliente'] ?? null;
@@ -42,9 +44,25 @@ class Venta extends ActiveRecord {
         $this->eliminado = $args['eliminado'] ?? 0;
     }
 
-    public function guardar() {
+    public function guardar()
+    {
         $resultado = $this->crear();
         $this->idventas = $resultado['id'];
         Inventario::verificarStockCriticoYNotificar();
     }
+    public static function ventasPorFecha($inicio, $fin)
+    {
+        $sql = "SELECT DATE(creado) AS fecha, COUNT(*) AS total_ventas, SUM(total) AS monto_total
+            FROM ventas
+            WHERE eliminado = 0 AND DATE(creado) BETWEEN '$inicio' AND '$fin'
+            GROUP BY DATE(creado)
+            ORDER BY fecha DESC";
+        $resultado = self::$db->query($sql);
+        return $resultado;
+
+        // 🔁 Devuelve array asociativo
+    }
+
+
+
 }

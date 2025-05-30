@@ -22,6 +22,7 @@ use Controllers\ClientePanelController;
 use Controllers\DevolucionController;
 use Controllers\ApiVentaController;
 use Controllers\NotificacionController;
+use Controllers\ReporteController;
 
 
 use MVC\Router;
@@ -163,6 +164,13 @@ $router->get('/admin/detalle-pedido', [AdminController::class, 'detallePedido'])
 
 $router->get('/admin/calificaciones', [AdminController::class, 'verCalificaciones']);           
 $router->get('/admin/detalle-calificacion', [AdminController::class, 'detalleCalificacion']);
+
+
+//Reportes
+$router->get('/reporte/ventas-fecha', [ReporteController::class, 'ventasFecha']);
+$router->get('/reporte/ventas-fecha-excel', [ReporteController::class, 'ventasFechaExcel']);
+$router->get('/reporte/ventas-fecha-pdf', [ReporteController::class, 'ventasFechaPDF']);
+
 
 
 //PANEL DE VENDEDORES
