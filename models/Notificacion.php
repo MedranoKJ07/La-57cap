@@ -81,4 +81,6 @@ class Notificacion extends ActiveRecord
         echo json_encode($notificaciones);
     }
 
+
+
 }

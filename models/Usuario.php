@@ -246,5 +246,18 @@ class Usuario extends ActiveRecord
 
         return $ids;
     }
+    public static function obtenerPorRol($rol)
+    {
+        $rol = self::$db->real_escape_string($rol);
+        $sql = "SELECT * FROM usuario WHERE id_roles = '$rol'";
+        $resultado = self::$db->query($sql);
+
+        $usuarios = [];
+        while ($row = $resultado->fetch_assoc()) {
+            $usuarios[] = (object) $row;
+        }
+
+        return $usuarios;
+    }
 
 }

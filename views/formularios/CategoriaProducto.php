@@ -16,7 +16,7 @@
 
 <div class="mb-3">
     <label for="politica_garantia" class="form-label">Política de Garantía</label>
-    <textarea class="form-control" id="politica_garantia" name="categoria[politica_garantia]" rows="4" required><?php echo s($categoria->politica_garantia) ?? ''; ?></textarea>
+    <textarea class="form-control" id="politica_garantia" maxlength="500" name="categoria[politica_garantia]"  rows="4" required><?php echo s($categoria->politica_garantia) ?? ''; ?></textarea>
 </div>
 
 <div class="mb-3">

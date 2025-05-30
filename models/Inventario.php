@@ -92,5 +92,39 @@ class Inventario extends ActiveRecord
 
         return self::$db->query($query);
     }
+    public static function verificarStockCriticoYNotificar()
+    {
+        // Obtener todos los inventarios con stock crítico
+        $sql = "
+        SELECT 
+            i.*, 
+            p.nombre_producto 
+        FROM inventario i
+        INNER JOIN producto p ON i.producto_idproducto = p.idproducto
+        WHERE i.cantidad_actual <= i.cantidad_minima
+    ";
+
+        $resultado = self::$db->query($sql);
+
+        if ($resultado && $resultado->num_rows > 0) {
+            require_once __DIR__ . '/Usuario.php'; // si no está cargado
+            require_once __DIR__ . '/../controllers/NotificacionController.php';
+
+            $admins = Usuario::obtenerPorRol(1); // Método que devuelve todos los admins
+
+            while ($registro = $resultado->fetch_assoc()) {
+                $nombre = $registro['nombre_producto'];
+                $cantidad = $registro['cantidad_actual'];
+
+                foreach ($admins as $admin) {
+                    \Controllers\NotificacionController::crear(
+                        'Stock Crítico',
+                        "El producto \"$nombre\" está en stock crítico con solo $cantidad unidades.",
+                        $admin->idusuario
+                    );
+                }
+            }
+        }
+    }
 
 }

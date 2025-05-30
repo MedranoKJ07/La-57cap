@@ -11,7 +11,7 @@
  Target Server Version : 80041
  File Encoding         : 65001
 
- Date: 28/05/2025 20:29:33
+ Date: 29/05/2025 21:13:10
 */
 
 SET NAMES utf8mb4;
@@ -174,7 +174,7 @@ CREATE TABLE `detalles_ventas`  (
   INDEX `fk_detalles_ventas_ventas1_idx`(`ventas_idventas`) USING BTREE,
   CONSTRAINT `detalles_ventas_productos` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_detalles_ventas_ventas1` FOREIGN KEY (`ventas_idventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of detalles_ventas
@@ -206,6 +206,28 @@ INSERT INTO `detalles_ventas` VALUES (24, 33, 7, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (25, 35, 8, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (26, 36, 8, 1, 58.00);
 INSERT INTO `detalles_ventas` VALUES (27, 37, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (28, 38, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (29, 39, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (30, 40, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (31, 41, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (32, 42, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (33, 43, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (34, 44, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (35, 45, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (36, 46, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (37, 47, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (38, 48, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (39, 49, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (40, 50, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (41, 51, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (42, 52, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (43, 56, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (44, 57, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (45, 58, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (46, 59, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (47, 60, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (48, 61, 7, 1, 58.00);
+INSERT INTO `detalles_ventas` VALUES (49, 62, 7, 1, 58.00);
 
 -- ----------------------------
 -- Table structure for devolucion_detalles
@@ -222,7 +244,7 @@ CREATE TABLE `devolucion_detalles`  (
   INDEX `fk_Devolucion_Detalles_Devoluciones1_idx`(`Devoluciones_idDevoluciones`) USING BTREE,
   CONSTRAINT `fk_Devolucion_Detalles_Devoluciones1` FOREIGN KEY (`Devoluciones_idDevoluciones`) REFERENCES `devoluciones` (`idDevoluciones`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Devolucion_Detalles_producto1` FOREIGN KEY (`producto_idproducto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of devolucion_detalles
@@ -233,6 +255,8 @@ INSERT INTO `devolucion_detalles` VALUES (7, 1, 'dsdd', 7, 17);
 INSERT INTO `devolucion_detalles` VALUES (8, 1, 'a', 8, 18);
 INSERT INTO `devolucion_detalles` VALUES (9, 1, 'sucia', 7, 19);
 INSERT INTO `devolucion_detalles` VALUES (10, 1, 'asdsad', 7, 20);
+INSERT INTO `devolucion_detalles` VALUES (11, 1, 'gfgdg', 7, 21);
+INSERT INTO `devolucion_detalles` VALUES (12, 1, '1234', 8, 22);
 
 -- ----------------------------
 -- Table structure for devoluciones
@@ -254,7 +278,7 @@ CREATE TABLE `devoluciones`  (
   INDEX `fk_Devoluciones_cliente1_idx`(`cliente_idcliente`) USING BTREE,
   CONSTRAINT `fk_Devoluciones_cliente1` FOREIGN KEY (`cliente_idcliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Devoluciones_ventas1` FOREIGN KEY (`ventas_idventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of devoluciones
@@ -265,6 +289,8 @@ INSERT INTO `devoluciones` VALUES (17, '2025-05-22 23:29:46', 'Múltiples produc
 INSERT INTO `devoluciones` VALUES (18, '2025-05-23 02:14:48', 'Múltiples productos', 0, 'mixto', 'tu madre', 14, 3, 0, 'Rechazado');
 INSERT INTO `devoluciones` VALUES (19, '2025-05-27 21:31:08', 'Múltiples productos', 1, 'mixto', '', 6, 3, 0, 'Aprobado');
 INSERT INTO `devoluciones` VALUES (20, '2025-05-28 02:14:11', 'Múltiples productos', 1, 'mixto', '', 21, 2, 0, 'Aprobado');
+INSERT INTO `devoluciones` VALUES (21, '2025-05-29 05:04:53', 'Múltiples productos', 1, 'mixto', '', 28, 3, 0, 'Aprobado');
+INSERT INTO `devoluciones` VALUES (22, '2025-05-29 22:45:23', 'Múltiples productos', 0, 'mixto', 'tu madre', 25, 3, 0, 'Rechazado');
 
 -- ----------------------------
 -- Table structure for inventario
@@ -284,8 +310,8 @@ CREATE TABLE `inventario`  (
 -- ----------------------------
 -- Records of inventario
 -- ----------------------------
-INSERT INTO `inventario` VALUES (2, 18, 5, '2025-05-28 13:55:24', 7);
-INSERT INTO `inventario` VALUES (3, 4, 5, '2025-05-28 13:47:15', 8);
+INSERT INTO `inventario` VALUES (2, 22, 5, '2025-05-29 20:12:43', 7);
+INSERT INTO `inventario` VALUES (3, 2, 5, '2025-05-28 13:47:15', 8);
 
 -- ----------------------------
 -- Table structure for notificacion
@@ -301,7 +327,42 @@ CREATE TABLE `notificacion`  (
   PRIMARY KEY (`idnotificacion`) USING BTREE,
   INDEX `fk_notificacion_usuario1_idx`(`usuario_idusuario`) USING BTREE,
   CONSTRAINT `fk_notificacion_usuario1` FOREIGN KEY (`usuario_idusuario`) REFERENCES `usuario` (`idusuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of notificacion
+-- ----------------------------
+INSERT INTO `notificacion` VALUES (1, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta para el cliente  Kerlint Medrano', '2025-05-29 03:48:10', 59, 1);
+INSERT INTO `notificacion` VALUES (2, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano', '2025-05-29 04:09:19', 59, 1);
+INSERT INTO `notificacion` VALUES (3, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano. Por favor, revisar y atender la venta', '2025-05-29 04:09:19', 73, 0);
+INSERT INTO `notificacion` VALUES (10, 'Nuevo pedido asignado', 'Se le ha asignado un nuevo pedido con dirección de entrega. Pedido #: 12', '2025-05-29 04:31:34', 74, 0);
+INSERT INTO `notificacion` VALUES (11, 'Confirmación de pago entrega completada', 'Se ha recibido pago y la entrega ha sido completada para el pedido #10', '2025-05-29 04:40:08', 73, 0);
+INSERT INTO `notificacion` VALUES (12, 'Confirmación de pago entrega completada', 'Se ha recibido pago y la entrega ha sido completada para el pedido #10', '2025-05-29 04:40:08', 59, 0);
+INSERT INTO `notificacion` VALUES (13, 'Nuevo pedido asignado', 'Se le ha asignado un nuevo pedido con dirección de entrega. Pedido #: 13', '2025-05-29 04:49:16', 74, 0);
+INSERT INTO `notificacion` VALUES (14, 'Nuevo pedido asignado', 'Se le ha asignado un nuevo pedido con dirección de entrega. Pedido #: 13', '2025-05-29 04:49:38', 74, 0);
+INSERT INTO `notificacion` VALUES (15, 'Nuevo pedido asignado', 'Se le ha asignado un nuevo pedido con dirección de entrega. Pedido #: 13', '2025-05-29 04:50:07', 74, 0);
+INSERT INTO `notificacion` VALUES (16, 'Nuevo pedido asignado', 'Se le ha asignado un nuevo pedido con dirección de entrega. Pedido #: 13', '2025-05-29 04:50:49', 74, 0);
+INSERT INTO `notificacion` VALUES (17, 'Nuevo pedido asignado', 'Se le ha asignado un nuevo pedido con dirección de entrega. Pedido #: 13', '2025-05-29 04:52:36', 74, 0);
+INSERT INTO `notificacion` VALUES (18, 'Pedido en camino', 'Tu pedido ha sido asignado a un repartidor y pronto será entregado.', '2025-05-29 04:52:36', 83, 1);
+INSERT INTO `notificacion` VALUES (19, 'Pedido en proceso', 'Tu pedido ha sido atendido y pronto será asignado a un repartidor.', '2025-05-29 04:55:00', 83, 1);
+INSERT INTO `notificacion` VALUES (20, 'Nueva solicitud de devolución', 'Un cliente ha solicitado la devolución de un pedido. Pedido #10', '2025-05-29 05:04:53', 59, 1);
+INSERT INTO `notificacion` VALUES (21, 'Nueva solicitud de devolución', 'Un cliente ha solicitado la devolución de un pedido. Pedido #9', '2025-05-29 22:45:23', 59, 1);
+INSERT INTO `notificacion` VALUES (22, 'Visitar tienda', 'Por favor, visita la tienda para resolver tu solicitud de devolución. Por favor, lleva el producto. y el comprobantes de compra.', '2025-05-29 22:58:12', 83, 1);
+INSERT INTO `notificacion` VALUES (23, 'Respuesta a solicitud de devolución', 'Se ha rechazado tu solicitud de devolución. Motivo: tu madre', '2025-05-29 23:05:48', 83, 1);
+INSERT INTO `notificacion` VALUES (24, '⚠️ Stock Crítico', 'El producto \"Gorra amarillas\" está en stock crítico con solo 2 unidades.', '2025-05-30 01:56:24', 59, 1);
+INSERT INTO `notificacion` VALUES (25, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano', '2025-05-30 01:56:24', 59, 1);
+INSERT INTO `notificacion` VALUES (26, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano. Por favor, revisar y atender la venta', '2025-05-30 01:56:24', 73, 0);
+INSERT INTO `notificacion` VALUES (27, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano', '2025-05-30 02:02:28', 59, 1);
+INSERT INTO `notificacion` VALUES (28, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano. Por favor, revisar y atender la venta', '2025-05-30 02:02:28', 73, 0);
+INSERT INTO `notificacion` VALUES (29, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano', '2025-05-30 02:02:57', 59, 1);
+INSERT INTO `notificacion` VALUES (30, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano. Por favor, revisar y atender la venta', '2025-05-30 02:02:57', 73, 0);
+INSERT INTO `notificacion` VALUES (31, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano', '2025-05-30 02:03:53', 59, 1);
+INSERT INTO `notificacion` VALUES (32, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano. Por favor, revisar y atender la venta', '2025-05-30 02:03:53', 73, 0);
+INSERT INTO `notificacion` VALUES (33, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano', '2025-05-30 02:11:44', 59, 1);
+INSERT INTO `notificacion` VALUES (34, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano. Por favor, revisar y atender la venta', '2025-05-30 02:11:44', 73, 0);
+INSERT INTO `notificacion` VALUES (35, 'Stock Crítico', 'El producto \"Gorra amarillas\" está en stock crítico con solo 2 unidades.', '2025-05-30 02:12:43', 59, 1);
+INSERT INTO `notificacion` VALUES (36, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano', '2025-05-30 02:12:43', 59, 1);
+INSERT INTO `notificacion` VALUES (37, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente  Kerlint Medrano. Por favor, revisar y atender la venta', '2025-05-30 02:12:43', 73, 0);
 
 -- ----------------------------
 -- Table structure for pedidos
@@ -326,7 +387,7 @@ CREATE TABLE `pedidos`  (
   CONSTRAINT `pedido_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_repartidor` FOREIGN KEY (`id_repartidor`) REFERENCES `repartidor` (`idrepartidor`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_ventas` FOREIGN KEY (`id_ventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pedidos
@@ -340,9 +401,17 @@ INSERT INTO `pedidos` VALUES (6, 18, 3, 13, '2025-05-26 19:19:07', '2025-05-28',
 INSERT INTO `pedidos` VALUES (7, 21, 2, 12, '2025-05-27 04:35:59', '2025-06-06', '22:40:00', 'a', 'Persona a Recibir : KERLINT MEDRANO', 1, 1);
 INSERT INTO `pedidos` VALUES (8, 24, 1, 12, '2025-05-27 21:07:05', '2025-05-30', '18:09:00', 'a la par de mi vecino', 'Persona a Recibir : KERLINT MEDRANO', 1, 1);
 INSERT INTO `pedidos` VALUES (9, 25, 3, 12, '2025-05-28 02:36:12', '2025-05-28', '10:35:00', 'sa', 'a', 1, 1);
-INSERT INTO `pedidos` VALUES (10, 28, 3, NULL, '2025-05-28 05:09:35', '2025-05-28', '14:10:00', 'dasd', 'asdasd', 0, 0);
+INSERT INTO `pedidos` VALUES (10, 28, 3, 12, '2025-05-28 05:09:35', '2025-05-28', '14:10:00', 'dasd', 'asdasd', 1, 1);
 INSERT INTO `pedidos` VALUES (11, 33, 2, 12, '2025-05-28 19:42:30', '2025-05-29', '13:42:00', 'a la par de mi vecino', 'Persona a Recibir : KERLINT MEDRANO', 0, 1);
-INSERT INTO `pedidos` VALUES (12, 36, 3, NULL, '2025-05-28 19:47:15', '2025-05-30', '14:46:00', 'a la par de mi vecino', 'a', 0, 0);
+INSERT INTO `pedidos` VALUES (12, 36, 3, 12, '2025-05-28 19:47:15', '2025-05-30', '14:46:00', 'a la par de mi vecino', 'a', 0, 0);
+INSERT INTO `pedidos` VALUES (13, 51, 3, 12, '2025-05-29 03:48:10', '2025-05-29', '12:40:00', 'asdsad', 'asdsad', 0, 0);
+INSERT INTO `pedidos` VALUES (14, 52, 3, 12, '2025-05-29 04:09:19', '2025-05-29', '13:59:00', 'asdasdsa', '', 0, 0);
+INSERT INTO `pedidos` VALUES (15, 56, 3, NULL, '2025-05-30 01:56:24', '2025-05-30', '08:01:00', 'd', 'sdsa', 0, 0);
+INSERT INTO `pedidos` VALUES (16, 58, 3, NULL, '2025-05-30 02:02:28', '2025-05-30', '08:06:00', 'sas', 'g', 0, 0);
+INSERT INTO `pedidos` VALUES (17, 59, 3, NULL, '2025-05-30 02:02:57', '2025-06-06', '08:09:00', 'sadasd', 'h', 0, 0);
+INSERT INTO `pedidos` VALUES (18, 60, 3, NULL, '2025-05-30 02:03:53', '2025-06-07', '08:08:00', 'ioio', '', 0, 0);
+INSERT INTO `pedidos` VALUES (19, 61, 3, NULL, '2025-05-30 02:11:44', '2025-05-30', '08:08:00', 'sad', '', 0, 0);
+INSERT INTO `pedidos` VALUES (20, 62, 3, NULL, '2025-05-30 02:12:43', '2025-05-30', '08:08:00', 'asdsad', 'kkjll', 0, 0);
 
 -- ----------------------------
 -- Table structure for producto
@@ -515,7 +584,7 @@ CREATE TABLE `ventas`  (
   INDEX `ventas_cliente`(`id_cliente`) USING BTREE,
   CONSTRAINT `ventas_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ventas_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`idvendedor`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 63 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ventas
@@ -533,7 +602,7 @@ INSERT INTO `ventas` VALUES (12, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente',
 INSERT INTO `ventas` VALUES (13, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-21 04:46:23', 0);
 INSERT INTO `ventas` VALUES (14, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Devolución rechazada', '2025-05-21 04:50:21', 0);
 INSERT INTO `ventas` VALUES (15, 1, NULL, 58.00, 0.00, 8.70, 66.70, 'Devolución aprobada', '2025-05-21 04:51:35', 0);
-INSERT INTO `ventas` VALUES (16, 1, NULL, 116.00, 0.00, 17.40, 133.40, 'Pendiente', '2025-05-23 04:16:51', 0);
+INSERT INTO `ventas` VALUES (16, 1, NULL, 116.00, 0.00, 17.40, 133.40, 'En Proceso', '2025-05-23 04:16:51', 0);
 INSERT INTO `ventas` VALUES (17, 1, NULL, 290.00, 0.00, 43.50, 333.50, 'En Camino', '2025-05-26 19:17:28', 0);
 INSERT INTO `ventas` VALUES (18, 1, 3, 58.00, 0.00, 8.70, 66.70, 'En Camino', '2025-05-26 19:19:07', 0);
 INSERT INTO `ventas` VALUES (19, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 01:49:42', 0);
@@ -542,10 +611,10 @@ INSERT INTO `ventas` VALUES (21, 22, 2, 58.00, 0.00, 8.70, 66.70, 'Devolución a
 INSERT INTO `ventas` VALUES (22, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 04:47:41', 0);
 INSERT INTO `ventas` VALUES (23, 22, 2, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-27 04:48:01', 0);
 INSERT INTO `ventas` VALUES (24, 22, NULL, 174.00, 0.00, 26.10, 200.10, 'Entregado', '2025-05-27 21:07:05', 0);
-INSERT INTO `ventas` VALUES (25, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Entregado', '2025-05-28 02:36:12', 0);
+INSERT INTO `ventas` VALUES (25, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Devolución rechazada', '2025-05-28 02:36:12', 0);
 INSERT INTO `ventas` VALUES (26, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-28 05:08:32', 0);
 INSERT INTO `ventas` VALUES (27, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-28 05:09:10', 0);
-INSERT INTO `ventas` VALUES (28, 1, 3, 58.00, 0.00, 8.70, 66.70, 'En Proceso', '2025-05-28 05:09:35', 0);
+INSERT INTO `ventas` VALUES (28, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Devolución aprobada', '2025-05-28 05:09:35', 0);
 INSERT INTO `ventas` VALUES (29, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-28 05:10:44', 0);
 INSERT INTO `ventas` VALUES (30, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-28 05:11:56', 0);
 INSERT INTO `ventas` VALUES (31, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-28 05:12:25', 0);
@@ -553,7 +622,32 @@ INSERT INTO `ventas` VALUES (32, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado
 INSERT INTO `ventas` VALUES (33, 22, 2, 58.00, 0.00, 8.70, 66.70, 'En Camino', '2025-05-28 19:42:30', 0);
 INSERT INTO `ventas` VALUES (34, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-28 19:45:35', 0);
 INSERT INTO `ventas` VALUES (35, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-28 19:46:32', 0);
-INSERT INTO `ventas` VALUES (36, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-28 19:47:15', 0);
+INSERT INTO `ventas` VALUES (36, 1, 3, 58.00, 0.00, 8.70, 66.70, 'En Camino', '2025-05-28 19:47:15', 0);
 INSERT INTO `ventas` VALUES (37, 22, 2, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-28 19:55:24', 0);
+INSERT INTO `ventas` VALUES (38, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:44:16', 0);
+INSERT INTO `ventas` VALUES (39, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:44:29', 0);
+INSERT INTO `ventas` VALUES (40, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:45:10', 0);
+INSERT INTO `ventas` VALUES (41, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:45:13', 0);
+INSERT INTO `ventas` VALUES (42, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:45:13', 0);
+INSERT INTO `ventas` VALUES (43, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:45:13', 0);
+INSERT INTO `ventas` VALUES (44, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:45:14', 0);
+INSERT INTO `ventas` VALUES (45, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:45:14', 0);
+INSERT INTO `ventas` VALUES (46, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:45:14', 0);
+INSERT INTO `ventas` VALUES (47, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:45:17', 0);
+INSERT INTO `ventas` VALUES (48, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:45:42', 0);
+INSERT INTO `ventas` VALUES (49, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:46:44', 0);
+INSERT INTO `ventas` VALUES (50, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-29 03:47:59', 0);
+INSERT INTO `ventas` VALUES (51, 1, 3, 58.00, 0.00, 8.70, 66.70, 'En Camino', '2025-05-29 03:48:10', 0);
+INSERT INTO `ventas` VALUES (52, 1, 3, 58.00, 0.00, 8.70, 66.70, 'En Camino', '2025-05-29 04:09:19', 0);
+INSERT INTO `ventas` VALUES (53, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-30 01:54:33', 0);
+INSERT INTO `ventas` VALUES (54, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-30 01:55:18', 0);
+INSERT INTO `ventas` VALUES (55, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-30 01:56:11', 0);
+INSERT INTO `ventas` VALUES (56, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-30 01:56:24', 0);
+INSERT INTO `ventas` VALUES (57, 22, NULL, 58.00, 0.00, 8.70, 66.70, 'Completado', '2025-05-30 02:02:00', 0);
+INSERT INTO `ventas` VALUES (58, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-30 02:02:28', 0);
+INSERT INTO `ventas` VALUES (59, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-30 02:02:57', 0);
+INSERT INTO `ventas` VALUES (60, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-30 02:03:53', 0);
+INSERT INTO `ventas` VALUES (61, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-30 02:11:44', 0);
+INSERT INTO `ventas` VALUES (62, 1, 3, 58.00, 0.00, 8.70, 66.70, 'Pendiente', '2025-05-30 02:12:43', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

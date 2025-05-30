@@ -7,6 +7,7 @@ use Model\Pedido;
 use Model\CategoriaProducto;
 use Model\Cliente;
 use Model\Calificaciones;
+use Model\Notificacion;
 
 class ClientePanelController
 {
@@ -20,28 +21,31 @@ class ClientePanelController
         $categorias = CategoriaProducto::obtener7Categorias();
         $idUsuario = $_SESSION['id'] ?? null;
 
-        // Buscar el cliente
         $cliente = Cliente::where('id_usuario', $idUsuario);
         if (!$cliente) {
             header('Location: /');
             exit;
         }
 
-        // Obtener pedidos del cliente
         $pedidos = Pedido::obtenerPorCliente($cliente->idcliente);
-
         $calificados = [];
+
         foreach ($pedidos as $pedido) {
             $calificados[$pedido->idpedidos] = Calificaciones::existeParaPedidoYCliente($pedido->idpedidos, $cliente->idcliente);
         }
+
+        // 🔔 Obtener notificaciones del cliente
+        $notificaciones = Notificacion::obtenerPorUsuario($idUsuario);
 
         $router->renderLanding('Cliente/MisPedidos', [
             'titulo' => 'Mis Pedidos',
             'pedidos' => $pedidos,
             'categorias' => $categorias,
-            'calificados' => $calificados
+            'calificados' => $calificados,
+            'notificaciones' => $notificaciones
         ]);
     }
+
     public static function calificarPedido(Router $router)
     {
         if (empty($_SESSION['autenticado_Cliente'])) {
@@ -76,9 +80,8 @@ class ClientePanelController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $puntuacion = $_POST['puntuacion'] ?? null;
             $comentario = trim($_POST['comentario'] ?? '');
-            $idRepartidor = $pedido->id_repartidor; 
-            
-            // Validar entrada
+            $idRepartidor = $pedido->id_repartidor;
+
             if (!$puntuacion || !$comentario || !$idRepartidor || !is_numeric($puntuacion)) {
                 header('Location: /cliente/pedidos');
                 exit;
@@ -92,21 +95,20 @@ class ClientePanelController
                 'cliente_idcliente' => $cliente->idcliente,
                 'repartidor_idrepartidor' => $idRepartidor
             ]);
-           
+
             $calificacion->crear();
             header('Location: /cliente/pedidos');
             exit;
         }
 
+        // 🔔 Notificaciones también aquí si usás el mismo layout
+        $notificaciones = Notificacion::obtenerPorUsuario($_SESSION['id']);
+
         $router->renderLanding('Cliente/calificar', [
             'titulo' => 'Calificar Pedido',
             'pedido' => $pedido,
-            'cliente' => $cliente
+            'cliente' => $cliente,
+            'notificaciones' => $notificaciones
         ]);
     }
-
-
-
-
-
 }

@@ -133,6 +133,7 @@
                     $notificaciones = [];
                     if (isset($_SESSION['id'])) {
                         $notificaciones = Notificacion::obtenerPorUsuarioUltimas4($_SESSION['id']);
+                       
                     }
                     ?>
                     <ul class="navbar-nav navbar-align">
@@ -140,13 +141,13 @@
                             <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                                 <div class="position-relative">
                                     <i class="align-middle" data-feather="bell"></i>
-                                    <span class="indicator"><?= count($notificaciones) ?></span>
+                                    <span class="indicator"><?= count(Notificacion::obtenerPorUsuario($_SESSION['id'])) ?></span>
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
                                 aria-labelledby="alertsDropdown">
                                 <div class="dropdown-menu-header">
-                                    <?= count($notificaciones) ?> Notificaciones
+                                    Ultimas <?= count($notificaciones) ?> Notificaciones 
                                 </div>
                                 <div class="list-group">
                                     <?php foreach ($notificaciones as $noti): ?>

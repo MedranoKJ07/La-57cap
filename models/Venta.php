@@ -45,5 +45,6 @@ class Venta extends ActiveRecord {
     public function guardar() {
         $resultado = $this->crear();
         $this->idventas = $resultado['id'];
+        Inventario::verificarStockCriticoYNotificar();
     }
 }

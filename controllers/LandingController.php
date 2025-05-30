@@ -5,6 +5,8 @@ namespace Controllers;
 use MVC\Router;
 use Model\CategoriaProducto;
 use Model\Producto;
+use Model\Notificacion;
+use Model\Cliente;
 
 class LandingController
 {
@@ -14,30 +16,52 @@ class LandingController
         $categoriasMes = CategoriaProducto::obtener3CategoriasDestacadas();
         $productosDestacados = Producto::obtenerDestacados();
 
+        $notificaciones = [];
+        if (isset($_SESSION['autenticado_Cliente']) && isset($_SESSION['id'])) {
+            $notificaciones = Notificacion::obtenerPorUsuario($_SESSION['id']);
+        }
+
         $router->renderLanding('landing', [
             'categoriasMes' => $categoriasMes,
             'productosDestacados' => $productosDestacados,
             'categorias' => $categorias,
             'carritoCantidad' => obtenerCantidadCarrito(),
-            'titulo' => 'Bienvenido'
+            'titulo' => 'Bienvenido',
+            'notificaciones' => $notificaciones
         ]);
     }
+
     public static function about(Router $router)
     {
         $categorias = CategoriaProducto::obtener7Categorias();
+
+        $notificaciones = [];
+        if (isset($_SESSION['autenticado_Cliente']) && isset($_SESSION['id'])) {
+            $notificaciones = Notificacion::obtenerPorUsuario($_SESSION['id']);
+        }
+
         $router->renderLanding('/Main/about', [
             'categorias' => $categorias,
             'carritoCantidad' => obtenerCantidadCarrito(),
-            'titulo' => 'Bienvenido'
+            'titulo' => 'Sobre Nosotros',
+            'notificaciones' => $notificaciones
         ]);
     }
+
     public static function contact(Router $router)
     {
         $categorias = CategoriaProducto::obtener7Categorias();
+
+        $notificaciones = [];
+        if (isset($_SESSION['autenticado_Cliente']) && isset($_SESSION['id'])) {
+            $notificaciones = Notificacion::obtenerPorUsuario($_SESSION['id']);
+        }
+
         $router->renderLanding('/Main/contact', [
             'categorias' => $categorias,
             'carritoCantidad' => obtenerCantidadCarrito(),
-            'titulo' => 'Bienvenido'
+            'titulo' => 'Contáctanos',
+            'notificaciones' => $notificaciones
         ]);
     }
 }

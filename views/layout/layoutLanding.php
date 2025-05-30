@@ -91,18 +91,23 @@
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                            <div class="input-group-text">
-                                <i class="fa fa-fw fa-search"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
-                        data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
+
+
+                    <a class="nav-icon position-relative text-decoration-none" href="/notificaciones">
+                        <i class="fa fa-fw fa-bell text-dark me-1"></i>
+
+                        <?php
+                        if (!empty($_SESSION['autenticado_Cliente'])):
+                            if (!empty($notificaciones) && count($notificaciones) > 0): ?>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white">
+                                    <?= count($notificaciones) ?>
+                                </span>
+                            <?php endif; endif; ?>
                     </a>
+
+
+
                     <a class="nav-icon position-relative text-decoration-none" href="/carrito">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark me-1"></i>
                         <?php if (!empty($carritoCantidad)): ?>
@@ -142,7 +147,7 @@
             <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
             <label for="darkModeSwitch" class="toggle-icon"></label>
         </div>
-       
+
 
     </nav>
     <!-- Close Header -->
