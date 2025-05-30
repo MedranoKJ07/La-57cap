@@ -31,16 +31,17 @@ class DetalleVenta extends ActiveRecord
 
     public function guardar()
     {
-        $this->crear(); // No necesitas el ID aquí
+        $this->crear(); // No necesitas el ID aquíContactanos
     }
 
 
 
-public static function obtenerDetalleConProductoPorVenta($idVenta)
-{
-    $idVenta = self::$db->escape_string($idVenta);
+    public static function obtenerDetalleConProductoPorVenta($idVenta)
+    {
+        $idVenta = self::$db->escape_string($idVenta);
 
-    $query = "SELECT 
+        $query = "SELECT 
+                dv.id_producto,
                 dv.cantidad, 
                 p.nombre_producto, 
                 p.precio
@@ -48,15 +49,15 @@ public static function obtenerDetalleConProductoPorVenta($idVenta)
               INNER JOIN producto p ON p.idproducto = dv.id_producto
               WHERE dv.ventas_idventas = '$idVenta'";
 
-    $resultado = self::$db->query($query);
-    $detalles = [];
+        $resultado = self::$db->query($query);
+        $detalles = [];
 
-    while ($fila = $resultado->fetch_assoc()) {
-        $detalles[] = $fila;
+        while ($fila = $resultado->fetch_assoc()) {
+            $detalles[] = $fila;
+        }
+
+        return $detalles;
     }
-
-    return $detalles;
-}
 
 
     public static function obtenerPorVenta($idVenta)

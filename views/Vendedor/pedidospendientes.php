@@ -20,20 +20,23 @@
                 <?php foreach ($pedidos as $pedido): ?>
                     <tr>
                         <td><?= $pedido['idpedidos'] ?></td>
-                        <td><?= $pedido['p_nombre'] . ' ' . $pedido['s_nombre'] . ' ' . $pedido['p_apellido'] . ' ' . $pedido['s_apellido'] ?></td>
+                        <td><?= $pedido['p_nombre'] . ' ' . $pedido['s_nombre'] . ' ' . $pedido['p_apellido'] . ' ' . $pedido['s_apellido'] ?>
+                        </td>
                         <td><?= $pedido['n_telefono'] ?></td>
                         <td><?= $pedido['direccion_entregar'] ?></td>
-                        <td><?= $pedido['fecha_entregar'] ?> <?= $pedido['hora_entregar'] ?></td>
+                        <td><?= $pedido['fecha_entregar'] ?>     <?= $pedido['hora_entregar'] ?></td>
                         <td>C$ <?= number_format($pedido['total'], 2) ?></td>
                         <td><?= $pedido['estado_venta'] ?></td>
                         <td>
-                            <a href="/vendedor/atender-pedido?id=<?= $pedido['idpedidos'] ?>" class="btn btn-success btn-sm">
-                                Atender
+                            <a href="/vendedor/detalle-pedido?id=<?= $pedido['idpedidos'] ?>" class="btn btn-info btn-sm">
+                                Ver Detalle
                             </a>
+
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
+
 </div>

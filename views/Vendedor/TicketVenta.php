@@ -108,10 +108,22 @@
     <p class="text-center">¡Gracias por su compra!</p>
 
     <div class="text-center noprint">
-        <a class="btn btn-primary" href="/vendedor/ticket-pdf?id=<?= $venta->idventas ?>" target="_blank">
+        <a class="btn btn-primary" href="/ticket-pdf?id=<?= $venta->idventas ?>" target="_blank">
             🖨️ Imprimir PDF
-        </a><br>
+        </a>
+        <br>
+        <br>
+        <br>
+        <?php if (!empty($tieneGarantia)): ?>
+            <a href="/generar-garantia?id=<?= $venta->idventas ?>" target="_blank" class="btn btn-warning">
+                🛡 Generar Certificado de Garantía
+            </a>
+            <br>
+            <br>
+            <br>
+        <?php endif; ?>
+
         <a href="/vendedor/realizar-venta" class="btn btn-secondary mt-2">Nueva Venta</a>
     </div>
-    F
+
 </div>

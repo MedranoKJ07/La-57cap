@@ -171,8 +171,8 @@ $router->get('/Vendedor', [VendedorController::class, 'Vendedor']);
 
 $router->get('/vendedor/realizar-venta', [VendedorController::class, 'realizarVenta']);
 $router->post('/vendedor/realizar-venta', [VendedorController::class, 'realizarVenta']);
-$router->get('/vendedor/ticket', [VendedorController::class, 'ticket']);
-$router->get('/vendedor/ticket-pdf', [VendedorController::class, 'ticketPDF']);
+$router->get('/ticket', [VendedorController::class, 'ticket']);
+$router->get('/ticket-pdf', [VendedorController::class, 'ticketPDF']);
 
 $router->get('/api/producto', [ApiVentaController::class, 'buscar']);
 $router->get('/api/cliente', [ApiVentaController::class, 'buscarCliente']);
@@ -185,8 +185,13 @@ $router->get('/vendedor/GenerarCodigoBarras', [VendedorController::class, 'VerCo
 $router->get('/vendedor/DescargarCodigoBarras', [VendedorController::class, 'DescargarCodigoBarras']);
 
 $router->get('/vendedor/atender-pedido', [VendedorController::class, 'atenderPedido']);
+$router->get('/vendedor/detalle-pedido', [VendedorController::class, 'verDetallePedido']);
+$router->get('/generar-garantia', [CategoriaProductoController::class, 'generarPDFGarantia']);
+
+
 $router->get('/vendedor/asignar-repartidor', [VendedorController::class, 'asignarRepartidorVista']);
 $router->post('/vendedor/asignar-repartidor', [VendedorController::class, 'asignarRepartidor']);
+
 
 //PANEL DE REPARTIDORES
 $router->get('/Repartidor', [RepartidorControllers::class, 'Repartidor']);

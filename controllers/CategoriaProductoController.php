@@ -6,6 +6,13 @@ use MVC\Router;
 use Model\CategoriaProducto;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Model\Venta;
+use Model\Cliente;
+use Model\DetalleVenta;
+use Model\Producto;
+
 
 class CategoriaProductoController
 {
@@ -14,8 +21,8 @@ class CategoriaProductoController
         $busqueda = $_POST['busqueda'] ?? '';
         $categorias = CategoriaProducto::filtrar($busqueda);
 
-      
-        
+
+
 
         $router->renderAdmin('Admin/categorias_producto/GestionCategoriasProducto', [
             'categorias' => $categorias,
@@ -73,7 +80,7 @@ class CategoriaProductoController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $categoria->sincronizar($_POST['categoria']);
             $alertas = $categoria->validar();
-          
+
 
             if ($_FILES['categoria']['tmp_name']['foto']) {
                 $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
@@ -124,4 +131,79 @@ class CategoriaProductoController
             header('Location: /admin/GestionarCategoriaProducto');
         }
     }
+
+
+    // Aquí continúa tu lógica original...
+
+
+
+    public static function generarPDFGarantia(Router $router)
+    {
+        $ventaId = $_GET['id'] ?? null;
+        if (!$ventaId) {
+            echo "ID de venta no proporcionado.";
+            return;
+        }
+
+        // 1. Obtener venta
+        $venta = Venta::find($ventaId, 'idventas');
+        if (!$venta) {
+            echo "Venta no encontrada";
+            exit;
+        }
+
+        // 2. Obtener cliente y detalles de la venta
+        $cliente = $venta->id_cliente ? Cliente::find($venta->id_cliente, 'idcliente') : null;
+        $detalles = DetalleVenta::obtenerDetalleConProductoPorVenta($venta->idventas);
+
+        $productosConGarantia = [];
+
+        // 3. Revisar productos con garantía
+        foreach ($detalles as $detalle) {
+            if (!isset($detalle['id_producto']))
+                continue;
+
+            $producto = Producto::whereAll('idproducto', $detalle['id_producto']);
+            if (!$producto)
+                continue;
+
+            $categoria = CategoriaProducto::whereAll('idcategoria_producto', $producto->id_categoria);
+            if (!$categoria || $categoria->tiene_garantia != '1')
+                continue;
+
+            $productosConGarantia[] = [
+                'producto' => $producto,
+                'categoria' => $categoria,
+                'cantidad' => $detalle['cantidad']
+            ];
+        }
+
+        if (empty($productosConGarantia)) {
+            echo "No hay productos con garantía en esta venta.";
+
+        }
+
+        // 6. Logo Base64
+        $logoPath = __DIR__ . '/../public/img/logo.png';
+        $logoBase64 = base64_encode(file_get_contents($logoPath));
+
+        // 6. Renderizar HTML
+        ob_start();
+        include __DIR__ . '/../views/Vendedor/PDFGarantia.php';
+        $html = ob_get_clean();
+
+        // 6. Generar PDF
+        $options = new Options();
+        $options->set('defaultFont', 'Helvetica');
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // 7. Stream: mostrar en el navegador
+        $nombrePDF = "certificado_garantia_venta_{$venta->idventas}.pdf";
+        $dompdf->stream($nombrePDF, ['Attachment' => false]);
+    }
+
+
 }

@@ -20,6 +20,7 @@ use Picqer\Barcode\BarcodeGeneratorSVG;
 use Model\Repartidor;
 use Model\Inventario;
 use Controllers\NotificacionController;
+use Model\CategoriaProducto;
 
 
 class VendedorController
@@ -203,6 +204,7 @@ class VendedorController
     }
 
 
+
     public static function realizarVenta(Router $router)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -275,7 +277,8 @@ class VendedorController
             }
 
             $idVenta = $resVenta['id'];
-
+            // Guardar detalles y verificar garantía
+            $tieneGarantia = false;
             // Guardar detalles de venta
             foreach ($productos as $producto) {
                 $detalle = new DetalleVenta([
@@ -285,9 +288,10 @@ class VendedorController
                     'subtotal' => $producto['cantidad'] * $producto['precio']
                 ]);
                 $detalle->guardar();
+                // ✅ Restar del inventario usando el modelo Inventario
+                Inventario::restarStock($producto['id'], $producto['cantidad']);
+
             }
-            // ✅ Restar del inventario usando el modelo Inventario
-            Inventario::restarStock($producto['id'], $producto['cantidad']);
             // Crear pedido si hay datos completos
             if ($requierePedido) {
                 $pedido = new Pedido([
@@ -306,7 +310,7 @@ class VendedorController
             }
 
             // Redirigir al ticket
-            header('Location: /vendedor/ticket?id=' . $idVenta);
+            header('Location: /ticket?id=' . $idVenta);
             exit;
         }
 
@@ -330,21 +334,35 @@ class VendedorController
             return;
         }
 
-        // Obtener cliente (si existe)
-        $cliente = null;
-        if ($venta->id_cliente) {
-            $cliente = Cliente::find($venta->id_cliente, 'idcliente');
-        }
-
+        $cliente = $venta->id_cliente ? Cliente::find($venta->id_cliente, 'idcliente') : null;
         $detalles = DetalleVenta::obtenerDetalleConProductoPorVenta($venta->idventas);
 
+        // Validar si alguno de los productos tiene garantía
+        $tieneGarantia = false;
+
+        foreach ($detalles as $detalle) {
+            $producto = Producto::whereAll('idproducto', $detalle['id_producto']);
+            if ($producto) {
+                $categoria = CategoriaProducto::whereAll('idcategoria_producto', $producto->id_categoria);
+                if ($categoria && $categoria->tiene_garantia === '1') {
+                    $tieneGarantia = true;
+                    break; // basta con encontrar uno
+                }
+            }
+        }
+
+      
+
+        // De lo contrario, mostrar solo ticket normal
         $router->renderVendedor('Vendedor/TicketVenta', [
             'titulo' => 'Ticket de Venta',
+            'tieneGarantia' => $tieneGarantia,
             'venta' => $venta,
             'cliente' => $cliente,
             'detalles' => $detalles
         ]);
     }
+
     public static function ticketPDF(Router $router)
     {
         $id = $_GET['id'] ?? null;
@@ -483,6 +501,49 @@ class VendedorController
                 break;
         }
     }
+    public static function verDetallePedido(Router $router)
+    {
+        $pedidoId = $_GET['id'] ?? null;
+        if (!$pedidoId)
+            header('Location: /vendedor/pedidos');
+
+        $pedido = Pedido::find($pedidoId, 'idpedidos');
+        if (!$pedido) {
+            header('Location: /vendedor/pedidos');
+            return;
+        }
+
+        $venta = Venta::find($pedido->id_ventas, 'idventas');
+        $cliente = Cliente::find($pedido->id_cliente, 'idcliente');
+        $detalles = DetalleVenta::obtenerDetalleConProductoPorVenta($venta->idventas);
+
+        // 🔍 Verificar si hay productos con garantía
+        $tieneGarantia = false;
+        foreach ($detalles as $detalle) {
+            if (!isset($detalle['id_producto']))
+                continue;
+            $producto = Producto::whereAll('idproducto', $detalle['id_producto']);
+            if (!$producto)
+                continue;
+
+            $categoria = CategoriaProducto::whereAll('idcategoria_producto', $producto->id_categoria);
+            if ($categoria && $categoria->tiene_garantia === '1') {
+                $tieneGarantia = true;
+                break;
+            }
+        }
+
+        $router->renderVendedor('Vendedor/detallePedido', [
+            'titulo' => 'Detalle del Pedido',
+            'pedido' => $pedido,
+            'venta' => $venta,
+            'cliente' => $cliente,
+            'detalles' => $detalles,
+            'tieneGarantia' => $tieneGarantia
+        ]);
+    }
+
+
     public static function atenderPedido(Router $router)
     {
         $idPedido = $_GET['id'] ?? null;
@@ -510,6 +571,7 @@ class VendedorController
 
         // Cambiar estado de la venta
         $venta->estado = 'En Proceso';
+
         $venta->actualizar($venta->idventas);
         NotificacionController::crear(
             'Pedido en proceso',
