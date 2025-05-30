@@ -104,7 +104,14 @@ class Cliente extends ActiveRecord
         $resultado = self::consultarSQL($query);
         return array_shift($resultado); // Devuelve el primer cliente encontrado o null
     }
-
+    public static function obtenerUsuarioId($id)
+    {
+        $id = self::$db->real_escape_string($id);
+        $query = "SELECT id_usuario FROM cliente WHERE idcliente = '$id' LIMIT 1";
+        $res = self::$db->query($query);
+        $data = $res->fetch_assoc();
+        return $data ? $data['id_usuario'] : null;
+    }
 
 
 

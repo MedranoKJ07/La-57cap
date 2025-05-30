@@ -21,6 +21,7 @@ use Controllers\CheckoutController;
 use Controllers\ClientePanelController;
 use Controllers\DevolucionController;
 use Controllers\ApiVentaController;
+use Controllers\NotificacionController;
 
 
 use MVC\Router;
@@ -193,6 +194,11 @@ $router->get('/repartidor/pedidos-en-camino', [RepartidorControllers::class, 'pe
 $router->post('/repartidor/confirmar-entrega', [RepartidorControllers::class, 'confirmarEntrega']);
 $router->get('/repartidor/pedido', [RepartidorControllers::class, 'verDetalle']);
 
+
+
+$router->get('/notificaciones', [NotificacionController::class, 'index']);
+$router->post('/notificaciones/eliminar', [NotificacionController::class, 'eliminar']);
+$router->get('/api/notificaciones', [NotificacionController::class, 'obtenerPorUsuarioJson']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

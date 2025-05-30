@@ -10,7 +10,7 @@ use Model\CategoriaProducto;
 use Model\Devolucion;
 use Model\DevolucionDetalle;
 use Model\Venta;
-
+use Model\Usuario;
 
 
 class ClienteController
@@ -99,7 +99,7 @@ class ClienteController
                 'observaciones' => '',
                 'ventas_idventas' => $pedido->id_ventas,
                 'cliente_idcliente' => $cliente->idcliente,
-                'Estado' => 'En devolución'
+                'Estado' => 'En devolucion'
             ]);
 
             $resultado = $devolucion->crear();
@@ -133,10 +133,18 @@ class ClienteController
             //  CAMBIAR ESTADO DE LA VENTA A "En devolución"
             $venta = Venta::find($pedido->id_ventas, 'idventas');
             if ($venta) {
-                $venta->estado = 'En devolución';
+                $venta->estado = 'En devolucion';
                 $venta->actualizar($venta->idventas);
             }
+            $idsAdmins = Usuario::obtenerIdsAdministradores();
 
+            foreach ($idsAdmins as $adminId) {
+                NotificacionController::crear(
+                    'Nueva solicitud de devolución',
+                    'Un cliente ha solicitado la devolución de un pedido. Pedido #' . $pedidoId,
+                    $adminId// o quien debe recibirla
+                );
+            }
             header('Location: /cliente/pedidos?devolucion=ok');
             exit;
         }

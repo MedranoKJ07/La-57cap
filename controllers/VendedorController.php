@@ -19,6 +19,7 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 use Picqer\Barcode\BarcodeGeneratorSVG;
 use Model\Repartidor;
 use Model\Inventario;
+use Controllers\NotificacionController;
 
 
 class VendedorController
@@ -510,7 +511,11 @@ class VendedorController
         // Cambiar estado de la venta
         $venta->estado = 'En Proceso';
         $venta->actualizar($venta->idventas);
-
+        NotificacionController::crear(
+            'Pedido en proceso',
+            'Tu pedido ha sido atendido y pronto será asignado a un repartidor.',
+            Cliente::obtenerUsuarioId($pedido->id_cliente) // o quien debe recibirla
+        );
         $_SESSION['mensaje'] = 'Pedido marcado como "En Proceso".';
         header('Location: /vendedor/pedidos');
     }
@@ -538,7 +543,7 @@ class VendedorController
             }
 
             // Buscar pedido
-            $pedido = Pedido::find($idPedido , 'idpedidos');
+            $pedido = Pedido::find($idPedido, 'idpedidos');
             if (!$pedido) {
                 $_SESSION['error'] = 'Pedido no encontrado.';
                 header('Location: /vendedor/asignar-repartidor');
@@ -550,11 +555,23 @@ class VendedorController
             $pedido->actualizar($pedido->idpedidos);
 
             // Cambiar estado de la venta a "En Camino"
-            $venta = Venta::find($pedido->id_ventas , 'idventas');
+            $venta = Venta::find($pedido->id_ventas, 'idventas');
             if ($venta && $venta->estado === 'En Proceso') {
                 $venta->estado = 'En Camino';
-                $venta->actualizar($venta->idventas);   
+                $venta->actualizar($venta->idventas);
             }
+
+
+            NotificacionController::crear(
+                'Nuevo pedido asignado',
+                'Se le ha asignado un nuevo pedido con dirección de entrega. Pedido #: ' . $pedido->idpedidos,
+                Repartidor::obtenerUsuarioId($pedido->id_repartidor) // o quien debe recibirla
+            );
+            NotificacionController::crear(
+                'Pedido en camino',
+                'Tu pedido ha sido asignado a un repartidor y pronto será entregado.',
+                Cliente::obtenerUsuarioId($pedido->id_cliente) // o quien debe recibirla
+            );
 
             $_SESSION['mensaje'] = 'Repartidor asignado y pedido marcado como "En Camino".';
             header('Location: /vendedor/asignar-repartidor');

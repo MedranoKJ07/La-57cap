@@ -96,6 +96,14 @@ class Repartidor extends ActiveRecord
 
         return $objetos;
     }
+    public static function obtenerUsuarioId($idRepartidor)
+    {
+        $idRepartidor = self::$db->real_escape_string($idRepartidor);
+        $query = "SELECT id_usuario FROM repartidor WHERE idrepartidor = '$idRepartidor' LIMIT 1";
+        $res = self::$db->query($query);
+        $data = $res->fetch_assoc();
+        return $data ? $data['id_usuario'] : null;
+    }
 
 
 }

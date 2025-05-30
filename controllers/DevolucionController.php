@@ -2,10 +2,13 @@
 
 namespace Controllers;
 
+use Model\Cliente;
+use Model\Usuario;
 use MVC\Router;
 use Model\Devolucion;
 use Model\DevolucionDetalle;
 use Model\Venta;
+use Controllers\NotificacionController;
 
 class DevolucionController
 {
@@ -65,7 +68,11 @@ class DevolucionController
                     $venta->actualizar($venta->idventas);
                 }
             }
-
+            NotificacionController::crear(
+                'Respuesta a solicitud de devolución',
+                'Se ha aprobado tu solicitud de devolución. Por favor, visitar la tienda para completar el proceso.',
+                Cliente::obtenerUsuarioId($venta->id_cliente)// o quien debe recibirla
+            );
             header('Location: /admin/devoluciones');
         }
     }
@@ -94,7 +101,12 @@ class DevolucionController
                     $venta->actualizar($venta->idventas);
                 }
             }
-
+            
+            NotificacionController::crear(
+                'Respuesta a solicitud de devolución',
+                'Se ha rechazado tu solicitud de devolución. Motivo: ' . $motivo,
+                Cliente::obtenerUsuarioId($venta->id_cliente)// o quien debe recibirla
+            );
             header('Location: /admin/devoluciones');
         }
     }
@@ -118,7 +130,12 @@ class DevolucionController
                     $venta->actualizar($venta->idventas);
                 }
             }
-
+             
+            NotificacionController::crear(
+                'Visitar tienda',
+                'Por favor, visita la tienda para resolver tu solicitud de devolución. Llevar el producto. y los comprobantes de compra.',
+                Cliente::obtenerUsuarioId($venta->id_cliente)// o quien debe recibirla
+            );
             header('Location: /admin/devoluciones');
         }
     }

@@ -9,6 +9,8 @@ use Model\DetalleVenta;
 use Model\Pedido;
 use Model\Inventario;
 
+use Model\Usuario;
+
 class CheckoutController
 {
     public static function mostrar(Router $router)
@@ -107,13 +109,33 @@ class CheckoutController
         Inventario::restarStock($prod->idproducto, $prod->cantidad);
 
 
+
+        $idsAdmins = Usuario::obtenerIdsAdministradores();
+
+        foreach ($idsAdmins as $adminId) {
+            NotificacionController::crear(
+                'Nueva Venta Registrada',
+                'Se ha registrado una nueva venta online para el cliente ' . $_SESSION['nombre'],
+                $adminId // o quien debe recibirla
+            );
+        }
+        $idsvendedor = Usuario::obtenerIdsVendedores();
+
+        foreach ($idsvendedor as $idVendedor) {
+            NotificacionController::crear(
+                'Nueva Venta Registrada',
+                'Se ha registrado una nueva venta online para el cliente ' . $_SESSION['nombre'] .'. Por favor, revisar y atender la venta',
+                $idVendedor // o quien debe recibirla
+            );
+        }
+
         // Guardar pedido
         $pedido = new Pedido([
             'id_ventas' => $venta->idventas,
             'id_cliente' => $idCliente,
             'creado' => date('Y-m-d H:i:s'),
-            'fecha_entregar' =>  $_POST['fecha_entrega'] ?? '',
-            'hora_entregar' =>$_POST['hora_entrega'] ?? '',
+            'fecha_entregar' => $_POST['fecha_entrega'] ?? '',
+            'hora_entregar' => $_POST['hora_entrega'] ?? '',
             'direccion_entregar' => $direccion,
             'comentarios' => $comentarios,
             'estado' => 0,

@@ -27,6 +27,7 @@ class Producto extends ActiveRecord
     public $categoria_nombre;
     // 👇 propiedades virtuales para el carrito
     public $cantidad;
+    public $stock_disponible;
     public $subtotal;
 
     public function __construct($args = [])
@@ -144,30 +145,30 @@ class Producto extends ActiveRecord
 
         return self::consultarSQL($query);
     }
-public static function filtrar2($categoria = '', $busqueda = '', $orden = '')
-{
-    $condiciones = ["producto.eliminado = 0", "inventario.cantidad_actual > inventario.cantidad_minima"];
+    public static function filtrar2($categoria = '', $busqueda = '', $orden = '')
+    {
+        $condiciones = ["producto.eliminado = 0", "inventario.cantidad_actual > inventario.cantidad_minima"];
 
-    if ($categoria !== '') {
-        $categoria = self::$db->real_escape_string($categoria);
-        $condiciones[] = "producto.id_categoria = '$categoria'";
-    }
+        if ($categoria !== '') {
+            $categoria = self::$db->real_escape_string($categoria);
+            $condiciones[] = "producto.id_categoria = '$categoria'";
+        }
 
-    if ($busqueda !== '') {
-        $busqueda = self::$db->real_escape_string($busqueda);
-        $condiciones[] = "(producto.nombre_producto LIKE '%$busqueda%' OR categoria_producto.titulo LIKE '%$busqueda%')";
-    }
+        if ($busqueda !== '') {
+            $busqueda = self::$db->real_escape_string($busqueda);
+            $condiciones[] = "(producto.nombre_producto LIKE '%$busqueda%' OR categoria_producto.titulo LIKE '%$busqueda%')";
+        }
 
-    $where = 'WHERE ' . implode(' AND ', $condiciones);
+        $where = 'WHERE ' . implode(' AND ', $condiciones);
 
-    // Ordenar según opción
-    $ordenSQL = match (strtolower($orden)) {
-        'asc' => "ORDER BY producto.precio ASC",
-        'desc' => "ORDER BY producto.precio DESC",
-        default => "ORDER BY producto.idproducto DESC",
-    };
+        // Ordenar según opción
+        $ordenSQL = match (strtolower($orden)) {
+            'asc' => "ORDER BY producto.precio ASC",
+            'desc' => "ORDER BY producto.precio DESC",
+            default => "ORDER BY producto.idproducto DESC",
+        };
 
-    $query = "
+        $query = "
         SELECT 
             producto.*, 
             categoria_producto.titulo AS categoria_nombre,
@@ -180,8 +181,8 @@ public static function filtrar2($categoria = '', $busqueda = '', $orden = '')
         $ordenSQL
     ";
 
-    return self::consultarSQL($query);
-}
+        return self::consultarSQL($query);
+    }
 
 
 
@@ -258,11 +259,24 @@ public static function filtrar2($categoria = '', $busqueda = '', $orden = '')
     }
     public static function obtenerPorId($id)
     {
-        $id = self::$db->real_escape_string($id); // Usar correctamente mysqli
-        $query = "SELECT * FROM producto WHERE idproducto = '$id' LIMIT 1";
-        $resultado = self::consultarSQL($query);
-        return array_shift($resultado);
+        $id = self::$db->escape_string($id);
+
+        $query = "
+        SELECT 
+            p.*, 
+            i.cantidad_actual, 
+            i.cantidad_minima,
+            (i.cantidad_actual - i.cantidad_minima) AS stock_disponible
+        FROM producto p
+        INNER JOIN inventario i ON p.idproducto = i.producto_idproducto
+        WHERE p.idproducto = '$id' AND p.eliminado = 0
+        LIMIT 1
+    ";
+
+        $resultado = self::$db->query($query);
+        return $resultado->fetch_object();
     }
+
     public static function contarFiltrados($categoria = null, $buscar = null)
     {
         $where = "WHERE eliminado = 0";
@@ -314,14 +328,18 @@ public static function filtrar2($categoria = '', $busqueda = '', $orden = '')
             $producto = $resultado->fetch_assoc();
             $disponible = (int) $producto['cantidad_actual'] - (int) $producto['cantidad_minima'];
 
-            // Solo permitir si hay más del mínimo
+
             if ($disponible > 0) {
                 $producto['disponible_para_venta'] = true;
+                $producto['stock_disponible'] = $disponible;
+
                 return $producto;
             } else {
                 $producto['disponible_para_venta'] = false;
+                $producto['stock_disponible'] = 0;
                 return $producto;
             }
+
         }
 
         return null;

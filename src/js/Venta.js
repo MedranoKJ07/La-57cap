@@ -71,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
           precio: parseFloat(data.precio),
           cantidad: 1,
           foto: data.Foto || "default.png",
+          stock_disponible: data.stock_disponible
         });
       }
 
@@ -90,43 +91,39 @@ document.addEventListener("DOMContentLoaded", () => {
       subtotal += subtotalProducto;
 
       const fila = document.createElement("tr");
+    
       fila.innerHTML = `
-                <td>
-                    ${p.codigo}
-                    <input type="hidden" name="productos[${index}][id]" value="${
-        p.id
-      }">
-                    <input type="hidden" name="productos[${index}][codigo]" value="${
-        p.codigo
-      }">
-                </td>
-                <td>
-                    <img src="/img/productos/${
-                      p.foto
-                    }" width="40" height="40" class="rounded-circle" alt="Producto">
-                </td>
-                <td>
-                    ${p.nombre}
-                    <input type="hidden" name="productos[${index}][nombre]" value="${
-        p.nombre
-      }">
-                </td>
-                <td>
-                    C$ ${p.precio.toFixed(2)}
-                    <input type="hidden" name="productos[${index}][precio]" value="${
-        p.precio
-      }">
-                </td>
-                <td>
-                    <input type="number" name="productos[${index}][cantidad]" min="1" value="${
-        p.cantidad
-      }" class="form-control form-control-sm cantidad" data-index="${index}">
-                </td>
-                <td>C$ ${subtotalProducto.toFixed(2)}</td>
-                <td>
-                    <button type="button" class="btn btn-danger btn-sm eliminar" data-index="${index}">X</button>
-                </td>
-            `;
+    <td>
+        ${p.codigo}
+        <input type="hidden" name="productos[${index}][id]" value="${p.id}">
+        <input type="hidden" name="productos[${index}][codigo]" value="${p.codigo}">
+    </td>
+    <td>
+        <img src="/img/productos/${p.foto}" width="40" height="40" class="rounded-circle" alt="Producto">
+    </td>
+    <td>
+        ${p.nombre}
+        <input type="hidden" name="productos[${index}][nombre]" value="${p.nombre}">
+    </td>
+    <td>
+        C$ ${p.precio.toFixed(2)}
+        <input type="hidden" name="productos[${index}][precio]" value="${p.precio}">
+    </td>
+    <td>
+        <input type="number"
+               name="productos[${index}][cantidad]"
+               min="1"
+               max="${p.stock_disponible}"
+               value="${p.cantidad}"
+               class="form-control form-control-sm cantidad"
+               data-index="${index}">
+    </td>
+    <td>C$ ${subtotalProducto.toFixed(2)}</td>
+    <td>
+        <button type="button" class="btn btn-danger btn-sm eliminar" data-index="${index}">X</button>
+    </td>
+`;
+
       tabla.appendChild(fila);
     });
 

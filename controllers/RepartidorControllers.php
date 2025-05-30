@@ -1,6 +1,7 @@
 <?php
 namespace Controllers;
 
+use Model\Vendedor;
 use MVC\Router;
 use Model\Usuario;
 use Model\Repartidor;
@@ -138,7 +139,7 @@ class RepartidorControllers
                 $manager = new ImageManager(Driver::class);
                 $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
                 $usuario->setImagen($nombreImagen);
-                $usuario->delete_image();   
+                $usuario->delete_image();
                 if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
                     mkdir(CARPETAS_IMAGENES_PERFILES);
                 }
@@ -252,7 +253,24 @@ class RepartidorControllers
                 $venta->estado = 'Entregado';
                 $venta->actualizar($venta->idventas);
             }
+            $idsvendedor = Usuario::obtenerIdsVendedores();
 
+            foreach ($idsvendedor as $idVendedor) {
+                NotificacionController::crear(
+                    'Confirmación de pago entrega completada',
+                    'Se ha recibido pago y la entrega ha sido completada para el pedido #' . $pedido->idpedidos,
+                    $idVendedor // o quien debe recibirla
+                );
+            }
+            $idsAdmins = Usuario::obtenerIdsAdministradores();
+
+            foreach ($idsAdmins as $adminId) {
+                NotificacionController::crear(
+                    'Confirmación de pago entrega completada',
+                    'Se ha recibido pago y la entrega ha sido completada para el pedido #' . $pedido->idpedidos,
+                    $adminId // o quien debe recibirla
+                );
+            }
             $_SESSION['mensaje'] = 'Entrega confirmada correctamente.';
             header('Location: /repartidor/pedidos-en-camino');
         }

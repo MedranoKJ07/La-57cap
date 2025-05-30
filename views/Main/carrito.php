@@ -29,7 +29,8 @@
                             <td class="precio"><?= number_format($producto->precio, 2, '.', '') ?></td>
                             <td>
                                 <input type="number" class="form-control cantidad-input mx-auto" min="1"
-                                    value="<?= $producto->cantidad ?>" style="width: 80px;">
+                                    max="<?= $producto->stock_disponible ?>" value="<?= $producto->cantidad ?>"
+                                    style="width: 80px;">
                             </td>
                             <td class="subtotal">C$ <?= number_format($producto->subtotal, 2) ?></td>
                             <td>
@@ -42,10 +43,20 @@
                 </tbody>
                 <tfoot>
                     <tr class="table-secondary">
+                        <td colspan="4" class="text-end"><strong>Subtotal (sin IVA):</strong></td>
+                        <td colspan="2" id="subtotal-general">C$ 0.00</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <td colspan="4" class="text-end"><strong>IVA (15%):</strong></td>
+                        <td colspan="2" id="iva-general">C$ 0.00</td>
+                    </tr>
+                    <tr class="table-secondary">
                         <td colspan="4" class="text-end"><strong>Total:</strong></td>
-                        <td colspan="2" id="total-general"><strong>C$ <?= number_format($total, 2) ?></strong></td>
+                        <td colspan="2" id="total-general"><strong>C$ 0.00</strong></td>
                     </tr>
                 </tfoot>
+
+
             </table>
 
         </div>
@@ -66,7 +77,10 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const tabla = document.getElementById('tabla-carrito');
-        const totalGeneral = document.getElementById('total-general');
+
+        const subtotalEl = document.getElementById("subtotal-general");
+        const ivaEl = document.getElementById("iva-general");
+        const totalEl = document.getElementById("total-general");
 
         tabla.querySelectorAll(".cantidad-input").forEach(input => {
             input.addEventListener("change", function () {
@@ -74,32 +88,48 @@
                 const id = fila.dataset.id;
                 const precio = parseFloat(fila.querySelector(".precio").textContent);
                 const nuevaCantidad = parseInt(this.value);
+                const max = parseInt(this.getAttribute("max"));
 
                 if (nuevaCantidad < 1) {
                     this.value = 1;
                     return;
                 }
 
-                // Calcular subtotal en frontend
-                const nuevoSubtotal = (precio * nuevaCantidad).toFixed(2);
+                if (nuevaCantidad > max) {
+                    alert(`Solo hay ${max} unidades disponibles para este producto.`);
+                    this.value = max;
+                    return;
+                }
+
+                const nuevoSubtotal = (precio * this.value).toFixed(2);
                 fila.querySelector(".subtotal").textContent = "C$ " + nuevoSubtotal;
 
-                // Enviar al backend (AJAX)
                 fetch("/carrito/actualizar", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id: id, cantidad: nuevaCantidad })
-                }).then(() => recalcularTotal());
+                    body: JSON.stringify({ id: id, cantidad: this.value })
+                }).then(() => recalcularTotales());
             });
         });
 
-        function recalcularTotal() {
-            let total = 0;
+        recalcularTotales(); // Cargar valores desde inicio
+
+        function recalcularTotales() {
+            let subtotal = 0;
+
             tabla.querySelectorAll("tbody tr").forEach(fila => {
-                const subtotal = parseFloat(fila.querySelector(".subtotal").textContent.replace("C$ ", ""));
-                total += subtotal;
+                const precio = parseFloat(fila.querySelector(".precio").textContent);
+                const cantidad = parseInt(fila.querySelector(".cantidad-input").value);
+                subtotal += precio * cantidad;
             });
-            totalGeneral.innerHTML = `<strong>C$ ${total.toFixed(2)}</strong>`;
+
+            const iva = subtotal * 0.15;
+            const total = subtotal + iva;
+
+            subtotalEl.textContent = `C$ ${subtotal.toFixed(2)}`;
+            ivaEl.textContent = `C$ ${iva.toFixed(2)}`;
+            totalEl.innerHTML = `<strong>C$ ${total.toFixed(2)}</strong>`;
         }
+
     });
 </script>

@@ -52,10 +52,9 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-
     <!-- Acciones según estado -->
-     <?php echo $estado?>
-    <?php if ($estado === 'En devolución'): ?>
+
+    <?php if (trim($estado) == 'En devolucion'): ?>
         <form method="POST" action="/admin/devoluciones/visitar-tienda">
             <input type="hidden" name="id" value="<?= $devolucion->idDevoluciones ?>">
             <button class="btn btn-primary">Marcar como “Visitar tienda”</button>

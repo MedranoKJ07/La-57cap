@@ -222,5 +222,29 @@ class Usuario extends ActiveRecord
             return true;
         }
     }
+    public static function obtenerIdsAdministradores()
+    {
+        $query = "SELECT idusuario FROM usuario WHERE id_roles = 1 AND eliminado = 0";
+        $resultado = self::$db->query($query);
+
+        $ids = [];
+        while ($row = $resultado->fetch_assoc()) {
+            $ids[] = $row['idusuario'];
+        }
+
+        return $ids;
+    }
+    public static function obtenerIdsVendedores()
+    {
+        $query = "SELECT idusuario FROM usuario WHERE id_roles = 2 AND eliminado = 0";
+        $resultado = self::$db->query($query);
+
+        $ids = [];
+        while ($row = $resultado->fetch_assoc()) {
+            $ids[] = $row['idusuario'];
+        }
+
+        return $ids;
+    }
 
 }
