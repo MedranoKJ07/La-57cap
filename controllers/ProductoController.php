@@ -249,13 +249,18 @@ class ProductoController
             exit;
         }
 
+        // Obtener la categoría del producto
+        $categoria = CategoriaProducto::whereAll('idcategoria_producto', $producto->id_categoria);
+
         $categorias = CategoriaProducto::obtener7Categorias();
         $router->renderLanding('/Main/ver_producto', [
             'producto' => $producto,
+            'categoria' => $categoria,
             'categorias' => $categorias,
             'carritoCantidad' => obtenerCantidadCarrito(),
             'titulo' => $producto->nombre_producto
         ]);
     }
+
 
 }

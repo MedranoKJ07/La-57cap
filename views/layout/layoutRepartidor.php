@@ -24,7 +24,8 @@
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/repartidor/pedidos-en-camino">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Pedidos asignados
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Pedidos
+                                asignados
                             </span>
                         </a>
                     </li>
@@ -40,170 +41,87 @@
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav navbar-align">
                         <div class="navbar-collapse collapse">
-                    <?php
-                    use Model\Notificacion;
-                    $notificaciones = [];
-                    if (isset($_SESSION['id'])) {
-                        $notificaciones = Notificacion::obtenerPorUsuarioUltimas4($_SESSION['id']);
-                    }
-                    ?>
-                    <ul class="navbar-nav navbar-align">
-                        <li class="nav-item dropdown">
-                            <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
-                                <div class="position-relative">
-                                    <i class="align-middle" data-feather="bell"></i>
-                                    <span class="indicator"><?= count($notificaciones) ?></span>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
-                                aria-labelledby="alertsDropdown">
-                                <div class="dropdown-menu-header">
-                                    <?= count($notificaciones) ?> Notificaciones
-                                </div>
-                                <div class="list-group">
-                                    <?php foreach ($notificaciones as $noti): ?>
-                                        <a href="#" class="list-group-item">
-                                            <div class="row g-0 align-items-center">
-                                                <div class="col-2">
-                                                    <i class="text-info" data-feather="bell"></i>
-                                                </div>
-                                                <div class="col-10">
-                                                    <div class="text-dark"><?= htmlspecialchars($noti->titulo) ?></div>
-                                                    <div class="text-muted small mt-1">
-                                                        <?= htmlspecialchars($noti->descripcion) ?>
-                                                    </div>
-                                                    <div class="text-muted small mt-1">
-                                                        <?= date('d/m/Y H:i', strtotime($noti->creada_fecha)) ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    <?php endforeach; ?>
-                                </div>
-                                <div class="dropdown-menu-footer">
-                                    <a href="/notificaciones" class="text-muted">Ver todas</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown"
-                                data-bs-toggle="dropdown">
-                                <div class="position-relative">
-                                    <i class="align-middle" data-feather="message-square"></i>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
-                                aria-labelledby="messagesDropdown">
-                                <div class="dropdown-menu-header">
-                                    <div class="position-relative">
-                                        4 New Messages
-                                    </div>
-                                </div>
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <img src="img/avatars/avatar-5.jpg"
-                                                    class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
-                                            </div>
-                                            <div class="col-10 ps-2">
-                                                <div class="text-dark">Vanessa Tucker</div>
-                                                <div class="text-muted small mt-1">Nam pretium turpis et arcu. Duis arcu
-                                                    tortor.</div>
-                                                <div class="text-muted small mt-1">15m ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <img src="img/avatars/avatar-2.jpg"
-                                                    class="avatar img-fluid rounded-circle" alt="William Harris">
-                                            </div>
-                                            <div class="col-10 ps-2">
-                                                <div class="text-dark">William Harris</div>
-                                                <div class="text-muted small mt-1">Curabitur ligula sapien euismod
-                                                    vitae.</div>
-                                                <div class="text-muted small mt-1">2h ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <img src="img/avatars/avatar-4.jpg"
-                                                    class="avatar img-fluid rounded-circle" alt="Christina Mason">
-                                            </div>
-                                            <div class="col-10 ps-2">
-                                                <div class="text-dark">Christina Mason</div>
-                                                <div class="text-muted small mt-1">Pellentesque auctor neque nec urna.
-                                                </div>
-                                                <div class="text-muted small mt-1">4h ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <img src="img/avatars/avatar-3.jpg"
-                                                    class="avatar img-fluid rounded-circle" alt="Sharon Lessman">
-                                            </div>
-                                            <div class="col-10 ps-2">
-                                                <div class="text-dark">Sharon Lessman</div>
-                                                <div class="text-muted small mt-1">Aenean tellus metus, bibendum sed,
-                                                    posuere ac, mattis non.</div>
-                                                <div class="text-muted small mt-1">5h ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="dropdown-menu-footer">
-                                    <a href="#" class="text-muted">Show all messages</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#"
-                                data-bs-toggle="dropdown">
-                                <i class="align-middle" data-feather="settings"></i>
-                            </a>
-
                             <?php
-                            $nombre = $_SESSION['nombre'] ?? 'Invitado';
-
-                            $foto = !empty($_SESSION['f_perfil']) ? '/img/users/' . $_SESSION['f_perfil'] : '/img/users/f_perfil_admin.png';
+                            use Model\Notificacion;
+                            $notificaciones = [];
+                            if (isset($_SESSION['id'])) {
+                                $notificaciones = Notificacion::obtenerPorUsuarioUltimas4($_SESSION['id']);
+                            }
                             ?>
+                            <ul class="navbar-nav navbar-align">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown"
+                                        data-bs-toggle="dropdown">
+                                        <div class="position-relative">
+                                            <i class="align-middle" data-feather="bell"></i>
+                                            <span class="indicator"><?= count($notificaciones) ?></span>
+                                        </div>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
+                                        aria-labelledby="alertsDropdown">
+                                        <div class="dropdown-menu-header">
+                                            <?= count($notificaciones) ?> Notificaciones
+                                        </div>
+                                        <div class="list-group">
+                                            <?php foreach ($notificaciones as $noti): ?>
+                                                <a href="#" class="list-group-item">
+                                                    <div class="row g-0 align-items-center">
+                                                        <div class="col-2">
+                                                            <i class="text-info" data-feather="bell"></i>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <div class="text-dark"><?= htmlspecialchars($noti->titulo) ?>
+                                                            </div>
+                                                            <div class="text-muted small mt-1">
+                                                                <?= htmlspecialchars($noti->descripcion) ?>
+                                                            </div>
+                                                            <div class="text-muted small mt-1">
+                                                                <?= date('d/m/Y H:i', strtotime($noti->creada_fecha)) ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            <?php endforeach; ?>
+                                        </div>
+                                        <div class="dropdown-menu-footer">
+                                            <a href="/notificaciones" class="text-muted">Ver todas</a>
+                                        </div>
+                                    </div>
+                                </li>
 
-                            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
-                                data-bs-toggle="dropdown">
-                                <img src="<?php echo $foto; ?>" class="avatar img-fluid rounded me-1" alt="Perfil" />
-                                <span class="text-dark"><?php echo $nombre; ?></span>
-                            </a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#"
+                                        data-bs-toggle="dropdown">
+                                        <i class="align-middle" data-feather="settings"></i>
+                                    </a>
+
+                                    <?php
+                                    $nombre = $_SESSION['nombre'] ?? 'Invitado';
+
+                                    $foto = !empty($_SESSION['f_perfil']) ? '/img/users/' . $_SESSION['f_perfil'] : '/img/users/f_perfil_admin.png';
+                                    ?>
+
+                                    <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
+                                        data-bs-toggle="dropdown">
+                                        <img src="<?php echo $foto; ?>" class="avatar img-fluid rounded me-1"
+                                            alt="Perfil" />
+                                        <span class="text-dark"><?php echo $nombre; ?></span>
+                                    </a>
 
 
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
-                                        data-feather="user"></i> Profile</a>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
-                                        data-feather="pie-chart"></i>
-                                    Analytics</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="index.html"><i class="align-middle me-1"
-                                        data-feather="settings"></i> Settings & Privacy</a>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
-                                        data-feather="help-circle"></i> Help Center</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/logout"><i class="align-middle me-1"
-                                        data-feather="log-out"></i> Cerrar sesión</a>
+                                    <div class="dropdown-menu dropdown-menu-end">
 
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="form-check form-switch ms-3">
-                    <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
-                    <label for="darkModeSwitch" class="toggle-icon"></label>
-                </div>
+                                        <a class="dropdown-item" href="/logout"><i class="align-middle me-1"
+                                                data-feather="log-out"></i> Cerrar sesión</a>
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="form-check form-switch ms-3">
+                            <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
+                            <label for="darkModeSwitch" class="toggle-icon"></label>
+                        </div>
             </nav>
             <main class="content">
                 <div class="container-fluid p-0">

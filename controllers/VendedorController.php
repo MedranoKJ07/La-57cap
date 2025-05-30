@@ -277,8 +277,6 @@ class VendedorController
             }
 
             $idVenta = $resVenta['id'];
-            // Guardar detalles y verificar garantía
-            $tieneGarantia = false;
             // Guardar detalles de venta
             foreach ($productos as $producto) {
                 $detalle = new DetalleVenta([

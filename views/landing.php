@@ -92,7 +92,7 @@
                 </a>
                 <h5 class="text-center mt-3 mb-3"><?php echo s($categoria->titulo); ?></h5>
                 <p class="text-center">
-                    <a class="btn btn-success" href="/productos?categoria=<?php echo $categoria->idcategoria_producto; ?>">
+                    <a class="btn btn-success" href="/tienda?categoria=<?php echo $categoria->idcategoria_producto; ?>">
                         Ver Productos
                     </a>
                 </p>

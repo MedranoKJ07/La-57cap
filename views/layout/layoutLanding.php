@@ -83,7 +83,7 @@
                             <a class="nav-link" href="/tienda">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/visit_us">Contact</a>
+                            <a class="nav-link" href="/visit_us">Visit us</a>
                         </li>
                     </ul>
                     <ul>
@@ -201,7 +201,7 @@
                         <?php foreach ($categorias as $categoria): ?>
                             <li>
                                 <a class="text-decoration-none"
-                                    href="/productos?categoria=<?php echo $categoria->idcategoria_producto; ?>">
+                                    href="/tienda?categoria=<?php echo $categoria->idcategoria_producto; ?>">
                                     <?php echo s($categoria->titulo); ?>
                                 </a>
                             </li>
@@ -216,7 +216,7 @@
                     <ul class="list-unstyled text-light footer-link-list">
                         <li><a class="text-decoration-none" href="/">Home</a></li>
                         <li><a class="text-decoration-none" href="/SobreNosotros">About Us</a></li>
-                        <li><a class="text-decoration-none" href="/">Contact</a></li>
+                        <li> <a class="nav-link" href="/visit_us">Visit us</a></li>
                     </ul>
                 </div>
 

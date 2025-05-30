@@ -1,50 +1,41 @@
-<div class="container py-5">
-    <h2 class="mb-4 text-center">Mis Pedidos</h2>
-
-    <?php if (empty($pedidos)): ?>
-        <div class="alert alert-info text-center">
-            No tienes pedidos registrados.
-        </div>
-    <?php else: ?>
-        <div class="table-responsive">
-            <table class="table table-bordered text-center align-middle">
-                <thead class="table-dark">
+<div class="card shadow-sm my-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fas fa-box-open me-2"></i> Productos en este Pedido</h5>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped text-center align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th><i class="fas fa-tag me-1"></i> Producto</th>
+                    <th><i class="fas fa-image me-1"></i> Imagen</th>
+                    <th><i class="fas fa-money-bill-wave me-1"></i> Precio</th>
+                    <th><i class="fas fa-sort-numeric-up me-1"></i> Cantidad</th>
+                    <th><i class="fas fa-coins me-1"></i> Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($productos as $producto): ?>
                     <tr>
-                        <th># Pedido</th>
-                        <th>Fecha</th>
-                        <th>Total</th>
-                        <th>Estado</th>
-                        <th>Entrega</th>
-                        <th>Acciones</th>
+                        <td><?= s($producto->nombre_producto ?? '') ?></td>
+                        <td>
+                            <img src="/img/productos/<?= s(trim($producto->Foto ?? '')) ?>"
+                                 width="80" class="img-thumbnail rounded shadow-sm" alt="Producto">
+                        </td>
+                        <td class="text-success fw-semibold">C$ <?= number_format($producto->precio ?? 0, 2) ?></td>
+                        <td><?= $producto->cantidad ?? 0 ?></td>
+                        <td class="fw-bold">C$ <?= number_format($producto->subtotal ?? 0, 2) ?></td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($pedidos as $pedido): ?>
-                        <tr>
-                            <td><?= $pedido->idpedidos ?></td>
-                            <td><?= date('d/m/Y', strtotime($pedido->creado)) ?></td>
-                            <td>C$ <?= number_format($pedido->total, 2) ?></td>
-                            <td><?= s($pedido->estado_venta) ?></td>
-                            <td><?= date('d/m/Y', strtotime($pedido->fecha_entregar)) ?></td>
-                            <td>
-                                <a href="/cliente/pedido?id=<?= $pedido->idpedidos ?>" class="btn btn-info btn-sm">
-                                    Ver Detalles
-                                </a>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-                                <?php if ($pedido->estado_venta === 'En devolución'): ?>
-                                    <span class="badge bg-secondary">Devolución en proceso</span>
-                                <?php else: ?>
-                                    <a href="/cliente/devolucion?id=<?= $pedido->idpedidos ?>" class="btn btn-warning btn-sm">
-                                        Solicitar Devolución
-                                    </a>
-                                <?php endif; ?>
-
-
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    <?php endif; ?>
+<div class="d-flex justify-content-between mt-4">
+    <a href="/cliente/pedidos" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i> Volver a Mis Pedidos
+    </a>
+    <a href="/tienda" class="btn btn-outline-primary">
+        <i class="fas fa-store me-2"></i> Seguir Comprando
+    </a>
 </div>

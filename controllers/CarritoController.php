@@ -5,7 +5,7 @@ namespace Controllers;
 use Model\Producto;
 use Model\CategoriaProducto;
 use MVC\Router;
-
+use Model\Notificacion;
 class CarritoController
 {
 
@@ -79,7 +79,7 @@ class CarritoController
         $total = 0;
         $subtotal = $total / 1.15; // Asumiendo 15% de IVA
         $iva = $total - $subtotal;
-
+        $notificaciones = Notificacion::obtenerPorUsuario($_SESSION['id']);
 
         foreach ($_SESSION['carrito'] ?? [] as $id => $cantidad) {
             $producto = Producto::obtenerPorId($id);
@@ -92,7 +92,7 @@ class CarritoController
         }
 
         $router->renderLanding('/Main/carrito', [
-
+            'notificaciones' => $notificaciones,
             'productos' => $productos,
             'categorias' => $categorias,
             'subtotal' => $subtotal,
