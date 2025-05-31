@@ -24,13 +24,13 @@
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/vendedor/realizar-venta">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Realizar Venta
+                            <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">Realizar Venta
                             </span>
                         </a>
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/vendedor/inventario">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Inventario
+                            <i class="align-middle" data-feather="inbox"></i> <span class="align-middle">Inventario
                             </span>
                         </a>
                     </li>
@@ -39,13 +39,13 @@
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/vendedor/pedidos">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Pedidos Onlines
+                            <i class="align-middle" data-feather="upload"></i> <span class="align-middle">Pedidos Onlines
                             </span>
                         </a>
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/vendedor/asignar-repartidor">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Asignar Pedidos
+                            <i class="align-middle" data-feather="upload"></i> <span class="align-middle">Asignar Pedidos
                             </span>
                         </a>
                     </li>

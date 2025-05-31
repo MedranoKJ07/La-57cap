@@ -24,7 +24,7 @@
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/repartidor/pedidos-en-camino">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Pedidos
+                            <i class="align-middle" data-feather="layers"></i> <span class="align-middle">Pedidos
                                 asignados
                             </span>
                         </a>

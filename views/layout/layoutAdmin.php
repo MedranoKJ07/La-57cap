@@ -29,7 +29,7 @@
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/devoluciones">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            <i class="align-middle" data-feather="edit"></i> <span class="align-middle">
                                 Devoluciones
                             </span>
                         </a>
@@ -39,14 +39,14 @@
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/historialPedidos">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            <i class="align-middle" data-feather="truck"></i> <span class="align-middle">
                                 Pedidos
                             </span>
                         </a>
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/calificaciones">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            <i class="align-middle" data-feather="edit"></i> <span class="align-middle">
                                 Calificaciones Pedidos
                             </span>
                         </a>
@@ -56,7 +56,7 @@
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/reportes">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            <i class="align-middle" data-feather="clipboard"></i> <span class="align-middle">
                                 Panel de Reportes
                             </span>
                         </a>
@@ -67,19 +67,19 @@
 
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/GestionarCategoriaProducto">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            <i class="align-middle" data-feather="plus-circle"></i> <span class="align-middle">
                                 Categorias Productos</span>
                         </a>
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/GestionarProducto">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            <i class="align-middle" data-feather="pie-chart"></i> <span class="align-middle">
                                 Productos</span>
                         </a>
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/InventarioGeneral">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            <i class="align-middle" data-feather="package"></i> <span class="align-middle">
                                 Inventario</span>
                         </a>
                     </li>
@@ -88,13 +88,13 @@
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/GestionarProveedores">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            <i class="align-middle" data-feather="compass"></i> <span class="align-middle">
                                 Proveedores</span>
                         </a>
                     </li>
                     <li class="sidebar-item active">
                         <a class="sidebar-link" href="/admin/GestionarCompras">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                            <i class="align-middle" data-feather="pie-chart"></i> <span class="align-middle">
                                 Compras
                             </span>
                         </a>
