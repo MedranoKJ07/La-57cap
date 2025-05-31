@@ -157,8 +157,7 @@ class ProductoController
     {
         $alertas = Producto::getAlertas();
         $id = $_POST['id'];
-        FilterValidateInt($id, 'admin/GestionarProducto');
-        verificarId(Producto::find($id, 'idproducto'), 'admin/GestionarProducto');
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = s($_POST['id']);
             $producto = Producto::find($id, 'idproducto');
@@ -241,7 +240,7 @@ class ProductoController
     public static function ver(Router $router)
     {
         $id = $_GET['id'] ?? null;
-        FilterValidateInt($id, 'tienda');
+
 
         $producto = Producto::obtenerPorId($id);
         if (!$producto) {

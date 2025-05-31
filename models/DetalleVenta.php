@@ -33,9 +33,6 @@ class DetalleVenta extends ActiveRecord
     {
         $this->crear(); // No necesitas el ID aquíContactanos
     }
-
-
-
     public static function obtenerDetalleConProductoPorVenta($idVenta)
     {
         $idVenta = self::$db->escape_string($idVenta);
@@ -85,6 +82,4 @@ class DetalleVenta extends ActiveRecord
 
         return $array;
     }
-
-
 }

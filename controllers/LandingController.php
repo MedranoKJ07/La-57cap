@@ -6,7 +6,6 @@ use MVC\Router;
 use Model\CategoriaProducto;
 use Model\Producto;
 use Model\Notificacion;
-use Model\Cliente;
 
 class LandingController
 {

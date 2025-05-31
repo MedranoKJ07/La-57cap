@@ -12,7 +12,6 @@ use Model\DevolucionDetalle;
 use Model\Venta;
 use Model\Usuario;
 
-
 class ClienteController
 {
     public static function GestionarCliente(Router $router)
@@ -64,8 +63,6 @@ class ClienteController
             'enDevolucion' => $enDevolucion // Se pasa como parámetro separado
         ]);
     }
-
-
     public static function guardarDevolucion(Router $router)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -91,8 +91,7 @@ class UsuarioController
     {
         $id = s($_GET['id']);
         
-        FilterValidateInt($id, 'admin');
-        verificarId(Usuario::find($id, 'idusuario'), 'admin');
+
 
         $usuario = Usuario::find($id, 'idusuario');
         $alertas = Usuario::getAlertas();
@@ -138,8 +137,7 @@ class UsuarioController
         $alertas = Usuario::getAlertas();
         $id = $_POST['id'];
         $tipo = $_POST['tipo'];
-        FilterValidateInt($id, 'admin/GestionarUsuario');
-        verificarId(Usuario::find($id, 'idusuario'), 'admin/GestionarUsuario');
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($tipo === 'usuario') {
                 $usuario = Usuario::find($id, 'idusuario');

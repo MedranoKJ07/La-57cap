@@ -4,7 +4,6 @@ namespace Controllers;
 use MVC\Router;
 use Model\Usuario;
 use Model\Vendedor;
-use Model\Rol;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Classes\Email;
@@ -112,10 +111,9 @@ class VendedorController
     public static function ActualizarVendedor(Router $router)
     {
         $id_usuario = s($_GET['id'] ?? null);
-        FilterValidateInt($id_usuario, 'admin');
+   
 
         $usuario = Usuario::find($id_usuario, 'idusuario');
-        verificarId($usuario, 'admin');
 
         $vendedor = Vendedor::where('id_usuario', $id_usuario);
         $alertas = [];
@@ -286,7 +284,7 @@ class VendedorController
                     'subtotal' => $producto['cantidad'] * $producto['precio']
                 ]);
                 $detalle->guardar();
-                // ✅ Restar del inventario usando el modelo Inventario
+                // Restar del inventario usando el modelo Inventario
                 Inventario::restarStock($producto['id'], $producto['cantidad']);
 
             }

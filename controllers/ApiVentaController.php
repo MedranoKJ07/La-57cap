@@ -2,9 +2,6 @@
 namespace Controllers;
 
 use Model\Producto;
-use Model\Venta;
-use Model\DetalleVenta;
-use Model\Pedido;
 use Model\Cliente;
 
 

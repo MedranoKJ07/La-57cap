@@ -40,24 +40,7 @@ class Cliente extends ActiveRecord
         $this->direccion = $args['direccion'] ?? '';
         $this->Municipio = $args['Municipio'] ?? '';
     }
-    public static function filtrarClientes($busqueda = '')
-    {
-        $condiciones = [];
-
-        if ($busqueda !== '') {
-            $busqueda = self::$db->real_escape_string($busqueda);
-            $condiciones[] = "(p_nombre LIKE '%$busqueda%' 
-                        OR s_nombre LIKE '%$busqueda%' 
-                        OR p_apellido LIKE '%$busqueda%' 
-                        OR s_apellido LIKE '%$busqueda%')";
-        }
-
-        $where = count($condiciones) ? 'WHERE ' . implode(' AND ', $condiciones) : '';
-        $query = "SELECT * FROM cliente $where";
-
-        return self::consultarSQL($query);
-    }
-
+    
     public static function obtenerTodosConUsuario($busqueda = '')
     {
         $busqueda = self::$db->real_escape_string($busqueda);
@@ -120,9 +103,4 @@ class Cliente extends ActiveRecord
         $res = self::fetchAssoc($sql);
         return $res['total'] ?? 0;
     }
-
-
-
-
-
 }

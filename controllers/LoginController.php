@@ -68,24 +68,28 @@ class LoginController
                     $_SESSION['rol'] = $usuario->id_roles;
                     $_SESSION['f_perfil'] = $usuario->f_perfil;
                     $_SESSION['login'] = true;
+                    
 
                     // Obtener nombre completo según el rol
                     switch ($usuario->id_roles) {
 
                         case '1': // Administrador
                             $_SESSION['nombre'] = 'Administrador';
+                            $_SESSION['AreaProtegida'] = true;
                             break;
 
                         case '2': // Vendedor
                             $vendedor = Vendedor::where('id_usuario', $usuario->idusuario);
                             $_SESSION['nombre'] = "$vendedor->p_nombre $vendedor->p_apellido";
                             $_SESSION['telefono'] = $vendedor->n_telefono;
+                            $_SESSION['AreaProtegida'] = true;
                             break;
 
                         case '3': // Repartidor
                             $repartidor = Repartidor::where('id_usuario', $usuario->idusuario);
                             $_SESSION['nombre'] = "$repartidor->p_nombre $repartidor->p_apellido";
                             $_SESSION['telefono'] = $repartidor->n_telefono;
+                            $_SESSION['AreaProtegida'] = true;
                             break;
 
                         case '4': // Cliente

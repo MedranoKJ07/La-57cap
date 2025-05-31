@@ -1,5 +1,5 @@
 <div class="container py-4">
-    <h2 class="text-center mb-4">📦 Detalle del Pedido #<?= $pedido['idpedidos'] ?> Calificado</h2>
+    <h2 class="text-center mb-4"> Detalle del Pedido #<?= $pedido['idpedidos'] ?> Calificado</h2>
 
     <p><strong>Cliente:</strong> <?= $pedido['cliente_nombre'] . ' ' . $pedido['cliente_sn'] . ' ' . $pedido['cliente_apellido'] . ' ' . $pedido['cliente_sa'] ?></p>
     <p><strong>Teléfono:</strong> <?= $pedido['n_telefono'] ?></p>

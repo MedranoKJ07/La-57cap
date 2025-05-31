@@ -1,5 +1,5 @@
 <div class="container py-4">
-    <h2 class="mb-4">🔔 Tus Notificaciones</h2>
+    <h2 class="mb-4"> Tus Notificaciones</h2>
 
     <?php if (empty($notificaciones)): ?>
         <div class="alert alert-info">No tienes notificaciones por el momento.</div>

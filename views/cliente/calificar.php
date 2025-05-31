@@ -1,5 +1,5 @@
 <div class="container py-4">
-    <h3 class="mb-4">📝 Calificar Pedido #<?= $pedido->idpedidos ?></h3>
+    <h3 class="mb-4">Calificar Pedido #<?= $pedido->idpedidos ?></h3>
 
     <form method="POST" action="/cliente/calificar?id=<?= $pedido->idpedidos ?>">
         <div class="mb-3">

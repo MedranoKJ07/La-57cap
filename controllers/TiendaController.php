@@ -54,25 +54,4 @@ class TiendaController
             'ordenSeleccionado' => $orden
         ]);
     }
-
-
-
-
-    public static function producto(Router $router)
-    {
-        $id = $_GET['id'] ?? null;
-        FilterValidateInt($id, 'tienda');
-
-        $producto = Producto::obtenerPorId($id);
-
-        if (!$producto) {
-            header('Location: /tienda');
-            exit;
-        }
-
-        $router->renderLanding('/Main/producto', [
-            'producto' => $producto,
-            'titulo' => 'Detalle del Producto'
-        ]);
-    }
 }

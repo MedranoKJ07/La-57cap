@@ -46,8 +46,6 @@ class Pedido extends ActiveRecord
     public $repartidor_nombre;
     public $repartidor_apellido;
 
-
-
     public function __construct($args = [])
     {
         $this->idpedidos = $args['idpedidos'] ?? null;
@@ -88,7 +86,7 @@ class Pedido extends ActiveRecord
 
             $pedido->estado_venta = trim($pedido->estado_venta ?? 'Pendiente');
 
-            // ✅ Agrega esta línea:
+            // Agrega esta línea:
             $pedido->no_disponible_para_devolver = self::ventaSinProductosDisponibles($pedido->id_ventas);
         }
 

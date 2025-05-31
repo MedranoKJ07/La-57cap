@@ -107,9 +107,6 @@ class CheckoutController
             $detalle->guardar();
         }
         Inventario::restarStock($prod->idproducto, $prod->cantidad);
-
-
-
         $idsAdmins = Usuario::obtenerIdsAdministradores();
 
         foreach ($idsAdmins as $adminId) {

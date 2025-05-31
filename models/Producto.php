@@ -69,12 +69,6 @@ class Producto extends ActiveRecord
 
         return self::$alertas;
     }
-
-    public static function obtenerActivos()
-    {
-        $query = "SELECT * FROM " . static::$tabla . " WHERE eliminado = 0 ORDER BY idproducto DESC";
-        return self::consultarSQL($query);
-    }
     public static function generarCodigoProducto($nombre, $id_categoria)
     {
         // Tomamos las primeras 3 letras del nombre sin espacios y las convertimos en mayúsculas
@@ -183,10 +177,6 @@ class Producto extends ActiveRecord
 
         return self::consultarSQL($query);
     }
-
-
-
-
     public static function obtenerDestacados($limite = 3)
     {
         $query = "SELECT * FROM producto 
@@ -202,60 +192,6 @@ class Producto extends ActiveRecord
         }
 
         return $productos;
-    }
-    public static function obtenerProductos()
-    {
-        $query = "SELECT * FROM producto WHERE eliminado = 0 ORDER BY RAND()";
-        $resultado = self::$db->query($query);
-
-        $productos = [];
-        while ($producto = $resultado->fetch_object()) {
-            $productos[] = $producto;
-        }
-
-        return $productos;
-    }
-
-    public static function obtenerPorCategoria($categoriaId = null, $buscar = null, $orden = null, $limit = 9, $offset = 0)
-    {
-        $query = "SELECT * FROM producto WHERE eliminado = 0";
-
-        if ($categoriaId) {
-            $query .= " AND id_categoria = " . self::$db->quote($categoriaId);
-        }
-
-        if ($buscar) {
-            $buscar = self::$db->real_escape_string($buscar);
-            $query .= " AND nombre_producto LIKE '%$buscar%'";
-        }
-
-        if ($orden === 'asc') {
-            $query .= " ORDER BY precio ASC";
-        } elseif ($orden === 'desc') {
-            $query .= " ORDER BY precio DESC";
-        }
-
-        $query .= " LIMIT $limit OFFSET $offset";
-
-        return self::consultarSQL($query);
-    }
-
-    public static function contarPorCategoria($categoriaId = null, $buscar = null)
-    {
-        $query = "SELECT COUNT(*) as total FROM producto WHERE eliminado = 0";
-
-        if ($categoriaId) {
-            $query .= " AND id_categoria = " . self::$db->quote($categoriaId);
-        }
-
-        if ($buscar) {
-            $buscar = self::$db->real_escape_string($buscar);
-            $query .= " AND nombre_producto LIKE '%$buscar%'";
-        }
-
-        $resultado = self::$db->query($query);
-        $fila = $resultado->fetch_assoc();
-        return $fila['total'] ?? 0;
     }
     public static function obtenerPorId($id)
     {

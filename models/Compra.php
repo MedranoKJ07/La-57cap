@@ -48,8 +48,6 @@ class Compra extends ActiveRecord
 
         return $compras;
     }
-
-
     public function actualizarTotal()
     {
         if (empty($this->idCompras)) {
@@ -79,8 +77,6 @@ class Compra extends ActiveRecord
         $resultado = self::$db->query($query);
         return $resultado->fetch_object();
     }
-
-
     public static function productosComprados()
     {
         $sql = "SELECT 

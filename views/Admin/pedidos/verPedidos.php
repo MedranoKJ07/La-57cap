@@ -1,5 +1,5 @@
 <div class="container py-4">
-    <h2 class="text-center mb-4">📦 Todos los Pedidos</h2>
+    <h2 class="text-center mb-4">Todos los Pedidos</h2>
 
     <?php if (empty($pedidos)): ?>
         <div class="alert alert-info text-center">No hay pedidos registrados.</div>

@@ -12,8 +12,6 @@ use Model\Venta;
 use Model\Cliente;
 use Model\DetalleVenta;
 use Model\Producto;
-
-
 class CategoriaProductoController
 {
     public static function GestionarCategorias(Router $router)
@@ -21,16 +19,12 @@ class CategoriaProductoController
         $busqueda = $_POST['busqueda'] ?? '';
         $categorias = CategoriaProducto::filtrar($busqueda);
 
-
-
-
         $router->renderAdmin('Admin/categorias_producto/GestionCategoriasProducto', [
             'categorias' => $categorias,
             'busqueda' => $busqueda,
             'titulo' => 'Gestión de Categorías de Productos'
         ]);
     }
-
 
     public static function CrearCategoria(Router $router)
     {
@@ -115,9 +109,6 @@ class CategoriaProductoController
         $alertas = CategoriaProducto::getAlertas();
         $id = $_POST['id'] ?? null;
 
-        FilterValidateInt($id, 'admin/GestionarCategoriaProducto');
-        verificarId(CategoriaProducto::find($id, 'idcategoria_producto'), 'admin/GestionarCategoriaProducto');
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? null;
 
@@ -131,11 +122,6 @@ class CategoriaProductoController
             header('Location: /admin/GestionarCategoriaProducto');
         }
     }
-
-
-    // Aquí continúa tu lógica original...
-
-
 
     public static function generarPDFGarantia(Router $router)
     {

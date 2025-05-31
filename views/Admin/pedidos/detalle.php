@@ -1,5 +1,5 @@
 <div class="container py-4">
-    <h2 class="mb-4 text-center">📦 Detalle del Pedido #<?= $pedido['idpedidos'] ?></h2>
+    <h2 class="mb-4 text-center">Detalle del Pedido #<?= $pedido['idpedidos'] ?></h2>
 
     <div class="card mb-4">
         <div class="card-body">

@@ -36,7 +36,7 @@ class Notificacion extends ActiveRecord
         return $noti->crear();
     }
 
-    // 🔍 Obtener todas las notificaciones visibles de un usuario
+    // Obtener todas las notificaciones visibles de un usuario
     public static function obtenerPorUsuario($idUsuario)
     {
         $idUsuario = self::$db->real_escape_string($idUsuario);
@@ -47,7 +47,7 @@ class Notificacion extends ActiveRecord
 
         return self::consultarSQL($query);
     }
-    // 🔍 Obtener todas las notificaciones visibles de un usuario
+    //  Obtener todas las notificaciones visibles de un usuario
     public static function obtenerPorUsuarioUltimas4($idUsuario)
     {
         $idUsuario = self::$db->real_escape_string($idUsuario);
@@ -59,7 +59,7 @@ class Notificacion extends ActiveRecord
         return self::consultarSQL($query);
     }
 
-    // 🗑️ Marcar como eliminada (no física)
+    //  Marcar como eliminada (no física)
     public static function eliminarLogicamente($idNoti)
     {
         $idNoti = self::$db->real_escape_string($idNoti);
@@ -67,20 +67,4 @@ class Notificacion extends ActiveRecord
         $query = "UPDATE notificacion SET eliminado = 1 WHERE idnotificacion = '$idNoti' LIMIT 1";
         return self::$db->query($query);
     }
-    public static function obtenerPorUsuarioJson()
-    {
-        if (!isset($_SESSION['id'])) {
-            echo json_encode([]);
-            return;
-        }
-
-        $idUsuario = $_SESSION['id'];
-        $notificaciones = Notificacion::obtenerPorUsuario($idUsuario);
-
-        header('Content-Type: application/json');
-        echo json_encode($notificaciones);
-    }
-
-
-
 }

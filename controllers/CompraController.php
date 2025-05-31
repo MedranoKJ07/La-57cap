@@ -30,7 +30,7 @@ class CompraController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $detalles = $_POST['detalle'] ?? [];
 
-            // ❌ Validación: No hay productos
+            // Validación: No hay productos
             if (empty($detalles)) {
                 $alertas['error'][] = 'Debe agregar al menos un producto a la compra.';
             }
@@ -94,9 +94,6 @@ class CompraController
             'alertas' => $alertas
         ]);
     }
-
-
-
 
     public static function VerDetalleCompra(Router $router)
     {

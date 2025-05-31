@@ -45,7 +45,6 @@ class ProveedorController
     public static function ActualizarProveedor(Router $router)
     {
         $id = s($_GET['id'] ?? '');
-        verificarId(Proveedor::find($id, 'idProveedores'), 'admin');
         $proveedor = Proveedor::find($id, 'idProveedores');
         $alertas = [];
 

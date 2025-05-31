@@ -28,21 +28,6 @@ class DevolucionDetalle extends ActiveRecord
         $this->producto_idproducto = $args['producto_idproducto'] ?? null;
         $this->Devoluciones_idDevoluciones = $args['Devoluciones_idDevoluciones'] ?? null;
     }
-
-
-
-    public static function obtenerPorDevolucion($id)
-    {
-        $id = self::$db->real_escape_string($id);
-        $query = "
-            SELECT dd.*, p.nombre_producto, p.Foto
-            FROM devolucion_detalles dd
-            JOIN producto p ON p.idproducto = dd.producto_idproducto
-            WHERE dd.Devoluciones_idDevoluciones = $id
-        ";
-        return self::consultarSQL($query);
-    }
-    // 🔍 Método requerido
     public static function obtenerDetallesConProducto($idDevolucion)
     {
         $idDevolucion = self::$db->real_escape_string($idDevolucion);

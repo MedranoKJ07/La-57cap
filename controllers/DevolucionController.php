@@ -3,7 +3,6 @@
 namespace Controllers;
 
 use Model\Cliente;
-use Model\Usuario;
 use MVC\Router;
 use Model\Devolucion;
 use Model\DevolucionDetalle;

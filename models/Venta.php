@@ -108,17 +108,17 @@ class Venta extends ActiveRecord
         return $resultado;
     }
 
-public static function totalVentas() {
-    $query = "SELECT COUNT(*) as total FROM ventas";
-      $res = self::fetchAssoc($query);
+    public static function totalVentas()
+    {
+        $query = "SELECT COUNT(*) as total FROM ventas";
+        $res = self::fetchAssoc($query);
         return $res['total'] ?? 0;
-}
+    }
 
-public static function totalIngresos() {
-    $query = "SELECT SUM(total) as ingresos FROM ventas";
-      $res = self::fetchAssoc($query);
+    public static function totalIngresos()
+    {
+        $query = "SELECT SUM(total) as ingresos FROM ventas";
+        $res = self::fetchAssoc($query);
         return $res['ingresos'] ?? 0;
-}
-
-
+    }
 }

@@ -121,18 +121,4 @@ class CategoriaProducto extends ActiveRecord
 
         return $categorias;
     }
-    public static function obtenerLimite($limite = 7)
-    {
-        $query = "SELECT * FROM categoria_producto WHERE eliminado = 0 ORDER BY idcategoria_producto DESC LIMIT $limite";
-        $resultado = self::$db->query($query);
-
-        $categorias = [];
-        while ($categoria = $resultado->fetch_object()) {
-            $categorias[] = $categoria;
-        }
-
-        return $categorias;
-    }
-
-
 }

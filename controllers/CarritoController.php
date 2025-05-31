@@ -8,9 +8,6 @@ use MVC\Router;
 use Model\Notificacion;
 class CarritoController
 {
-
-
-
     public static function agregar()
     {
         $id = $_GET['id'] ?? null;
@@ -53,13 +50,10 @@ class CarritoController
 
         $_SESSION['carrito'][$id] = $cantidadActual + 1;
 
-        // ✅ Redirige directamente al carrito
+        // Redirige directamente al carrito
         header('Location: /carrito');
         exit;
     }
-
-
-
     public static function eliminar()
     {
         $id = $_GET['id'] ?? null;

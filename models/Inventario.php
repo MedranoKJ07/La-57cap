@@ -57,28 +57,6 @@ class Inventario extends ActiveRecord
         return $objetos;
     }
 
-    public static function registrarOCrear($producto_id, $cantidad)
-    {
-        $db = self::$db;
-
-        $query = "SELECT * FROM inventario WHERE producto_idproducto = $producto_id LIMIT 1";
-        $resultado = $db->query($query);
-
-        if ($resultado && $resultado->num_rows > 0) {
-            // Ya existe, actualiza cantidad
-            $inventario = $resultado->fetch_object();
-            $nuevaCantidad = $inventario->cantidad_actual + $cantidad;
-
-            $update = "UPDATE inventario SET cantidad_actual = $nuevaCantidad, fecha_actualizacion = NOW() 
-                   WHERE idInventario = $inventario->idInventario";
-            $db->query($update);
-        } else {
-            // No existe, crea nuevo inventario
-            $insert = "INSERT INTO inventario (producto_idproducto, cantidad_actual, cantidad_minima, fecha_actualizacion) 
-                   VALUES ($producto_id, $cantidad, 5, NOW())";
-            $db->query($insert);
-        }
-    }
     public static function restarStock($productoId, $cantidadVendida)
     {
         $productoId = self::$db->real_escape_string($productoId);

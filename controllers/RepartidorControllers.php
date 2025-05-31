@@ -1,7 +1,6 @@
 <?php
 namespace Controllers;
 
-use Model\Vendedor;
 use MVC\Router;
 use Model\Usuario;
 use Model\Repartidor;
@@ -13,7 +12,6 @@ use Model\Pedido;
 use Model\Venta;
 use Model\Cliente;
 use Model\DetalleVenta;
-
 
 class RepartidorControllers
 {
@@ -118,8 +116,7 @@ class RepartidorControllers
     public static function ActualizarRepartidor(Router $router)
     {
         $id = s($_GET['id'] ?? null);
-        FilterValidateInt($id, 'admin');
-        verificarId(Repartidor::find($id, 'idrepartidor'), 'admin');
+
 
         $repartidor = Repartidor::find($id, 'idrepartidor');
         $usuario = Usuario::find($repartidor->id_usuario, 'idusuario');

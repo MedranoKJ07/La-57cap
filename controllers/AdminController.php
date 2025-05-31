@@ -3,8 +3,6 @@
 namespace Controllers;
 
 use MVC\Router;
-use Model\Usuario;
-use Model\Cliente;
 use Model\Rol;
 use Model\Calificaciones;
 use Model\Pedido;
@@ -13,7 +11,6 @@ use Model\Notificacion;
 
 class AdminController
 {
-
     public static function Admin(Router $router)
     {
         $roles = Rol::get(3);
