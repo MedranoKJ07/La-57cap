@@ -25,33 +25,42 @@
                         </a>
                     </li>
                     <li class="sidebar-header">
-                        Gestionar usuarios
+                        Gestionar Devoluciones
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarUsuario">
+                        <a class="sidebar-link" href="/admin/devoluciones">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">
-                                Usuarios</span>
+                                Devoluciones
+                            </span>
+                        </a>
+                    </li>
+                    <li class="sidebar-header">
+                        Gestionar Ventas - Pedidos
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/historialPedidos">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                                Pedidos
+                            </span>
                         </a>
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarVendedores">
+                        <a class="sidebar-link" href="/admin/calificaciones">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">
-                                Vendedor</span>
+                                Calificaciones Pedidos
+                            </span>
                         </a>
+                    </li>
+                    <li class="sidebar-header">
+                        Gestionar Reportes
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarRepartidor">
+                        <a class="sidebar-link" href="/admin/reportes">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">
-                                Repartidor</span>
+                                Panel de Reportes
+                            </span>
                         </a>
                     </li>
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/GestionarCliente">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
-                                Cliente</span>
-                        </a>
-                    </li>
-
                     <li class="sidebar-header">
                         Gestion inventario
                     </li>
@@ -91,32 +100,35 @@
                         </a>
                     </li>
                     <li class="sidebar-header">
-                        Gestionar Devoluciones
+                        Gestionar usuarios
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/devoluciones">
+                        <a class="sidebar-link" href="/admin/GestionarUsuario">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">
-                                Devoluciones
-                            </span>
-                        </a>
-                    </li>
-                    <li class="sidebar-header">
-                        Gestionar Ventas - Pedidos
-                    </li>
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/historialPedidos">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
-                                Pedidos
-                            </span>
+                                Usuarios</span>
                         </a>
                     </li>
                     <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/admin/calificaciones">
+                        <a class="sidebar-link" href="/admin/GestionarVendedores">
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">
-                                Calificaciones Pedidos
-                            </span>
+                                Vendedor</span>
                         </a>
                     </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/GestionarRepartidor">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                                Repartidor</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/admin/GestionarCliente">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">
+                                Cliente</span>
+                        </a>
+                    </li>
+
+
+
 
                 </ul>
             </div>
@@ -133,7 +145,7 @@
                     $notificaciones = [];
                     if (isset($_SESSION['id'])) {
                         $notificaciones = Notificacion::obtenerPorUsuarioUltimas4($_SESSION['id']);
-                       
+
                     }
                     ?>
                     <ul class="navbar-nav navbar-align">
@@ -141,13 +153,14 @@
                             <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                                 <div class="position-relative">
                                     <i class="align-middle" data-feather="bell"></i>
-                                    <span class="indicator"><?= count(Notificacion::obtenerPorUsuario($_SESSION['id'])) ?></span>
+                                    <span
+                                        class="indicator"><?= count(Notificacion::obtenerPorUsuario($_SESSION['id'])) ?></span>
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
                                 aria-labelledby="alertsDropdown">
                                 <div class="dropdown-menu-header">
-                                    Ultimas <?= count($notificaciones) ?> Notificaciones 
+                                    Ultimas <?= count($notificaciones) ?> Notificaciones
                                 </div>
                                 <div class="list-group">
                                     <?php foreach ($notificaciones as $noti): ?>
@@ -196,7 +209,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end">
-                                
+
                                 <a class="dropdown-item" href="/logout">Log out</a>
                             </div>
                         </li>

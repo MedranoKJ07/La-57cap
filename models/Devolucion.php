@@ -71,5 +71,12 @@ class Devolucion extends ActiveRecord
         $resultado = self::consultarSQL($query);
         return $resultado[0] ?? null;
     }
+    public static function totalDevoluciones()
+    {
+        $sql = "SELECT COUNT(*) as total FROM devoluciones WHERE eliminado = 0";
+        $res = self::fetchAssoc($sql);
+        return $res['total'] ?? 0;
+    }
+
 
 }

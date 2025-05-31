@@ -305,7 +305,27 @@ class Pedido extends ActiveRecord
     }
 
 
+    public static function pedidosPorRepartidor($inicio, $fin)
+    {
+        $sql = "SELECT 
+                r.p_nombre,
+                r.p_apellido,
+                COUNT(p.idpedidos) AS total_pedidos
+            FROM pedidos p
+            JOIN repartidor r ON p.id_repartidor = r.idrepartidor
+            WHERE p.estado = 1
+              AND p.creado BETWEEN '{$inicio}' AND '{$fin}'
+            GROUP BY r.idrepartidor
+            ORDER BY total_pedidos DESC";
+        $resultado = self::$db->query($sql);
+        return $resultado;
+    }
 
-
+    public static function totalEntregados()
+    {
+        $query = "SELECT COUNT(*) as pedidosEntregados FROM pedidos WHERE estado = 1";
+          $res = self::fetchAssoc($query);
+        return $res['pedidosEntregados'] ?? 0;
+    }
 
 }

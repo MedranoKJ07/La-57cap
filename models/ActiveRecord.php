@@ -67,6 +67,11 @@ class ActiveRecord
 
         return $objeto;
     }
+    public static function fetchAssoc($sql)
+    {
+        $resultado = self::$db->query($sql);
+        return $resultado->fetch_assoc();
+    }
 
     // Identificar y unir los atributos de la BD
     public function atributos()

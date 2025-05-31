@@ -126,5 +126,50 @@ class Inventario extends ActiveRecord
             }
         }
     }
+    public static function movimientoStock($inicio, $fin)
+    {
+        $sql = "SELECT 
+                p.nombre_producto,
+                COALESCE(SUM(cd.cantidad), 0) AS cantidad_comprada,
+                COALESCE(SUM(dv.cantidad), 0) AS cantidad_vendida
+            FROM producto p
+            LEFT JOIN compra_detalles cd ON p.idproducto = cd.producto_idproducto 
+                AND cd.idCompra_Detalles IN (
+                    SELECT cd2.idCompra_Detalles 
+                    FROM compra_detalles cd2 
+                    JOIN compras c ON cd2.Compras_idCompras = c.idCompras 
+                    WHERE c.fecha_compra BETWEEN '{$inicio}' AND '{$fin}'
+                )
+            LEFT JOIN detalles_ventas dv ON p.idproducto = dv.id_producto 
+                AND dv.iddetalles_ventas IN (
+                    SELECT dv2.iddetalles_ventas 
+                    FROM detalles_ventas dv2 
+                    JOIN ventas v ON dv2.ventas_idventas = v.idventas 
+                    WHERE v.creado BETWEEN '{$inicio}' AND '{$fin}'
+                )
+            GROUP BY p.idproducto
+            ORDER BY p.nombre_producto";
 
+        $resultado = self::$db->query($sql);
+        return $resultado;
+    }
+    public static function valorizacionInventario()
+    {
+        $query = "SELECT 
+                p.nombre_producto,
+                p.precio,
+                i.cantidad_actual,
+                (p.precio * i.cantidad_actual) AS valor_total
+              FROM inventario i
+              INNER JOIN producto p ON i.producto_idproducto = p.idproducto
+              WHERE i.cantidad_actual > 0";
+        $resultado = self::$db->query($query);
+        return $resultado;
+    }
+    public static function stockBajo()
+    {
+        $query = "SELECT COUNT(*) as stockBajo FROM inventario WHERE cantidad_actual <= cantidad_minima";
+        $res = self::fetchAssoc($query);
+        return $res['stockBajo'] ?? 0;
+    }
 }

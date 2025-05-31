@@ -81,5 +81,20 @@ class Compra extends ActiveRecord
     }
 
 
+    public static function productosComprados()
+    {
+        $sql = "SELECT 
+                p.nombre_producto,
+                SUM(cd.cantidad) AS total_comprado,
+                SUM(cd.subtotal) AS costo_total
+            FROM compra_detalles cd
+            JOIN producto p ON cd.producto_idproducto = p.idproducto
+            GROUP BY cd.producto_idproducto
+            ORDER BY total_comprado DESC";
+
+        $resultado = self::$db->query($sql);
+        return $resultado;
+    }
+
 
 }

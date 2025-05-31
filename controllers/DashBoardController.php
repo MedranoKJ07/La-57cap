@@ -1,20 +1,34 @@
 <?php
 
 namespace Controllers;
-use MVC\Router;
-use Model\Usuario;
-use Model\Cliente;
-use Model\Rol;
-class DashBoardController
-{
 
+use MVC\Router;
+use Model\Venta;
+use Model\Pedido;
+use Model\Inventario;
+use Model\Devolucion;
+use Model\Cliente;
+use Model\Producto;
+
+class DashboardController
+{
+ 
     public static function Dashboard(Router $router)
     {
-        $roles = Rol::get(3);
+        $datos = [
+            'totalVentas' => Venta::totalVentas(),
+            'ingresos' => Venta::totalIngresos(),
+            'pedidosEntregados' => Pedido::totalEntregados(),
+            'devoluciones' => Devolucion::totalDevoluciones(),
+            'clientes' => Cliente::totalClientes(),
+            'stockBajo' => Inventario::stockBajo(),
+            'productos' => Producto::totalProductos()
+        ];
 
         $router->renderAdmin('Admin/Dashboard/dashboard', [
-            'roles' => $roles,
-            'titulo' => 'Dashboard',
+            'titulo' => 'Panel Principal',
+            'datos' => $datos
         ]);
     }
+
 }

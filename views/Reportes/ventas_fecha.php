@@ -36,9 +36,9 @@
     </tbody>
 </table>
 
-<a href="/reporte/ventas-fecha-pdf?inicio=<?= $fechaInicio ?>&fin=<?= $fechaFin ?>" class="btn btn-danger me-2">
+<a href="/admin/reporte/ventas-fecha-pdf?inicio=<?= $fechaInicio ?>&fin=<?= $fechaFin ?>" class="btn btn-danger me-2">
     <i class="fas fa-file-pdf"></i> Descargar PDF
 </a>
-<a href="/reporte/ventas-fecha-excel?inicio=<?= $fechaInicio ?>&fin=<?= $fechaFin ?>" class="btn btn-success">
+<a href="/admin/reporte/ventas-fecha-excel?inicio=<?= $fechaInicio ?>&fin=<?= $fechaFin ?>" class="btn btn-success">
     <i class="fas fa-file-excel"></i> Descargar Excel
 </a>

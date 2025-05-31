@@ -166,12 +166,41 @@ $router->get('/admin/calificaciones', [AdminController::class, 'verCalificacione
 $router->get('/admin/detalle-calificacion', [AdminController::class, 'detalleCalificacion']);
 
 
-//Reportes
-$router->get('/reporte/ventas-fecha', [ReporteController::class, 'ventasFecha']);
-$router->get('/reporte/ventas-fecha-excel', [ReporteController::class, 'ventasFechaExcel']);
-$router->get('/reporte/ventas-fecha-pdf', [ReporteController::class, 'ventasFechaPDF']);
+//Reportes\
+$router->get('/admin/reportes', [ReporteController::class, 'index']);
 
 
+$router->get('/admin/reporte/ventas-fecha', [ReporteController::class, 'ventasFecha']);
+$router->get('/admin/reporte/ventas-fecha-excel', [ReporteController::class, 'ventasFechaExcel']);
+$router->get('/admin/reporte/ventas-fecha-pdf', [ReporteController::class, 'ventasFechaPDF']);
+
+$router->get('/admin/reportes/ventas-vendedor', [ReporteController::class, 'ventasPorVendedor']);
+$router->get('/admin/reportes/ventas-vendedor-pdf', [ReporteController::class, 'exportarVentasVendedorPdf']);
+$router->get('/admin/reportes/ventas-vendedor-excel', [ReporteController::class, 'exportarVentasVendedorExcel']);
+
+$router->get('/admin/reportes/ventas-producto', [ReporteController::class, 'ventasProducto']);
+$router->get('/admin/reportes/ventas-producto-pdf', [ReporteController::class, 'exportarVentasProductoPdf']);
+$router->get('/admin/reportes/ventas-producto-excel', [ReporteController::class, 'exportarVentasProductoExcel']);
+
+$router->get('/admin/reportes/ventas-categoria', [ReporteController::class, 'ventasCategoria']);
+$router->get('/admin/reportes/ventas-categoria-pdf', [ReporteController::class, 'exportarVentasCategoriaPdf']);
+$router->get('/admin/reportes/ventas-categoria-excel', [ReporteController::class, 'exportarVentasCategoriaExcel']);
+
+$router->get('/admin/reportes/pedidos-repartidor', [ReporteController::class, 'pedidosRepartidor']);
+$router->get('/admin/reportes/pedidos-repartidor-pdf', [ReporteController::class, 'exportarPedidosRepartidorPdf']);
+$router->get('/admin/reportes/pedidos-repartidor-excel', [ReporteController::class, 'exportarPedidosRepartidorExcel']);
+
+$router->get('/admin/reportes/movimiento-stock', [ReporteController::class, 'movimientoStock']);
+$router->get('/admin/reportes/movimiento-stock-pdf', [ReporteController::class, 'exportarMovimientoStockPdf']);
+$router->get('/admin/reportes/movimiento-stock-excel', [ReporteController::class, 'exportarMovimientoStockExcel']);
+
+$router->get('/admin/reporte/valorizacion-inventario', [ReporteController::class, 'valorizacionInventario']);
+$router->get('/admin/reporte/valorizacion-inventario-pdf', [ReporteController::class, 'valorizacionInventarioPdf']);
+$router->get('/admin/reporte/valorizacion-inventario-excel', [ReporteController::class, 'valorizacionInventarioExcel']);
+
+$router->get('/admin/reporte/productos-comprados', [ReporteController::class, 'productosComprados']);
+$router->get('/admin/reporte/productos-comprados-pdf', [ReporteController::class, 'productosCompradosPDF']);
+$router->get('/admin/reporte/productos-comprados-excel', [ReporteController::class, 'productosCompradosExcel']);
 
 //PANEL DE VENDEDORES
 $router->get('/Vendedor', [VendedorController::class, 'Vendedor']);

@@ -59,10 +59,66 @@ class Venta extends ActiveRecord
             ORDER BY fecha DESC";
         $resultado = self::$db->query($sql);
         return $resultado;
+    }
+    public static function ventasPorVendedor($inicio, $fin)
+    {
+        $sql = "SELECT 
+                CONCAT(v.p_nombre, ' ', v.p_apellido) AS nombre_vendedor,
+                COUNT(ve.idventas) AS total_ventas,
+                SUM(ve.total) AS monto_total
+            FROM ventas ve
+            JOIN vendedor v ON ve.id_vendedor = v.idvendedor
+            WHERE ve.eliminado = 0 AND DATE(ve.creado) BETWEEN '$inicio' AND '$fin'
+            GROUP BY v.idvendedor
+            ORDER BY monto_total DESC";
+        $resultado = self::$db->query($sql);
+        return $resultado;
+    }
+    public static function ventasPorProducto($inicio, $fin)
+    {
+        $sql = "SELECT 
+                p.nombre_producto, 
+                SUM(dv.cantidad) AS total_vendidos, 
+                SUM(dv.subtotal) AS monto_total
+            FROM detalles_ventas dv
+            JOIN producto p ON p.idproducto = dv.id_producto
+            JOIN ventas v ON v.idventas = dv.ventas_idventas
+            WHERE v.creado BETWEEN '{$inicio}' AND '{$fin}' AND v.eliminado = 0
+            GROUP BY p.idproducto
+            ORDER BY total_vendidos DESC";
 
-        // 🔁 Devuelve array asociativo
+        $resultado = self::$db->query($sql);
+        return $resultado;
+    }
+    public static function ventasPorCategoria($inicio, $fin)
+    {
+        $sql = "SELECT 
+                c.titulo AS categoria,
+                SUM(dv.cantidad) AS total_vendidos,
+                SUM(dv.subtotal) AS monto_total
+            FROM detalles_ventas dv
+            JOIN producto p ON p.idproducto = dv.id_producto
+            JOIN categoria_producto c ON c.idcategoria_producto = p.id_categoria
+            JOIN ventas v ON v.idventas = dv.ventas_idventas
+            WHERE v.creado BETWEEN '{$inicio}' AND '{$fin}' AND v.eliminado = 0
+            GROUP BY c.idcategoria_producto
+            ORDER BY monto_total DESC";
+
+        $resultado = self::$db->query($sql);
+        return $resultado;
     }
 
+public static function totalVentas() {
+    $query = "SELECT COUNT(*) as total FROM ventas";
+      $res = self::fetchAssoc($query);
+        return $res['total'] ?? 0;
+}
+
+public static function totalIngresos() {
+    $query = "SELECT SUM(total) as ingresos FROM ventas";
+      $res = self::fetchAssoc($query);
+        return $res['ingresos'] ?? 0;
+}
 
 
 }

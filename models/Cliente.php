@@ -114,6 +114,13 @@ class Cliente extends ActiveRecord
     }
 
 
+    public static function totalClientes()
+    {
+        $sql = "SELECT COUNT(*) as total FROM cliente WHERE eliminado = 0";
+        $res = self::fetchAssoc($sql);
+        return $res['total'] ?? 0;
+    }
+
 
 
 

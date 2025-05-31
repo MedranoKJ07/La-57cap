@@ -345,5 +345,11 @@ class Producto extends ActiveRecord
         return null;
     }
 
+    public static function totalProductos()
+    {
+        $sql = "SELECT COUNT(*) as total FROM producto WHERE eliminado = 0";
+        $res = self::fetchAssoc($sql);
+        return $res['total'] ?? 0;
+    }
 
 }
