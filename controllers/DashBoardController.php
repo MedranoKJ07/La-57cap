@@ -20,7 +20,7 @@ class DashboardController
             'ingresos' => Venta::totalIngresos(),
             'pedidosEntregados' => Pedido::totalEntregados(),
             'devoluciones' => Devolucion::totalDevoluciones(),
-            'clientes' => Cliente::totalClientes(),
+            'clientes' => Cliente::totalClientes()-1,
             'stockBajo' => Inventario::stockBajo(),
             'productos' => Producto::totalProductos()
         ];
