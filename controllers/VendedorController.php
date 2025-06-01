@@ -77,7 +77,7 @@ class VendedorController
                 $usuario->hashPassword();
                 $usuario->crearToken();
 
-                $usuario->confirmado = 1;
+                $usuario->confirmado = 0;
 
                 $resultado = $usuario->crear();
                 $idUsuario = $resultado['id'];
@@ -111,7 +111,7 @@ class VendedorController
     public static function ActualizarVendedor(Router $router)
     {
         $id_usuario = s($_GET['id'] ?? null);
-   
+
 
         $usuario = Usuario::find($id_usuario, 'idusuario');
 
@@ -347,7 +347,7 @@ class VendedorController
             }
         }
 
-      
+
 
         // De lo contrario, mostrar solo ticket normal
         $router->renderVendedor('Vendedor/TicketVenta', [
@@ -625,11 +625,14 @@ class VendedorController
                 'Se le ha asignado un nuevo pedido con dirección de entrega. Pedido #: ' . $pedido->idpedidos,
                 Repartidor::obtenerUsuarioId($pedido->id_repartidor) // o quien debe recibirla
             );
-            NotificacionController::crear(
-                'Pedido en camino',
-                'Tu pedido ha sido asignado a un repartidor y pronto será entregado.',
-                Cliente::obtenerUsuarioId($pedido->id_cliente) // o quien debe recibirla
-            );
+            if ($pedido->idcliente) {
+                NotificacionController::crear(
+                    'Pedido en camino',
+                    'Tu pedido ha sido asignado a un repartidor y pronto será entregado.',
+                    Cliente::obtenerUsuarioId($pedido->id_cliente) // o quien debe recibirla
+                );
+            }
+
 
             $_SESSION['mensaje'] = 'Repartidor asignado y pedido marcado como "En Camino".';
             header('Location: /vendedor/asignar-repartidor');

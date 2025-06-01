@@ -68,7 +68,7 @@ class RepartidorControllers
                 $usuario->hashPassword();
                 $usuario->crearToken();
 
-                $usuario->confirmado = 1;
+                $usuario->confirmado = 0;
                 $resultadoUsuario = $usuario->crear();
                 $idUsuario = $resultadoUsuario['id'];
 

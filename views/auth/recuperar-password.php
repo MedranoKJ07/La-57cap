@@ -22,7 +22,7 @@
               <form method="POST">
                 <div class="mb-3">
                   <label for="password" class="form-label">Ingrese una nueva Contraseña</label>
-                  <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Tu nuevo password" required>
+                  <input type="password"  maxlength="30" id="password" name="password" class="form-control form-control-lg" placeholder="Tu nuevo password" required>
                 </div>
 
                 <div class="d-grid gap-2 mt-4">

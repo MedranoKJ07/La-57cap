@@ -23,7 +23,7 @@
                 <form method="POST">
                   <div class="mb-3">
                     <label class="form-label">Correo electrónico</label>
-                    <input type="email" name="email" class="form-control form-control-lg" placeholder="Ejemplo: micorreo@email.com" required>
+                    <input type="email" name="email"  maxlength="30" class="form-control form-control-lg" placeholder="Ejemplo: micorreo@email.com" required>
                   </div>
                   <div class="d-grid gap-2 mt-3">
                     <input type="submit" class="btn btn-primary" value="Reenviar Confirmación">

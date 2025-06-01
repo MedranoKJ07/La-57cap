@@ -2,17 +2,17 @@
             <h5 class="text-primary">Datos de Usuario</h5>
             <div class="mb-3">
                 <label class="form-label">Nombre de Usuario</label>
-                <input class="form-control" name="usuario[userName]" type="text" required value="<?= s($usuario->userName); ?>">
+                <input class="form-control" name="usuario[userName]" maxlength="45" type="text" required value="<?= s($usuario->userName); ?>">
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input class="form-control" name="usuario[email]" type="email" required value="<?= s($usuario->email); ?>">
+                <input class="form-control" name="usuario[email]" maxlength="30" type="email" required value="<?= s($usuario->email); ?>">
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Contraseña</label>
-                <input class="form-control" name="usuario[password]" type="password" required>
+                <input class="form-control" name="usuario[password]" maxlength="45" type="password" required>
             </div>
 
             <div class="mb-3">
@@ -26,22 +26,22 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Primer Nombre</label>
-                    <input class="form-control" name="vendedor[p_nombre]" type="text" required value="<?= s($vendedor->p_nombre); ?>">
+                    <input class="form-control" name="vendedor[p_nombre]" maxlength="45" type="text" required value="<?= s($vendedor->p_nombre); ?>">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Segundo Nombre</label>
-                    <input class="form-control" name="vendedor[s_nombre]" type="text" value="<?= s($vendedor->s_nombre); ?>">
+                    <input class="form-control" name="vendedor[s_nombre]" maxlength="45" type="text" value="<?= s($vendedor->s_nombre); ?>">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Primer Apellido</label>
-                    <input class="form-control" name="vendedor[p_apellido]" type="text" required value="<?= s($vendedor->p_apellido); ?>">
+                    <input class="form-control" name="vendedor[p_apellido]" maxlength="45" type="text" required value="<?= s($vendedor->p_apellido); ?>">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Segundo Apellido</label>
-                    <input class="form-control" name="vendedor[s_apellido]" type="text" value="<?= s($vendedor->s_apellido); ?>">
+                    <input class="form-control" name="vendedor[s_apellido]" maxlength="45" type="text" value="<?= s($vendedor->s_apellido); ?>">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Teléfono</label>
-                    <input class="form-control" name="vendedor[n_telefono]" type="tel" required value="<?= s($vendedor->n_telefono); ?>">
+                    <input class="form-control" name="vendedor[n_telefono]"  maxlength="45" type="tel" required value="<?= s($vendedor->n_telefono); ?>">
                 </div>
 

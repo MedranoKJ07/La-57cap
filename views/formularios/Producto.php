@@ -5,6 +5,7 @@
         class="form-control" 
         id="nombre_producto" 
         name="producto[nombre_producto]" 
+        maxlength="45"
         value="<?php echo s($producto->nombre_producto); ?>"
         required
     >

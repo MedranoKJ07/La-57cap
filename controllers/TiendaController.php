@@ -32,7 +32,7 @@ class TiendaController
             $pagina = 1;
 
         // Filtrar productos
-        $productos = Producto::filtrar2($categoriaId, $buscar, $orden, $pagina, $porPagina);
+        $productos = Producto::filtrar2($categoriaId, $buscar, $orden);
 
         // Obtener el total para paginación
         $totalProductos = Producto::contarFiltrados($categoriaId, $buscar);

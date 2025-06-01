@@ -99,7 +99,7 @@
             </div>
 
             <!-- Paginación -->
-            <div class="row mt-4">
+          <!--   <div class="row mt-4">
                 <div class="col d-flex justify-content-center">
                     <nav>
                         <ul class="pagination">
@@ -116,7 +116,7 @@
                         </ul>
                     </nav>
                 </div>
-            </div>
+            </div> -->
         </div>
 
     </div>

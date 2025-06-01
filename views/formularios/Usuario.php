@@ -1,16 +1,16 @@
 <div class="mb-3">
     <label for="userName" class="card-title mb-0">Nombre de Usuario</label>
-    <input type="text" class="form-control" id="userName" name="usuario[userName]"
+    <input type="text" class="form-control" id="userName" name="usuario[userName]" maxlength="45"
         value="<?php echo s($usuario->userName); ?>">
 </div>
 <div class="mb-3">
     <label for="password" class="card-title mb-0">Contraseña</label>
-    <input type="password" class="form-control" id="password" name="usuario[password]"
+    <input type="password" class="form-control" id="password" name="usuario[password]" maxlength="45"
         value="<?php echo s($usuario->password); ?>">
 </div>
 <div class="mb-3">
     <label for="email" class="card-title mb-0">Email</label>
-    <input type="email" class="form-control" id="email" name="usuario[email]" value="<?php echo s($usuario->email); ?>">
+    <input type="email" class="form-control" id="email" name="usuario[email]" maxlength="30" value="<?php echo s($usuario->email); ?>">
 </div>
 <div class="mb-3">
     <label for="f_perfil" class="card-title mb-0">Image:</label>

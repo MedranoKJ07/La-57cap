@@ -45,9 +45,9 @@
                             <td><?php echo $proveedor->direccion ?? '—'; ?></td>
                             <td>
                                 <?php
-                                if ($proveedor->nacionalidad == 'nacional') {
+                                if (trim($proveedor->nacionalidad) == 'nacional') {
                                     echo '<span class="badge bg-success">Nacional</span>';
-                                } elseif ($proveedor->nacionalidad == 'extranjera ' ) {
+                                } elseif (trim($proveedor->nacionalidad) == 'extranjera' ) {
                                     echo '<span class="badge bg-info text-dark">Extranjera</span>';
                                 } else {
                                     echo '<span class="badge bg-secondary">No especificada</span>';

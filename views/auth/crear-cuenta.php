@@ -24,15 +24,15 @@
                   <h5 class="mb-3">Datos del Usuario</h5>
                   <div class="mb-3">
                     <label class="form-label">Nombre de Usuario</label>
-                    <input class="form-control" type="text" name="usuario[userName]" required>
+                    <input class="form-control" type="text" name="usuario[userName]" maxlength="45" required>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Correo Electrónico</label>
-                    <input class="form-control" type="email" name="usuario[email]" required>
+                    <input class="form-control" type="email" name="usuario[email]" maxlength="30" required>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Contraseña</label>
-                    <input class="form-control" type="password" name="usuario[password]" required>
+                    <input class="form-control" type="password" name="usuario[password]" maxlength="45" required>
                   </div>
                   <div class="mb-3">
                     <label for="f_perfil" class="card-title mb-0">Image:</label>
@@ -43,7 +43,7 @@
                   <h5 class="mb-3">Datos del Cliente</h5>
                   <div class="mb-3">
                     <label class="form-label">Primer Nombre</label>
-                    <input class="form-control" type="text" name="cliente[p_nombre]" required>
+                    <input class="form-control" type="text" name="cliente[p_nombre]" required maxlength="45" > 
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Segundo Nombre</label>
@@ -51,23 +51,23 @@
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Primer Apellido</label>
-                    <input class="form-control" type="text" name="cliente[p_apellido]" required>
+                    <input class="form-control" type="text" name="cliente[p_apellido]" required maxlength="45" >
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Segundo Apellido</label>
-                    <input class="form-control" type="text" name="cliente[s_apellido]">
+                    <input class="form-control" type="text" name="cliente[s_apellido]" maxlength="45">
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Número de Teléfono</label>
-                    <input class="form-control" type="text" name="cliente[n_telefono]" required>
+                    <input class="form-control" type="text" name="cliente[n_telefono]" required maxlength="45">
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Dirección</label>
-                    <input class="form-control" type="text" name="cliente[direccion]" required>
+                    <input class="form-control" type="text" name="cliente[direccion]" required maxlength="200">
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Municipio</label>
-                    <input class="form-control" type="text" name="cliente[Municipio]" required>
+                    <input class="form-control" type="text" name="cliente[Municipio]" required maxlength="45">
                   </div>
 
                   <div class="d-grid gap-2 mt-3">

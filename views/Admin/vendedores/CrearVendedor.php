@@ -6,7 +6,7 @@
     <div class="card-body">
         <?php include_once __DIR__ . "/../../templates/alertas.php"; ?>
 
-        <form method="POST" class="row g-3">
+        <form method="POST" class="row g-3" enctype="multipart/form-data">
             <?php include_once __DIR__ . "/../../formularios/Vendedor.php"; ?>
 
             <div class="col-12 d-flex justify-content-between">

@@ -1,6 +1,6 @@
 <div class="mb-3">
     <label for="titulo" class="form-label">Título</label>
-    <input type="text" class="form-control" id="titulo" name="categoria[titulo]" 
+    <input type="text" class="form-control" id="titulo" name="categoria[titulo]" maxlength="80" 
            value="<?php echo s($categoria->titulo) ?? ''; ?>" required>
 </div>
 <div class="mb-3">

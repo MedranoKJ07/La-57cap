@@ -60,17 +60,7 @@
             </div>
         </div>
 
-        <!-- Inventario -->
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <i class="fas fa-sync-alt fa-3x text-secondary mb-3"></i>
-                    <h5 class="card-title">Movimiento de Stock</h5>
-                    <p class="card-text">Historial de entradas y salidas por producto.</p>
-                    <a href="/admin/reportes/movimiento-stock" class="btn btn-secondary w-100">Ver Reporte</a>
-                </div>
-            </div>
-        </div>
+
 
         <div class="col">
             <div class="card h-100 shadow-sm">

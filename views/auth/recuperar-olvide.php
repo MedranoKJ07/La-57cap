@@ -22,7 +22,7 @@
               <form method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">Correo electrónico</label>
-                  <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Tu email" required>
+                  <input type="email" id="email" maxlength="30" name="email" class="form-control form-control-lg" placeholder="Tu email" required>
                 </div>
 
                 <div class="d-grid gap-2 mt-4">
