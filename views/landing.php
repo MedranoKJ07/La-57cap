@@ -86,7 +86,7 @@
     <div class="row">
         <?php foreach ($categoriasMes as $categoria): ?>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="/productos?categoria=<?php echo $categoria->idcategoria_producto; ?>">
+                <a href="/tienda?categoria=<?php echo $categoria->idcategoria_producto; ?>">
                     <img src="/img/categorias_productos/<?php echo  s(trim($categoria->foto)); ?>"
                         class="rounded-circle img-fluid border" alt="Categoría">
                 </a>

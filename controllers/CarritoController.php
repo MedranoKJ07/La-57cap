@@ -73,7 +73,10 @@ class CarritoController
         $total = 0;
         $subtotal = $total / 1.15; // Asumiendo 15% de IVA
         $iva = $total - $subtotal;
-        $notificaciones = Notificacion::obtenerPorUsuario($_SESSION['id']);
+        $notificaciones = [];
+        if (isset($_SESSION['autenticado_Cliente']) && isset($_SESSION['id'])) {
+            $notificaciones = Notificacion::obtenerPorUsuario($_SESSION['id']);
+        }
 
         foreach ($_SESSION['carrito'] ?? [] as $id => $cantidad) {
             $producto = Producto::obtenerPorId($id);

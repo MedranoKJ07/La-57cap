@@ -22,7 +22,10 @@ class NotificacionController
         $rol = $_SESSION['rol'] ?? 'cliente'; // por defecto
 
 
-        $notificaciones = Notificacion::obtenerPorUsuario($idUsuario);
+        $notificaciones = [];
+        if (isset($_SESSION['autenticado_Cliente']) && isset($_SESSION['id'])) {
+            $notificaciones = Notificacion::obtenerPorUsuario($_SESSION['id']);
+        }
 
         // Detectar el layout a renderizar según el rol
         switch ($rol) {
