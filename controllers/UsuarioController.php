@@ -89,8 +89,8 @@ class UsuarioController
 
     public static function ActualizarUsuario(Router $router)
     {
-        $id = s($_GET['id']);
-        
+        $id = s($_GET['id'] ?? '');
+
 
 
         $usuario = Usuario::find($id, 'idusuario');
@@ -107,7 +107,7 @@ class UsuarioController
                 $manager = new ImageManager(Driver::class);
                 $imagen = $manager->read($_FILES['usuario']['tmp_name']['f_perfil'])->cover(800, 600);
                 $usuario->setImagen($nombreImagen);
-                 $usuario->delete_image();
+                $usuario->delete_image();
                 if (!is_dir(CARPETAS_IMAGENES_PERFILES)) {
                     mkdir(CARPETAS_IMAGENES_PERFILES);
                 }
@@ -149,7 +149,7 @@ class UsuarioController
     }
     public static function confirmarCuenta(Router $router)
     {
-        $token = s($_GET['token']);
+        $token = s($_GET['token'] ?? '');
         $alertas = [];
         $usuario = Usuario::where('token', $token);
 
@@ -204,7 +204,7 @@ class UsuarioController
     {
         $alertas = [];
         $error = false;
-        $token = s($_GET['token']);
+        $token = s($_GET['token'] ?? '');
 
         // Buscar usuario por su token
         $usuario = Usuario::where('token', $token);

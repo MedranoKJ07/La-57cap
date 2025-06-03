@@ -20,7 +20,29 @@ class Router
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-
+        // ✅ Rutas accesibles sin login
+        $rutas_publicas = [
+            '/',
+            '/login',
+            '/logout',
+            '/olvide-cuenta',
+            '/recuperar-cuenta',
+            '/confirmar-cuenta',
+            '/crear-cuenta',
+            '/mensaje-confirmacion',
+            '/reenviar-confirmacion',
+            '/tienda',
+            '/producto',
+            '/carrito',
+            '/carrito/agregar',
+            '/carrito/eliminar',
+            '/carrito/actualizar',
+            '/checkout',
+            '/checkout/confirmar',
+            '/checkout/exito',
+            '/SobreNosotros',
+            '/visit_us'
+        ];
 
         $rutas_por_rol = [
             1 => [ // Administrador
@@ -125,34 +147,53 @@ class Router
             ]
         ];
 
-
-
-
         $URLActual = $_SERVER['PATH_INFO'] ?? '/';
         $metodo = $_SERVER['REQUEST_METHOD'];
         $fn = $this->rutas[$metodo][$URLActual] ?? null;
 
-        // Si la ruta es protegida por roles
+        // ✅ Si la ruta es pública, se permite el acceso
+        if (in_array($URLActual, $rutas_publicas)) {
+            if ($fn) {
+                call_user_func($fn, $this);
+            } else {
+                http_response_code(404);
+                include __DIR__ . "/views/errores/404.php";
+            }
+            return;
+        }
+
+        // 🛑 Si la sesión está vacía y no es ruta pública, se bloquea
+        if (empty($_SESSION)) {
+            http_response_code(403);
+            include __DIR__ . "/views/errores/403.php";
+            exit;
+        }
+
+        // ✅ Validar acceso según el rol
         $rol = $_SESSION['rol'] ?? null;
 
         if ($rol && isset($rutas_por_rol[$rol])) {
             $rutas_permitidas = $rutas_por_rol[$rol];
+            $todas_rutas_protegidas = array_merge(...array_values($rutas_por_rol));
 
-            if (in_array($URLActual, array_merge(...array_values($rutas_por_rol))) && !in_array($URLActual, $rutas_permitidas)) {
-                // Ruta es protegida y no pertenece al rol del usuario
+            if (in_array($URLActual, $todas_rutas_protegidas) && !in_array($URLActual, $rutas_permitidas)) {
                 http_response_code(403);
                 include __DIR__ . "/views/errores/403.php";
                 exit;
             }
+        } else {
+            // 🛑 Si el rol no está definido o es inválido
+            http_response_code(403);
+            include __DIR__ . "/views/errores/403.php";
+            exit;
         }
 
+        // ✅ Si todo está bien, ejecutar la función
         if ($fn) {
             call_user_func($fn, $this);
         } else {
-            // Ruta no encontrada
             http_response_code(404);
             include __DIR__ . "/views/errores/404.php";
-            exit;
         }
     }
     function renderLanding($view, $datos = [])

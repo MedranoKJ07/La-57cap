@@ -105,7 +105,7 @@
                         <ul class="pagination">
                             <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
                                 <?php
-                                $params = $_GET;
+                                $params = $_GET ?? '';
                                 $params['pagina'] = $i;
                                 $url = '/tienda?' . http_build_query($params);
                                 ?>

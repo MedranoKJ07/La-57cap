@@ -39,7 +39,7 @@ class ProductoController
 
     public static function VerCodigoBarras(Router $router)
     {
-        $id = $_GET['id'];
+        $id = $_GET['id'] ?? '';
         $producto = Producto::find($id, 'idproducto');
 
         if (!$producto) {
@@ -112,7 +112,7 @@ class ProductoController
 
     public static function ActualizarProducto(Router $router)
     {
-        $id = s($_GET['id']);
+        $id = s($_GET['id'] ?? '');
         $producto = Producto::find($id, 'idproducto');
         $categorias = CategoriaProducto::obtenerTodas();
         $alertas = [];
