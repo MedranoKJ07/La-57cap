@@ -123,7 +123,7 @@ class ActiveRecord
     public static function find($id, $columna)
     {
         $query = "SELECT * FROM " . static::$tabla . " WHERE {$columna} = {$id}";
-
+        
         $resultado = self::consultarSQL($query);
         return array_shift($resultado);
     }
@@ -176,7 +176,7 @@ class ActiveRecord
         return array_shift($resultado);
     }
     public static function wherelogico($columna, $valor)
-    {
+    {        
         $query = "SELECT * FROM " . static::$tabla . " 
               WHERE $columna = '" . self::$db->escape_string($valor) . "' 
               AND eliminado = 0 
@@ -244,6 +244,5 @@ class ActiveRecord
         $query = "UPDATE " . static::$tabla . " SET eliminado = 1 WHERE " . static::$id . " = '$id' LIMIT 1";
         return self::$db->query($query);
     }
-
 
 }

@@ -1,7 +1,12 @@
 <?php
 namespace MVC;
+use Middleware\ValidarRol;
 class Router
 {
+
+    public function __construct()
+    {
+    }
     public $rutas = [
         'GET' => [],
         'POST' => []

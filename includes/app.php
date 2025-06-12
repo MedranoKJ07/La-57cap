@@ -18,7 +18,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // ✅ Detectar si ya hay sesión con rol definido
 if (isset($_SESSION['rol'])) {
-    $conexion = conectarSegunRol($_SESSION['rol']);
+    $conexion = conectarDb();
 } else {
     $conexion = conexionLogin(); // solo para login u operaciones públicas
 }

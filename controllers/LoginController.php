@@ -17,8 +17,7 @@ class LoginController
         $auth = new Usuario;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-
+            
             $auth->sincronizar($_POST['usuario']);
             $alertas = $auth->validarLogin();
 
@@ -26,7 +25,6 @@ class LoginController
                 // Buscar usuario por email o userName
                 $campo = filter_var($auth->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'userName';
                 $usuario = Usuario::wherelogico($campo, $auth->email);
-
 
                 if (!$usuario) {
                     Usuario::setAlerta('error', 'El usuario no existe');
@@ -56,9 +54,10 @@ class LoginController
                     // Login exitoso
                     $usuario->intentos_fallidos = 0;
                     $usuario->actualizar($usuario->idusuario);
-
-                    $dbPorRol = conectarSegunRol($usuario->id_roles);
-                    ActiveRecord::setDB($dbPorRol);
+                    
+                    var_dump("here");
+                    $database = conectarDb();  //cambio
+                    ActiveRecord::setDB($database);
 
                     if (session_status() === PHP_SESSION_NONE) {
                         session_start();
