@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MysqlLocal
+ Source Server         : MySqlLocal
  Source Server Type    : MySQL
- Source Server Version : 80041
+ Source Server Version : 80040
  Source Host           : localhost:3306
  Source Schema         : db_la57cap
 
  Target Server Type    : MySQL
- Target Server Version : 80041
+ Target Server Version : 80040
  File Encoding         : 65001
 
- Date: 01/06/2025 12:22:50
+ Date: 15/06/2025 16:10:20
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `calificaciones`  (
   INDEX `fk_Clasificaciones_pedidos1_idx`(`pedidos_idpedidos`) USING BTREE,
   INDEX `fk_Clasificaciones_cliente1_idx`(`cliente_idcliente`) USING BTREE,
   INDEX `fk_Clasificaciones_repartidor1_idx`(`repartidor_idrepartidor`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for categoria_producto
@@ -50,7 +50,7 @@ CREATE TABLE `categoria_producto`  (
   `eliminado` tinyint(0) NULL DEFAULT 0,
   `estado` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`idcategoria_producto`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of categoria_producto
@@ -77,13 +77,15 @@ CREATE TABLE `cliente`  (
   PRIMARY KEY (`idcliente`) USING BTREE,
   INDEX `cliente_usuario_idx`(`id_usuario`) USING BTREE,
   CONSTRAINT `cliente_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`idusuario`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cliente
 -- ----------------------------
 INSERT INTO `cliente` VALUES (1, NULL, ' .', '.', '.', '.', '.', '.', '.', 0);
 INSERT INTO `cliente` VALUES (2, 4, 'Kerlint', 'Josue', 'Medrano', 'Murillo', '85741341', 'Ciudad Sandino', 'Managua ', 0);
+INSERT INTO `cliente` VALUES (3, 5, 'Cristopher ', 'Edmundo', 'Lopez ', 'Navarro', '1234', 'Santa Teresa', 'Managua ', 0);
+INSERT INTO `cliente` VALUES (5, 7, 'Kerlint', 'Gabriel ', 'Lopez ', 'Navarro', '88454443', 'a la par de mi vecino', 'Managua ', 0);
 
 -- ----------------------------
 -- Table structure for compra_detalles
@@ -101,7 +103,7 @@ CREATE TABLE `compra_detalles`  (
   INDEX `fk_Compra_Detalles_producto1_idx`(`producto_idproducto`) USING BTREE,
   CONSTRAINT `fk_Compra_Detalles_Compras1` FOREIGN KEY (`Compras_idCompras`) REFERENCES `compras` (`idCompras`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Compra_Detalles_producto1` FOREIGN KEY (`producto_idproducto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of compra_detalles
@@ -129,6 +131,7 @@ INSERT INTO `compra_detalles` VALUES (20, 40, 200.00, 8000.00, 3, 21);
 INSERT INTO `compra_detalles` VALUES (21, 40, 200.00, 8000.00, 3, 22);
 INSERT INTO `compra_detalles` VALUES (22, 40, 200.00, 8000.00, 3, 23);
 INSERT INTO `compra_detalles` VALUES (23, 40, 200.00, 8000.00, 3, 24);
+INSERT INTO `compra_detalles` VALUES (24, 10, 600.00, 6000.00, 4, 24);
 
 -- ----------------------------
 -- Table structure for compras
@@ -144,7 +147,7 @@ CREATE TABLE `compras`  (
   PRIMARY KEY (`idCompras`) USING BTREE,
   INDEX `fk_Compras_Proveedores1_idx`(`Proveedores_idProveedores`) USING BTREE,
   CONSTRAINT `fk_Compras_Proveedores1` FOREIGN KEY (`Proveedores_idProveedores`) REFERENCES `proveedores` (`idProveedores`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of compras
@@ -152,6 +155,7 @@ CREATE TABLE `compras`  (
 INSERT INTO `compras` VALUES (1, '2025-06-01 17:01:51', 1158011.40, 'Todo en orden', 1, 0);
 INSERT INTO `compras` VALUES (2, '2025-06-01 17:10:26', 115000.00, 'Todo en orden', 3, 0);
 INSERT INTO `compras` VALUES (3, '2025-06-01 17:16:38', 72000.00, 'Todo en orden', 2, 0);
+INSERT INTO `compras` VALUES (4, '2025-06-05 21:12:19', 6000.00, 'Todo bien', 2, 0);
 
 -- ----------------------------
 -- Table structure for detalles_ventas
@@ -168,7 +172,7 @@ CREATE TABLE `detalles_ventas`  (
   INDEX `fk_detalles_ventas_ventas1_idx`(`ventas_idventas`) USING BTREE,
   CONSTRAINT `detalles_ventas_productos` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_detalles_ventas_ventas1` FOREIGN KEY (`ventas_idventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of detalles_ventas
@@ -178,6 +182,9 @@ INSERT INTO `detalles_ventas` VALUES (2, 1, 15, 1, 980.00);
 INSERT INTO `detalles_ventas` VALUES (3, 2, 15, 1, 980.00);
 INSERT INTO `detalles_ventas` VALUES (4, 3, 15, 1, 980.00);
 INSERT INTO `detalles_ventas` VALUES (5, 4, 15, 1, 980.00);
+INSERT INTO `detalles_ventas` VALUES (6, 5, 1, 1, 7400.00);
+INSERT INTO `detalles_ventas` VALUES (7, 6, 14, 1, 750.00);
+INSERT INTO `detalles_ventas` VALUES (8, 7, 24, 35, 15050.00);
 
 -- ----------------------------
 -- Table structure for devolucion_detalles
@@ -194,7 +201,7 @@ CREATE TABLE `devolucion_detalles`  (
   INDEX `fk_Devolucion_Detalles_Devoluciones1_idx`(`Devoluciones_idDevoluciones`) USING BTREE,
   CONSTRAINT `fk_Devolucion_Detalles_Devoluciones1` FOREIGN KEY (`Devoluciones_idDevoluciones`) REFERENCES `devoluciones` (`idDevoluciones`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Devolucion_Detalles_producto1` FOREIGN KEY (`producto_idproducto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for devoluciones
@@ -216,7 +223,7 @@ CREATE TABLE `devoluciones`  (
   INDEX `fk_Devoluciones_cliente1_idx`(`cliente_idcliente`) USING BTREE,
   CONSTRAINT `fk_Devoluciones_cliente1` FOREIGN KEY (`cliente_idcliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Devoluciones_ventas1` FOREIGN KEY (`ventas_idventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for inventario
@@ -231,12 +238,12 @@ CREATE TABLE `inventario`  (
   PRIMARY KEY (`idInventario`) USING BTREE,
   INDEX `fk_Inventario_producto1_idx`(`producto_idproducto`) USING BTREE,
   CONSTRAINT `fk_Inventario_producto1` FOREIGN KEY (`producto_idproducto`) REFERENCES `producto` (`idproducto`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of inventario
 -- ----------------------------
-INSERT INTO `inventario` VALUES (1, 19, 5, '2025-06-01 11:38:28', 1);
+INSERT INTO `inventario` VALUES (1, 18, 5, '2025-06-05 14:55:21', 1);
 INSERT INTO `inventario` VALUES (2, 20, 5, '2025-06-01 17:01:51', 2);
 INSERT INTO `inventario` VALUES (3, 20, 5, '2025-06-01 17:01:51', 3);
 INSERT INTO `inventario` VALUES (4, 20, 5, '2025-06-01 17:01:51', 4);
@@ -248,7 +255,7 @@ INSERT INTO `inventario` VALUES (9, 30, 5, '2025-06-01 17:10:26', 10);
 INSERT INTO `inventario` VALUES (10, 30, 5, '2025-06-01 17:10:26', 11);
 INSERT INTO `inventario` VALUES (11, 30, 5, '2025-06-01 17:10:26', 12);
 INSERT INTO `inventario` VALUES (12, 30, 5, '2025-06-01 17:10:26', 13);
-INSERT INTO `inventario` VALUES (13, 30, 5, '2025-06-01 17:10:26', 14);
+INSERT INTO `inventario` VALUES (13, 29, 5, '2025-06-05 14:58:21', 14);
 INSERT INTO `inventario` VALUES (14, 36, 5, '2025-06-01 12:12:15', 15);
 INSERT INTO `inventario` VALUES (15, 40, 5, '2025-06-01 17:16:38', 16);
 INSERT INTO `inventario` VALUES (16, 40, 5, '2025-06-01 17:16:38', 17);
@@ -258,7 +265,7 @@ INSERT INTO `inventario` VALUES (19, 40, 5, '2025-06-01 17:16:38', 20);
 INSERT INTO `inventario` VALUES (20, 40, 5, '2025-06-01 17:16:38', 21);
 INSERT INTO `inventario` VALUES (21, 40, 5, '2025-06-01 17:16:38', 22);
 INSERT INTO `inventario` VALUES (22, 40, 5, '2025-06-01 17:16:38', 23);
-INSERT INTO `inventario` VALUES (23, 40, 5, '2025-06-01 17:16:38', 24);
+INSERT INTO `inventario` VALUES (23, 15, 5, '2025-06-05 21:12:19', 24);
 
 -- ----------------------------
 -- Table structure for notificacion
@@ -274,7 +281,7 @@ CREATE TABLE `notificacion`  (
   PRIMARY KEY (`idnotificacion`) USING BTREE,
   INDEX `fk_notificacion_usuario1_idx`(`usuario_idusuario`) USING BTREE,
   CONSTRAINT `fk_notificacion_usuario1` FOREIGN KEY (`usuario_idusuario`) REFERENCES `usuario` (`idusuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of notificacion
@@ -293,6 +300,14 @@ INSERT INTO `notificacion` VALUES (11, 'Pedido en proceso', 'Tu pedido ha sido a
 INSERT INTO `notificacion` VALUES (12, 'Nuevo pedido asignado', 'Se le ha asignado un nuevo pedido con dirección de entrega. Pedido #: 4', '2025-06-01 18:13:25', 3, 0);
 INSERT INTO `notificacion` VALUES (13, 'Confirmación de pago entrega completada', 'Se ha recibido pago y la entrega ha sido completada para el pedido #4', '2025-06-01 18:14:48', 2, 0);
 INSERT INTO `notificacion` VALUES (14, 'Confirmación de pago entrega completada', 'Se ha recibido pago y la entrega ha sido completada para el pedido #4', '2025-06-01 18:14:48', 1, 0);
+INSERT INTO `notificacion` VALUES (15, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente Kerlint Medrano', '2025-06-05 20:58:21', 1, 0);
+INSERT INTO `notificacion` VALUES (16, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente Kerlint Medrano. Por favor, revisar y atender la venta', '2025-06-05 20:58:21', 2, 0);
+INSERT INTO `notificacion` VALUES (17, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente Cristopher  Lopez ', '2025-06-05 21:09:02', 1, 0);
+INSERT INTO `notificacion` VALUES (18, 'Nueva Venta Registrada', 'Se ha registrado una nueva venta online para el cliente Cristopher  Lopez . Por favor, revisar y atender la venta', '2025-06-05 21:09:02', 2, 0);
+INSERT INTO `notificacion` VALUES (19, 'Pedido en proceso', 'Tu pedido ha sido atendido y pronto será asignado a un repartidor.', '2025-06-05 21:20:40', 5, 0);
+INSERT INTO `notificacion` VALUES (20, 'Nuevo pedido asignado', 'Se le ha asignado un nuevo pedido con dirección de entrega. Pedido #: 6', '2025-06-05 21:20:47', 3, 0);
+INSERT INTO `notificacion` VALUES (21, 'Confirmación de pago entrega completada', 'Se ha recibido pago y la entrega ha sido completada para el pedido #6', '2025-06-05 21:22:51', 2, 0);
+INSERT INTO `notificacion` VALUES (22, 'Confirmación de pago entrega completada', 'Se ha recibido pago y la entrega ha sido completada para el pedido #6', '2025-06-05 21:22:51', 1, 0);
 
 -- ----------------------------
 -- Table structure for pedidos
@@ -317,7 +332,7 @@ CREATE TABLE `pedidos`  (
   CONSTRAINT `pedido_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_repartidor` FOREIGN KEY (`id_repartidor`) REFERENCES `repartidor` (`idrepartidor`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_ventas` FOREIGN KEY (`id_ventas`) REFERENCES `ventas` (`idventas`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pedidos
@@ -326,6 +341,8 @@ INSERT INTO `pedidos` VALUES (1, 1, 1, 1, '2025-06-01 17:38:28', '2025-06-02', '
 INSERT INTO `pedidos` VALUES (2, 2, 1, 1, '2025-06-01 17:50:50', '2025-06-02', '12:23:00', 'Ciudad Sandino, Residencial San Eduviges Casa O-16 Primera Etapa', 'Persona a Recibir : KERLINT MEDRANO', 1, 1);
 INSERT INTO `pedidos` VALUES (3, 3, 1, 1, '2025-06-01 17:54:33', '2025-06-03', '02:23:00', 'Ciudad Sandino, Residencial San Eduviges Casa O-16 Primera Etapa', 'Persona a Recibir : KERLINT MEDRANO', 1, 1);
 INSERT INTO `pedidos` VALUES (4, 4, 2, 1, '2025-06-01 18:12:15', '2025-06-01', '13:11:00', 'Ciudad Sandino', '', 1, 1);
+INSERT INTO `pedidos` VALUES (5, 6, 2, NULL, '2025-06-05 20:58:22', '2025-06-18', '08:20:00', '251462', 'cris la mama', 0, 0);
+INSERT INTO `pedidos` VALUES (6, 7, 3, 1, '2025-06-05 21:09:02', '2025-06-05', '16:08:00', 'Ciudad Sandino, Residencial San Eduviges Casa O-16 Primera Etapa', '', 1, 1);
 
 -- ----------------------------
 -- Table structure for producto
@@ -343,7 +360,7 @@ CREATE TABLE `producto`  (
   PRIMARY KEY (`idproducto`) USING BTREE,
   INDEX `producto_categoria_idx`(`id_categoria`) USING BTREE,
   CONSTRAINT `producto_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_producto` (`idcategoria_producto`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of producto
@@ -371,7 +388,7 @@ INSERT INTO `producto` VALUES (20, 3, 'CAM-03-0020', 'Camisa PatoLucas Hip Roja'
 INSERT INTO `producto` VALUES (21, 3, 'CAM-03-0021', 'Camisa PatoLucas Hip Negra', 'Camisas urbanas de estilo moderno y versátil, diseñadas para destacar en cualquier ocasión. Confeccionadas en telas frescas y cómodas, combinan cortes relajados con detalles únicos que reflejan actitud y personalidad. Ideales para un look casual, streetwear o para salir con estilo, se adaptan fácilmente a distintos outfits y gustos. Disponibles en variedad de colores, estampados y tallas.', 430.00, 0, 'e3a00e2f3413bd597f6c9060403a3d5d.jpg ');
 INSERT INTO `producto` VALUES (22, 3, 'CAM-03-0022', 'Camisa PatoLucas Hip Blanca', 'Camisas urbanas de estilo moderno y versátil, diseñadas para destacar en cualquier ocasión. Confeccionadas en telas frescas y cómodas, combinan cortes relajados con detalles únicos que reflejan actitud y personalidad. Ideales para un look casual, streetwear o para salir con estilo, se adaptan fácilmente a distintos outfits y gustos. Disponibles en variedad de colores, estampados y tallas.', 430.00, 0, '123b8271073765084428c10b00b18a79.jpg ');
 INSERT INTO `producto` VALUES (23, 3, 'CAM-03-0023', 'Camisa Power Blanca', 'Camisas urbanas de estilo moderno y versátil, diseñadas para destacar en cualquier ocasión. Confeccionadas en telas frescas y cómodas, combinan cortes relajados con detalles únicos que reflejan actitud y personalidad. Ideales para un look casual, streetwear o para salir con estilo, se adaptan fácilmente a distintos outfits y gustos. Disponibles en variedad de colores, estampados y tallas.', 430.00, 0, '372e0645e21f220724994f3f2e0e5096.jpg ');
-INSERT INTO `producto` VALUES (24, 3, 'CAM-03-0024', 'Camisa Power Amarilla', 'Camisas urbanas de estilo moderno y versátil, diseñadas para destacar en cualquier ocasión. Confeccionadas en telas frescas y cómodas, combinan cortes relajados con detalles únicos que reflejan actitud y personalidad. Ideales para un look casual, streetwear o para salir con estilo, se adaptan fácilmente a distintos outfits y gustos. Disponibles en variedad de colores, estampados y tallas.', 430.00, 0, '88241dce4784eafcf5012024b4b312d0.jpg ');
+INSERT INTO `producto` VALUES (24, 3, 'CAM-03-0024', 'Camisa Power Amarilla', 'Camisas urbanas de estilo moderno y versátil, diseñadas para destacar en cualquier ocasión. Confeccionadas en telas frescas y cómodas, combinan cortes relajados con detalles únicos que reflejan actitud y personalidad. Ideales para un look casual, streetwear o para salir con estilo, se adaptan fácilmente a distintos outfits y gustos. Disponibles en variedad de colores, estampados y tallas.', 800.00, 0, '88241dce4784eafcf5012024b4b312d0.jpg ');
 
 -- ----------------------------
 -- Table structure for proveedores
@@ -386,7 +403,7 @@ CREATE TABLE `proveedores`  (
   `nacionalidad` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `eliminado` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`idProveedores`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of proveedores
@@ -456,15 +473,17 @@ CREATE TABLE `usuario`  (
   PRIMARY KEY (`idusuario`) USING BTREE,
   INDEX `usuario_roles_idx`(`id_roles`) USING BTREE,
   CONSTRAINT `usuario_roles` FOREIGN KEY (`id_roles`) REFERENCES `roles` (`idroles`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
 INSERT INTO `usuario` VALUES (1, 1, '4fab6662fe79843fdffa9013be93884a.jpg', 'ADMIN', '$2y$10$5C2QP0paeEA8n4ZCgJkn3eWRj7GoUbo5JoQuYcTeK5PA19r9D2M22', 'kmurillojosue75@gmail.com', 1, '68362efc9b058', '2025-05-13 05:56:18', '2025-05-13 05:56:18', 0, 0);
-INSERT INTO `usuario` VALUES (2, 2, '192f83ce8edf21366091276d27fced44.jpg', 'USERVendedor', '$2y$10$ro2hUkTbfirARtyKEBT6HuuJgvYoIf2Gt8Y99zkk0DCZzWHW1vFZm', 'vendedor@gmail.com', 1, '683c833f09269', '2025-06-01 16:43:42', '2025-06-01 16:43:42', 0, 0);
+INSERT INTO `usuario` VALUES (2, 2, '192f83ce8edf21366091276d27fced44.jpg', 'USERVendedor', '$2y$10$5C2QP0paeEA8n4ZCgJkn3eWRj7GoUbo5JoQuYcTeK5PA19r9D2M22', 'vendedor@gmail.com', 1, '683c833f09269', '2025-06-01 16:43:42', '2025-06-01 16:43:42', 0, 0);
 INSERT INTO `usuario` VALUES (3, 3, '5be1f53a3378ea1654313de7db038499.jpg', 'USERRepartidor', '$2y$10$8L6c/ans81EMdHc7qmfIXudJT/wf537yuQ4R4NeIrDos140geA3/G', 'repartidor@gmail.com', 1, '683c91461229e', '2025-06-01 16:51:00', '2025-06-01 16:51:00', 0, 0);
 INSERT INTO `usuario` VALUES (4, 4, '91a687274f27da8672fbab092ed2b36a.jpg', 'KJ', '$2y$10$dEbjmsggUyFtS9cI9XnWPen8EyLSzRAJw0iTfyCRklhQXFfG1mk8i', 'kj@gmail.com', 1, '683c979c4687c', '2025-06-01 18:10:36', '2025-06-01 18:10:36', 0, 0);
+INSERT INTO `usuario` VALUES (5, 4, '', 'Criss123', '$2y$10$5C2QP0paeEA8n4ZCgJkn3eWRj7GoUbo5JoQuYcTeK5PA19r9D2M22', 'Crissss@gmail.com', 1, '6842071279230', '2025-06-05 21:06:05', '2025-06-05 21:06:05', 0, 0);
+INSERT INTO `usuario` VALUES (7, 4, '', 'michael ', '$2y$10$da37/KuHvHkcVZ/MfqbByOOeiWqRIIeKYVSrJu6HM1GtVAvZh4qAC', 'kmur@gmail.com', 0, '684f388545f01', '2025-06-15 21:17:57', '2025-06-15 21:17:57', 0, 0);
 
 -- ----------------------------
 -- Table structure for vendedor
@@ -509,7 +528,7 @@ CREATE TABLE `ventas`  (
   INDEX `ventas_cliente`(`id_cliente`) USING BTREE,
   CONSTRAINT `ventas_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`idcliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ventas_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`idvendedor`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ventas
@@ -518,5 +537,8 @@ INSERT INTO `ventas` VALUES (1, 1, NULL, 8380.00, 0.00, 1257.00, 9637.00, 'Entre
 INSERT INTO `ventas` VALUES (2, 1, NULL, 980.00, 0.00, 147.00, 1127.00, 'Entregado', '2025-06-01 17:50:50', 0);
 INSERT INTO `ventas` VALUES (3, 1, NULL, 980.00, 0.00, 147.00, 1127.00, 'Entregado', '2025-06-01 17:54:33', 0);
 INSERT INTO `ventas` VALUES (4, 1, 2, 980.00, 0.00, 147.00, 1127.00, 'Entregado', '2025-06-01 18:12:15', 0);
+INSERT INTO `ventas` VALUES (5, 1, 2, 7400.00, 0.00, 1110.00, 8510.00, 'Completado', '2025-06-05 20:55:21', 0);
+INSERT INTO `ventas` VALUES (6, 1, 2, 750.00, 0.00, 112.50, 862.50, 'Pendiente', '2025-06-05 20:58:21', 0);
+INSERT INTO `ventas` VALUES (7, 1, 3, 15050.00, 0.00, 2257.50, 17307.50, 'Entregado', '2025-06-05 21:09:02', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
