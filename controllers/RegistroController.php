@@ -20,6 +20,13 @@ class RegistroController
             // 1. Sincronizar datos del formulario
             $usuario->sincronizar($_POST['usuario']);
             $cliente->sincronizar($_POST['cliente']);
+            // 3. Validar datos del usuario
+            $alertas = $usuario->validarNuevaCuenta();
+            $alertas = $cliente->validar();
+            // 4. Verificar si el usuario o email ya existe
+            $usuario->existeUsuario();
+            $usuario->existeEmail();
+            $alertas = $usuario->getalertas();
 
             // 2. Procesar imagen de perfil (opcional)
             if (!empty($_FILES['usuario']['tmp_name']['f_perfil'])) {
@@ -35,12 +42,8 @@ class RegistroController
                 $imagen->save(CARPETAS_IMAGENES_PERFILES . "/" . $nombreImagen);
             }
 
-            // 3. Validar datos del usuario
-            $alertas = $usuario->validarNuevaCuenta();
-            // 4. Verificar si el usuario o email ya existe
-            $usuario->existeUsuario();
-            $usuario->existeEmail();
-            $alertas = $usuario->getalertas();
+
+
             if (empty($alertas)) {
 
 

@@ -120,9 +120,14 @@ class Usuario extends ActiveRecord
         if (!$this->password) {
             self::$alertas['error'][] = 'La contraseña es Obligatoria';
         }
-        if (strlen($this->password) < 6) {
-            self::$alertas['error'][] = 'La contraseña debe tener al menos 6 caracteres';
+        if (
+            strlen($this->password) < 8 ||
+            !preg_match('/\d/', $this->password) ||                    // Al menos un número
+            !preg_match('/[^a-zA-Z0-9]/', $this->password)             // Al menos un carácter especial
+        ) {
+            self::$alertas['error'][] = 'La contraseña debe tener al menos 8 caracteres, incluir un número y un carácter especial.';
         }
+
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             self::$alertas['error'][] = 'El email no es válido';
         }

@@ -63,7 +63,29 @@ class Vendedor extends ActiveRecord
         if (!$this->id_usuario) {
             self::$alertas['error'][] = 'El ID del usuario asociado es obligatorio';
         }
+        // Nombres y apellidos solo letras y espacios
+        $regexNombre = '/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/u';
 
+        if (!preg_match($regexNombre, $this->p_nombre)) {
+            self::$alertas['error'][] = "Primer nombre inválido. Solo letras y sin caracteres especiales.";
+        }
+
+        if (!preg_match($regexNombre, $this->s_nombre)) {
+            self::$alertas['error'][] = "Segundo nombre inválido. Solo letras y sin caracteres especiales.";
+        }
+
+        if (!preg_match($regexNombre, $this->p_apellido)) {
+            self::$alertas['error'][] = "Primer apellido inválido. Solo letras y sin caracteres especiales.";
+        }
+
+        if (!preg_match($regexNombre, $this->s_apellido)) {
+            self::$alertas['error'][] = "Segundo apellido inválido. Solo letras y sin caracteres especiales.";
+        }
+
+        // Teléfono: solo números, entre 7 y 10 dígitos
+        if (!preg_match('/^\d{7,10}$/', $this->n_telefono)) {
+            self::$alertas['error'][] = "Número de teléfono inválido. Solo se permiten entre 7 y 10 dígitos.";
+        }
         return self::$alertas;
     }
     public static function obtenerTodosConUsuario($busqueda = '')

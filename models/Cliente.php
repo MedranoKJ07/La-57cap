@@ -40,7 +40,7 @@ class Cliente extends ActiveRecord
         $this->direccion = $args['direccion'] ?? '';
         $this->Municipio = $args['Municipio'] ?? '';
     }
-    
+
     public static function obtenerTodosConUsuario($busqueda = '')
     {
         $busqueda = self::$db->real_escape_string($busqueda);
@@ -103,4 +103,44 @@ class Cliente extends ActiveRecord
         $res = self::fetchAssoc($sql);
         return $res['total'] ?? 0;
     }
+    public function validar()
+    {
+        // Nombres y apellidos solo letras y espacios
+        $regexNombre = '/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/u';
+
+        if (!preg_match($regexNombre, $this->p_nombre)) {
+            self::$alertas['error'][] = "Primer nombre inválido. Solo letras y sin caracteres especiales.";
+        }
+
+        if (!preg_match($regexNombre, $this->s_nombre)) {
+            self::$alertas['error'][] = "Segundo nombre inválido. Solo letras y sin caracteres especiales.";
+        }
+
+        if (!preg_match($regexNombre, $this->p_apellido)) {
+            self::$alertas['error'][] = "Primer apellido inválido. Solo letras y sin caracteres especiales.";
+        }
+
+        if (!preg_match($regexNombre, $this->s_apellido)) {
+            self::$alertas['error'][] = "Segundo apellido inválido. Solo letras y sin caracteres especiales.";
+        }
+
+        // Teléfono: solo números, entre 7 y 10 dígitos
+        if (!preg_match('/^\d{7,10}$/', $this->n_telefono)) {
+            self::$alertas['error'][] = "Número de teléfono inválido. Solo se permiten entre 7 y 10 dígitos.";
+        }
+
+        // Dirección y municipio: letras, números, espacios y algunos símbolos básicos
+        $regexTexto = '/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s#.,-]{5,200}$/u';
+
+        if (!preg_match($regexTexto, $this->direccion)) {
+            self::$alertas['error'][] = "Dirección inválida. Evita símbolos no permitidos.";
+        }
+
+        if (!preg_match($regexTexto, $this->Municipio)) {
+            self::$alertas['error'][] = "Municipio inválido. Evita símbolos no permitidos.";
+        }
+
+        return self::$alertas;
+    }
+
 }
