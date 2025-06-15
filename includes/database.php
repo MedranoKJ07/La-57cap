@@ -52,8 +52,8 @@ function conectarSegunRol($rol, &$conexionAnterior = null)
             $pass = $_ENV['DB_CLIENTE_PASS'];
             break;
         default: // Fallback a login
-            $user = $_ENV['DB_LOGIN_USER'];
-            $pass = $_ENV['DB_LOGIN_PASS'];
+            $user = $_ENV['DB_WEBAPP_USER'];
+            $pass = $_ENV['DB_WEBAPP_PASS'];
             break;
     }
 
