@@ -49,11 +49,13 @@
                                     Ver
                                 </a>
 
-                                <?php if ($estado === 'Entregado'): ?>
+                                <?php if ($estado === 'Entregado' && !empty($garantias[$pedido->idpedidos])): ?>
                                     <a href="/cliente/devolucion?id=<?= $pedido->idpedidos ?>" class="btn btn-warning btn-sm mb-1">
                                         Solicitar Devolución
                                     </a>
                                 <?php endif; ?>
+
+
                                 <?php if (empty($calificados[$pedido->idpedidos])): ?>
                                     <a href="/cliente/calificar?id=<?= $pedido->idpedidos ?>" class="btn btn-success btn-sm">
                                         Calificar

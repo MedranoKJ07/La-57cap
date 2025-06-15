@@ -100,19 +100,22 @@ class Pedido extends ActiveRecord
         $idPedido = self::$db->real_escape_string($idPedido);
 
         $query = "
-            SELECT 
-                p.idproducto,
-                p.nombre_producto,
-                p.Foto,
-                p.precio,
-                dv.cantidad,
-                dv.subtotal
-            FROM pedidos AS pe
-            INNER JOIN ventas v ON pe.id_ventas = v.idventas
-            INNER JOIN detalles_ventas dv ON dv.ventas_idventas = v.idventas
-            INNER JOIN producto p ON p.idproducto = dv.id_producto
-            WHERE pe.idpedidos = $idPedido
-        ";
+        SELECT 
+            p.idproducto,
+            p.nombre_producto,
+            p.Foto,
+            p.precio,
+            dv.cantidad,
+            dv.subtotal
+        FROM pedidos AS pe
+        INNER JOIN ventas v ON pe.id_ventas = v.idventas
+        INNER JOIN detalles_ventas dv ON dv.ventas_idventas = v.idventas
+        INNER JOIN producto p ON p.idproducto = dv.id_producto
+        INNER JOIN categoria_producto cp ON p.id_categoria = cp.idcategoria_producto
+        WHERE pe.idpedidos = $idPedido
+          AND cp.tiene_garantia = 1
+          AND DATE_ADD(v.creado, INTERVAL cp.garantias_meses MONTH) >= NOW()
+    ";
 
         $resultado = self::$db->query($query);
 
@@ -124,6 +127,7 @@ class Pedido extends ActiveRecord
         $resultado->free();
         return $array;
     }
+
     public static function ventaEnProcesoDevolucion($idVenta)
     {
         $idVenta = self::$db->real_escape_string($idVenta);
@@ -322,7 +326,7 @@ class Pedido extends ActiveRecord
     public static function totalEntregados()
     {
         $query = "SELECT COUNT(*) as pedidosEntregados FROM pedidos WHERE estado = 1";
-          $res = self::fetchAssoc($query);
+        $res = self::fetchAssoc($query);
         return $res['pedidosEntregados'] ?? 0;
     }
 

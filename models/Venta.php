@@ -1,6 +1,7 @@
 <?php
 
 namespace Model;
+use DateTime;
 
 class Venta extends ActiveRecord
 {
@@ -121,4 +122,51 @@ class Venta extends ActiveRecord
         $res = self::fetchAssoc($query);
         return $res['ingresos'] ?? 0;
     }
+    public static function tieneProductosConGarantia($idPedido)
+    {
+        $sql = "SELECT cp.garantias_meses, v.creado AS fecha_venta
+            FROM pedidos p
+            INNER JOIN ventas v ON p.id_ventas = v.idventas
+            INNER JOIN detalles_ventas dv ON v.idventas = dv.ventas_idventas
+            INNER JOIN producto pr ON dv.id_producto = pr.idproducto
+            INNER JOIN categoria_producto cp ON pr.id_categoria = cp.idcategoria_producto
+            WHERE p.idpedidos = $idPedido
+              AND cp.tiene_garantia = 1";
+
+        $productos = self::fetchAssoc($sql); // Este debe retornar un array de arrays
+
+        // Validación robusta
+        if (!is_array($productos) || empty($productos)) {
+            return false;
+        }
+
+        $hoy = new DateTime();
+
+        // Si solo devuelve un solo registro como un solo array, lo convertimos a array múltiple
+        if (isset($productos['garantias_meses'])) {
+            $productos = [$productos]; // lo convertimos en arreglo de arreglos
+        }
+
+        foreach ($productos as $producto) {
+            if (!is_array($producto))
+                continue;
+
+            $meses = (int) $producto['garantias_meses'];
+            if ($meses > 0) {
+                $fechaVenta = new DateTime($producto['fecha_venta']);
+                $fechaLimite = (clone $fechaVenta)->modify("+$meses months");
+
+                if ($hoy <= $fechaLimite) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+
+
+
 }

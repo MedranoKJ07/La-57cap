@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Model\Venta;
 use MVC\Router;
 use Model\Pedido;
 use Model\CategoriaProducto;
@@ -29,6 +30,12 @@ class ClientePanelController
 
         $pedidos = Pedido::obtenerPorCliente($cliente->idcliente);
         $calificados = [];
+        $garantias = [];
+        foreach ($pedidos as $pedido) {
+            $calificados[$pedido->idpedidos] = Calificaciones::existeParaPedidoYCliente($pedido->idpedidos, $cliente->idcliente);
+            $garantias[$pedido->idpedidos] = Venta::tieneProductosConGarantia($pedido->idpedidos);
+        }
+
 
         foreach ($pedidos as $pedido) {
             $calificados[$pedido->idpedidos] = Calificaciones::existeParaPedidoYCliente($pedido->idpedidos, $cliente->idcliente);
@@ -42,8 +49,11 @@ class ClientePanelController
             'pedidos' => $pedidos,
             'categorias' => $categorias,
             'calificados' => $calificados,
+            'garantias' => $garantias,
             'notificaciones' => $notificaciones
         ]);
+
+
     }
 
     public static function calificarPedido(Router $router)
