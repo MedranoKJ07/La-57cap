@@ -8,74 +8,54 @@ function conectar($user, $pass) {
     $db = mysqli_connect($host, $user, $pass, $name);
 
     if (!$db) {
-        echo "Error al conectar con el usuario '$user': " . mysqli_connect_error();
+        echo "❌ Error al conectar con el usuario '$user': " . mysqli_connect_error();
         exit;
     }
 
     return $db;
 }
 
-// Conexión para login
+// Conexión para login (lector solo de la tabla 'usuario')
 function conexionLogin() {
     return conectar($_ENV['DB_LOGIN_USER'], $_ENV['DB_LOGIN_PASS']);
 }
 
-// // Conexión para admin (tiene todos los permisos)
-// function conexionAdmin() {
-//     return conectar($_ENV['DB_ADMIN_USER'], $_ENV['DB_ADMIN_PASS']);
-// }
+// Conexión para admin (tiene todos los permisos)
+function conexionAdmin() {
+    return conectar($_ENV['DB_ADMIN_USER'], $_ENV['DB_ADMIN_PASS']);
+}
 
 // Conexión según el rol
-// function conectarSegunRol($rol, &$conexionAnterior = null)
-// {
-//     // Desconectar si ya hay una conexión activa (opcional)
-//     if ($conexionAnterior && mysqli_ping($conexionAnterior)) {
-//         mysqli_close($conexionAnterior);
-//         $conexionAnterior = null;
-//     }
+function conectarSegunRol($rol, &$conexionAnterior = null)
+{
+    // Desconectar si ya hay una conexión activa (opcional)
+    if ($conexionAnterior && mysqli_ping($conexionAnterior)) {
+        mysqli_close($conexionAnterior);
+        $conexionAnterior = null;
+    }
 
-//     switch ($rol) {
-//         case '1': // Administrador
-//             $user = $_ENV['DB_ADMIN_USER'];
-//             $pass = $_ENV['DB_ADMIN_PASS'];
-//             break;
-//         case '2': // Vendedor
-//             $user = $_ENV['DB_VENDEDOR_USER'];
-//             $pass = $_ENV['DB_VENDEDOR_PASS'];
-//             break;
-//         case '3': // Repartidor
-//             $user = $_ENV['DB_REPARTIDOR_USER'];
-//             $pass = $_ENV['DB_REPARTIDOR_PASS'];
-//             break;
-//         case '4': // Cliente
-//             $user = $_ENV['DB_CLIENTE_USER'];
-//             $pass = $_ENV['DB_CLIENTE_PASS'];
-//             break;
-//         default: // Fallback a login
-//             $user = $_ENV['DB_LOGIN_USER'];
-//             $pass = $_ENV['DB_LOGIN_PASS'];
-//             break;
-//     }
+    switch ($rol) {
+        case '1': // Administrador
+            $user = $_ENV['DB_ADMIN_USER'];
+            $pass = $_ENV['DB_ADMIN_PASS'];
+            break;
+        case '2': // Vendedor
+            $user = $_ENV['DB_VENDEDOR_USER'];
+            $pass = $_ENV['DB_VENDEDOR_PASS'];
+            break;
+        case '3': // Repartidor
+            $user = $_ENV['DB_REPARTIDOR_USER'];
+            $pass = $_ENV['DB_REPARTIDOR_PASS'];
+            break;
+        case '4': // Cliente
+            $user = $_ENV['DB_CLIENTE_USER'];
+            $pass = $_ENV['DB_CLIENTE_PASS'];
+            break;
+        default: // Fallback a login
+            $user = $_ENV['DB_LOGIN_USER'];
+            $pass = $_ENV['DB_LOGIN_PASS'];
+            break;
+    }
 
-//     return conectar($user, $pass);
-// }
-
-function conectarDb(){
-    try {
-        $host = $_ENV['DB_HOST'];
-        $name = $_ENV['DB_NAME'];
-        $user = $_ENV['DB_ADMIN_USER'];
-        $pass = $_ENV['DB_ADMIN_PASS'];
-
-        $db = mysqli_connect($host, $user, $pass, $name);
-        if (!$db) {
-            echo "Error al conectar con el usuario '$user': " . mysqli_connect_error();
-            exit;
-        }
-
-        return $db;
-    } catch (\Throwable $e) {
-        echo "Error: ".$e->getMessage();
-        exit;
-    }    
+    return conectar($user, $pass);
 }

@@ -26,6 +26,8 @@ class VendedorController
 {
     public static function Vendedor(Router $router)
     {
+
+
         $router->renderVendedor('Vendedor/VendedorPages', [
 
             'titulo' => 'Vendedor',
