@@ -42,3 +42,25 @@
         <i class="fas fa-file-excel me-1"></i> Exportar a Excel
     </a>
 </div>
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    const inicio = document.querySelector('input[name="inicio"]').value;
+    const fin = document.querySelector('input[name="fin"]').value;
+
+    const hoy = new Date().toISOString().split('T')[0]; // Fecha actual en formato yyyy-mm-dd
+
+    if (inicio && fin) {
+        if (inicio > fin) {
+            e.preventDefault();
+            alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
+            return;
+        }
+
+        if (fin > hoy) {
+            e.preventDefault();
+            alert('La fecha de fin no puede ser mayor que la fecha actual.');
+            return;
+        }
+    }
+});
+</script>

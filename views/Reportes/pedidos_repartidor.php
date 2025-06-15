@@ -8,10 +8,12 @@
 </form>
 
 <div class="mb-3">
-    <a href="/admin/reportes/pedidos-repartidor-pdf?inicio=<?= $fechaInicio ?>&fin=<?= $fechaFin ?>" target="_blank" class="btn btn-danger me-2">
+    <a href="/admin/reportes/pedidos-repartidor-pdf?inicio=<?= $fechaInicio ?>&fin=<?= $fechaFin ?>" target="_blank"
+        class="btn btn-danger me-2">
         <i class="fas fa-file-pdf me-1"></i> Exportar a PDF
     </a>
-    <a href="/admin/reportes/pedidos-repartidor-excel?inicio=<?= $fechaInicio ?>&fin=<?= $fechaFin ?>" class="btn btn-success">
+    <a href="/admin/reportes/pedidos-repartidor-excel?inicio=<?= $fechaInicio ?>&fin=<?= $fechaFin ?>"
+        class="btn btn-success">
         <i class="fas fa-file-excel me-1"></i> Exportar a Excel
     </a>
 </div>
@@ -32,3 +34,25 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const inicio = document.querySelector('input[name="inicio"]').value;
+        const fin = document.querySelector('input[name="fin"]').value;
+
+        const hoy = new Date().toISOString().split('T')[0]; // Fecha actual en formato yyyy-mm-dd
+
+        if (inicio && fin) {
+            if (inicio > fin) {
+                e.preventDefault();
+                alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
+                return;
+            }
+
+            if (fin > hoy) {
+                e.preventDefault();
+                alert('La fecha de fin no puede ser mayor que la fecha actual.');
+                return;
+            }
+        }
+    });
+</script>

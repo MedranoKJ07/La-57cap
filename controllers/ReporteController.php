@@ -39,7 +39,8 @@ class ReporteController
         $fechaInicio = $_GET['inicio'] ?? date('Y-m-01');
         $fechaFin = $_GET['fin'] ?? date('Y-m-d');
         $ventas = Venta::ventasPorFecha($fechaInicio, $fechaFin);
-
+        $logoPath = __DIR__ . '/../public/img/logo.png';
+        $logoBase64 = base64_encode(file_get_contents($logoPath));
         // Generar HTML
         ob_start();
         include __DIR__ . '/../views/Reportes/pdf/ventas_fecha_pdf.php';
@@ -108,7 +109,8 @@ class ReporteController
         $fechaInicio = $_GET['inicio'] ?? date('Y-m-01');
         $fechaFin = $_GET['fin'] ?? date('Y-m-d');
         $reporte = Venta::ventasPorVendedor($fechaInicio, $fechaFin);
-
+        $logoPath = __DIR__ . '/../public/img/logo.png';
+        $logoBase64 = base64_encode(file_get_contents($logoPath));
         ob_start();
         include __DIR__ . '/../views/Reportes/pdf/ventas_Vendedor.php';
         $html = ob_get_clean();
@@ -169,7 +171,8 @@ class ReporteController
         $fechaInicio = $_GET['inicio'] ?? date('Y-m-01');
         $fechaFin = $_GET['fin'] ?? date('Y-m-d');
         $reporte = Venta::ventasPorProducto($fechaInicio, $fechaFin);
-
+        $logoPath = __DIR__ . '/../public/img/logo.png';
+        $logoBase64 = base64_encode(file_get_contents($logoPath));
         ob_start();
         include __DIR__ . '/../views/Reportes/pdf/ventas_producto.php';
         $html = ob_get_clean();
@@ -229,7 +232,8 @@ class ReporteController
         $inicio = $_GET['inicio'] ?? date('Y-m-01');
         $fin = $_GET['fin'] ?? date('Y-m-d');
         $reporte = Venta::ventasPorCategoria($inicio, $fin);
-
+        $logoPath = __DIR__ . '/../public/img/logo.png';
+        $logoBase64 = base64_encode(file_get_contents($logoPath));
         ob_start();
         include __DIR__ . '/../views/Reportes/pdf/ventas_categoria.php';
         $html = ob_get_clean();
@@ -290,7 +294,8 @@ class ReporteController
         $inicio = $_GET['inicio'] ?? date('Y-m-01');
         $fin = $_GET['fin'] ?? date('Y-m-d');
         $reporte = Pedido::pedidosPorRepartidor($inicio, $fin);
-
+        $logoPath = __DIR__ . '/../public/img/logo.png';
+        $logoBase64 = base64_encode(file_get_contents($logoPath));
         ob_start();
         include __DIR__ . '/../views/Reportes/pdf/pedidos_Repartidor.php';
         $html = ob_get_clean();
@@ -343,7 +348,8 @@ class ReporteController
     public static function valorizacionInventarioPdf()
     {
         $datos = Inventario::valorizacionInventario();
-
+        $logoPath = __DIR__ . '/../public/img/logo.png';
+        $logoBase64 = base64_encode(file_get_contents($logoPath));
         ob_start();
         include_once __DIR__ . '/../views/Reportes/pdf/valorizacion_inventario_pdf.php';
         $html = ob_get_clean();
@@ -399,7 +405,8 @@ class ReporteController
     public static function productosCompradosPDF()
     {
         $reporte = Compra::productosComprados();
-
+        $logoPath = __DIR__ . '/../public/img/logo.png';
+        $logoBase64 = base64_encode(file_get_contents($logoPath));
         ob_start();
         include __DIR__ . '/../views/Reportes/pdf/productos_comprados_pdf.php';
         $html = ob_get_clean();

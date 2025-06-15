@@ -24,12 +24,12 @@
     </thead>
     <tbody>
         <?php foreach ($reporte as $venta): ?>
-    <tr>
-        <td><?= $venta['fecha'] ?></td>
-        <td><?= $venta['total_ventas'] ?></td>
-        <td>C$ <?= number_format($venta['monto_total'] ?? 0, 2) ?></td>
-    </tr>
-<?php endforeach; ?>
+            <tr>
+                <td><?= $venta['fecha'] ?></td>
+                <td><?= $venta['total_ventas'] ?></td>
+                <td>C$ <?= number_format($venta['monto_total'] ?? 0, 2) ?></td>
+            </tr>
+        <?php endforeach; ?>
 
 
 
@@ -42,3 +42,25 @@
 <a href="/admin/reporte/ventas-fecha-excel?inicio=<?= $fechaInicio ?>&fin=<?= $fechaFin ?>" class="btn btn-success">
     <i class="fas fa-file-excel"></i> Descargar Excel
 </a>
+<script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const inicio = document.querySelector('input[name="inicio"]').value;
+        const fin = document.querySelector('input[name="fin"]').value;
+
+        const hoy = new Date().toISOString().split('T')[0]; // Fecha actual en formato yyyy-mm-dd
+
+        if (inicio && fin) {
+            if (inicio > fin) {
+                e.preventDefault();
+                alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
+                return;
+            }
+
+            if (fin > hoy) {
+                e.preventDefault();
+                alert('La fecha de fin no puede ser mayor que la fecha actual.');
+                return;
+            }
+        }
+    });
+</script>
