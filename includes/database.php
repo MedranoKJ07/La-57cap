@@ -14,17 +14,10 @@ function conectar($user, $pass) {
 
     return $db;
 }
-
 // Conexión para login (lector solo de la tabla 'usuario')
 function conexionLogin() {
-    return conectar($_ENV['DB_LOGIN_USER'], $_ENV['DB_LOGIN_PASS']);
+    return conectar($_ENV['DB_WEBAPP_USER'], $_ENV['DB_WEBAPP_PASS']);
 }
-
-// Conexión para admin (tiene todos los permisos)
-function conexionAdmin() {
-    return conectar($_ENV['DB_ADMIN_USER'], $_ENV['DB_ADMIN_PASS']);
-}
-
 // Conexión según el rol
 function conectarSegunRol($rol, &$conexionAnterior = null)
 {
