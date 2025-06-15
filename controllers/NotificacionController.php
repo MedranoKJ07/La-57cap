@@ -17,13 +17,11 @@ class NotificacionController
             header('Location: /login');
             return;
         }
-
-        $idUsuario = $_SESSION['id'];
         $rol = $_SESSION['rol'] ?? 'cliente'; // por defecto
 
 
         $notificaciones = [];
-        if (isset($_SESSION['autenticado_Cliente']) && isset($_SESSION['id'])) {
+        if (isset($_SESSION['login']) && isset($_SESSION['id'])) {
             $notificaciones = Notificacion::obtenerPorUsuario($_SESSION['id']);
         }
 

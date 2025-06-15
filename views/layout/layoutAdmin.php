@@ -15,6 +15,7 @@
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar">
                 <a class="sidebar-brand" href="/admin">
+                    <img src="/img/logo.png" alt="logo" width="80px">
                     <span class="align-middle">La 57 Cap</span>
                 </a>
 
