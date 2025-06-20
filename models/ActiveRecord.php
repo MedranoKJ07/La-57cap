@@ -82,6 +82,7 @@ class ActiveRecord
                 continue;
             $atributos[$columna] = $this->$columna;
         }
+        ;
         return $atributos;
     }
 
@@ -89,8 +90,10 @@ class ActiveRecord
     protected function sanitizarAtributos()
     {
         $atributos = [];
+        
         foreach ($this->atributos() as $key => $value) {
             if (is_scalar($value)) {
+
                 $atributos[$key] = self::$db->escape_string($value);
             }
         }
@@ -212,19 +215,17 @@ class ActiveRecord
     {
         // Sanitizar los datos
         $atributos = $this->sanitizarAtributos();
-
+       
         // Iterar para ir agregando cada campo de la BD
         $valores = [];
         foreach ($atributos as $key => $value) {
             $valores[] = "{$key}='{$value}'";
         }
-
         // Consulta SQL
         $query = "UPDATE " . static::$tabla . " SET ";
         $query .= join(', ', $valores);
         $query .= " WHERE " . static::$id . " = '" . self::$db->escape_string($id_m) . "' ";
         $query .= " LIMIT 1 ";
-
         // Actualizar BD
         $resultado = self::$db->query($query);
         return $resultado;
@@ -244,6 +245,9 @@ class ActiveRecord
         $query = "UPDATE " . static::$tabla . " SET eliminado = 1 WHERE " . static::$id . " = '$id' LIMIT 1";
         return self::$db->query($query);
     }
-
+    public static function query($db_query)
+    {
+        self::$db->query($db_query);
+    }
 
 }

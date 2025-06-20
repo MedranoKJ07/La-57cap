@@ -203,7 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (this.checked) {
       buscarDiv.style.display = "none";
       datosClienteDiv.style.display = "none";
-      inputCliente.placeholder = "Escribir nombre del cliente";
+      inputCliente.placeholder = "Cliente genérico";
+      inputCliente.disabled = true;
       limpiarDatosCliente();
     } else {
       inputCliente.placeholder = "Buscar por nombre del cliente";

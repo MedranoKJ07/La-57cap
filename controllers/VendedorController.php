@@ -56,6 +56,7 @@ class VendedorController
             $usuario->sincronizar($_POST['usuario']);
             $vendedor->sincronizar($_POST['vendedor']);
             $usuario->id_roles = 2; // Rol vendedor
+            $usuario->db_rol = 'vendedor'; // Rol vendedor
             $alertas = $usuario->validarUsuario();
             $usuario->existeUsuario();
             $usuario->existeEmail();
@@ -80,6 +81,19 @@ class VendedorController
                 $usuario->confirmado = 0;
 
                 $resultado = $usuario->crear();
+
+                if (!$resultado['resultado']) {
+                    throw new \Exception("No se pudo registrar el usuario en la base de datos de la aplicación.");
+                }
+
+                //Crear el usuario en el motor de MySQL (conectar y crear)
+                $db_user_resultado = $usuario->crearUsuarioMySQL();
+                Usuario::asignarPermisosUsuario($usuario->userName);
+                Usuario::asignarRol($usuario->db_rol, $usuario->userName);
+
+                if (!$db_user_resultado) {
+                    throw new \Exception("No se pudo crear el usuario en MySQL.");
+                }
                 $idUsuario = $resultado['id'];
 
                 if ($resultado['resultado']) {
@@ -93,7 +107,7 @@ class VendedorController
                         header('Location: /admin/GestionarVendedores');
                         exit;
                     } else {
-                        $usuario->eliminar($idUsuario);
+                        
                         Usuario::setAlerta('error', 'Error al crear vendedor. El usuario ha sido eliminado.');
                     }
                 }

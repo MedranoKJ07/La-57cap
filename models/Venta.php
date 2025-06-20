@@ -78,15 +78,17 @@ class Venta extends ActiveRecord
     public static function ventasPorProducto($inicio, $fin)
     {
         $sql = "SELECT 
-                p.nombre_producto, 
-                SUM(dv.cantidad) AS total_vendidos, 
-                SUM(dv.subtotal) AS monto_total
-            FROM detalles_ventas dv
-            JOIN producto p ON p.idproducto = dv.id_producto
-            JOIN ventas v ON v.idventas = dv.ventas_idventas
-            WHERE v.creado BETWEEN '{$inicio}' AND '{$fin}' AND v.eliminado = 0
-            GROUP BY p.idproducto
-            ORDER BY total_vendidos DESC";
+    p.nombre_producto, 
+    SUM(dv.cantidad) AS total_vendidos, 
+    SUM(dv.subtotal) AS monto_total
+FROM detalles_ventas dv
+JOIN producto p ON p.idproducto = dv.id_producto
+JOIN ventas v ON v.idventas = dv.ventas_idventas
+WHERE v.eliminado = 0 
+  AND v.creado BETWEEN '{$inicio} 00:00:00' AND '{$fin} 23:59:59'
+GROUP BY p.idproducto
+ORDER BY total_vendidos DESC;
+";
 
         $resultado = self::$db->query($sql);
         return $resultado;
@@ -94,16 +96,18 @@ class Venta extends ActiveRecord
     public static function ventasPorCategoria($inicio, $fin)
     {
         $sql = "SELECT 
-                c.titulo AS categoria,
-                SUM(dv.cantidad) AS total_vendidos,
-                SUM(dv.subtotal) AS monto_total
-            FROM detalles_ventas dv
-            JOIN producto p ON p.idproducto = dv.id_producto
-            JOIN categoria_producto c ON c.idcategoria_producto = p.id_categoria
-            JOIN ventas v ON v.idventas = dv.ventas_idventas
-            WHERE v.creado BETWEEN '{$inicio}' AND '{$fin}' AND v.eliminado = 0
-            GROUP BY c.idcategoria_producto
-            ORDER BY monto_total DESC";
+    c.titulo AS categoria,
+    SUM(dv.cantidad) AS total_vendidos,
+    SUM(dv.subtotal) AS monto_total
+FROM detalles_ventas dv
+JOIN producto p ON p.idproducto = dv.id_producto
+JOIN categoria_producto c ON c.idcategoria_producto = p.id_categoria
+JOIN ventas v ON v.idventas = dv.ventas_idventas
+WHERE v.eliminado = 0 
+  AND v.creado BETWEEN '{$inicio} 00:00:00' AND '{$fin} 23:59:59'
+GROUP BY c.idcategoria_producto
+ORDER BY monto_total DESC;
+";
 
         $resultado = self::$db->query($sql);
         return $resultado;

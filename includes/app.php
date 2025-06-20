@@ -1,6 +1,6 @@
 <?php
-// require_once __DIR__ . '/../includes/errores.php';
-// set_exception_handler('manejadorGlobalExcepciones');
+require_once __DIR__ . '/../includes/errores.php';
+set_exception_handler('manejadorGlobalExcepciones');
 require __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
@@ -16,11 +16,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// ✅ Detectar si ya hay sesión con rol definido
+//  Detectar si ya hay sesión con rol definido
 if (isset($_SESSION['rol'])) {
-    $conexion = conectarSegunRol($_SESSION['rol']);
+    $conexion = conectarSegunRol($_SESSION['rol'], trim($_SESSION['userName']), trim($_SESSION['password']));
+    $conexion->query("SET ROLE '" . $_SESSION['db_rol'] . "'");
 } else {
-    $conexion = conexionLogin(); // solo para login u operaciones públicas
+    $conexion = conexionApp(); // solo para login u operaciones públicas
+       $conexion->query("SET ROLE 'webapp'");
 }
 
 ActiveRecord::setDB($conexion);

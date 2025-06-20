@@ -15,7 +15,8 @@ class Usuario extends ActiveRecord
         'token',
         'Creado_Fecha',
         'Cambiado_Fecha',
-        'intentos_fallidos'
+        'intentos_fallidos',
+        'db_rol'
     ];
     protected static $id = 'idusuario';
     public $idusuario;
@@ -29,6 +30,7 @@ class Usuario extends ActiveRecord
     public $token;
     public $Creado_Fecha;
     public $Cambiado_Fecha;
+    public $db_rol;
     public function __construct($args = [])
     {
         $this->idusuario = $args['idusuario'] ?? null;
@@ -42,6 +44,7 @@ class Usuario extends ActiveRecord
         $this->Creado_Fecha = date('Y/m/d H:i:s');
         $this->Cambiado_Fecha = date('Y/m/d H:i:s');
         $this->intentos_fallidos = $args['intentos_fallidos'] ?? '0';
+        $this->db_rol = $args["db_rol"] ?? '';
     }
     public static function filtrarUsuarios($rol = '', $busqueda = '')
     {
@@ -264,5 +267,109 @@ class Usuario extends ActiveRecord
 
         return $usuarios;
     }
+    public function crearUsuarioMySQL()
+    {
+        if ($this->verificarExistenciaUsuario($this->userName)) {
+            throw new \Exception("El usuario '{$this->userName}' ya existe.");
+        }
+
+        $usuario = mysqli_real_escape_string(self::$db, $this->userName);
+        $password = mysqli_real_escape_string(self::$db, $this->password);
+
+        $query = "CREATE USER '$usuario'@'localhost' IDENTIFIED BY '$password'";
+        if (!self::$db->query($query)) {
+            throw new \Exception("Error al crear usuario '$usuario': " . self::$db->error);
+        }
+
+        return true;
+    }
+
+    public static function asignarRol($dbrol, $userName)
+{
+    try {
+        if (!self::$db) {
+            throw new \Exception("Conexión no inicializada.");
+        }
+
+        $rol = mysqli_real_escape_string(self::$db, $dbrol);
+        $user = mysqli_real_escape_string(self::$db, $userName);
+
+        // Instrucción base
+        $query = "GRANT '$rol' TO '$user'@'localhost' WITH ADMIN OPTION;";
+
+        // Si el usuario es ADMIN, agregar roles adicionales
+        if (trim($rol) === 'admin') {
+            $query .= "
+            GRANT 'vendedor' TO '$user'@'localhost' WITH ADMIN OPTION;
+            GRANT 'repartidor' TO '$user'@'localhost' WITH ADMIN OPTION;
+            GRANT 'admin' TO '$user'@'localhost' WITH ADMIN OPTION;";
+        }
+
+        // Ejecutar múltiples instrucciones
+        if (!self::$db->multi_query($query)) {
+            throw new \Exception("MySQL error: " . self::$db->error);
+        }
+
+        // Limpiar posibles resultados pendientes
+        while (self::$db->more_results() && self::$db->next_result()) {}
+
+        return true;
+
+    } catch (\Throwable $th) {
+        throw new \Exception("Error al asignar rol: " . $th->getMessage(), 1);
+    }
+}
+
+
+    public static function asignarPermisosUsuario($usuario)
+    {
+        $usuario = mysqli_real_escape_string(self::$db, $usuario);
+
+        $query = "
+        GRANT SELECT ON db_la57cap.* TO '$usuario'@'localhost';
+    ";
+
+        if (!self::$db->multi_query($query)) {
+            throw new \Exception("Error al asignar permisos a '$usuario': " . self::$db->error);
+        }
+
+        // Limpiar resultados de multi_query
+        while (self::$db->more_results() && self::$db->next_result()) {
+        }
+
+        return true;
+    }
+
+    public function verificarExistenciaUsuario($usuario)
+    {
+        $usuario = mysqli_real_escape_string(self::$db, $usuario);
+        $check = self::$db->query("SELECT COUNT(*) as total FROM mysql.user WHERE User = '$usuario' AND Host = 'localhost'");
+
+        if (!$check) {
+            throw new \Exception("Error al verificar usuario: " . self::$db->error);
+        }
+
+        $row = $check->fetch_assoc();
+        return (int) $row['total'] > 0;
+    }
+
+
+    public static function cambiarPasswordUserPassword($userName, $password)
+    {
+        try {
+            // Asume que self::$db es una instancia válida de mysqli
+            $userName = mysqli_real_escape_string(self::$db, $userName);
+            $password = mysqli_real_escape_string(self::$db, $password);
+
+            // ¡No uses backticks en el valor de la contraseña!
+            $query = "ALTER USER '$userName'@'localhost' IDENTIFIED BY '$password'";
+
+            $resultado = self::query($query); // asegúrate que esto use self::$db correctamente
+            return $resultado;
+        } catch (\Throwable $th) {
+            throw new \Exception("Error: " . $th->getMessage(), 1);
+        }
+    }
+
 
 }

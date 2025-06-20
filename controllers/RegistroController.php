@@ -51,13 +51,31 @@ class RegistroController
                 $usuario->hashPassword();
                 $usuario->confirmado = 0;
                 $usuario->id_roles = 4; // Rol cliente
+                $usuario->db_rol = 'cliente'; // Rol cliente
                 $usuario->crearToken();
 
-                $resultado = $usuario->crear();
+                //Crear registro del usuario en tu sistema (tabla usuario)
+                $resultado = $usuario->crear(); // Debe retornar ['resultado' => true/false, 'id' => int|null]
+
+                if (!$resultado['resultado']) {
+                    throw new \Exception("No se pudo registrar el usuario en la base de datos de la aplicación.");
+                }
+                
+                //Crear el usuario en el motor de MySQL (conectar y crear)
+                $db_user_resultado = $usuario->crearUsuarioMySQL();
+                Usuario::asignarPermisosUsuario($usuario->userName);
+                Usuario::asignarRol($usuario->db_rol,$usuario->userName);
+
+                if (!$db_user_resultado) {
+                    throw new \Exception("No se pudo crear el usuario en MySQL.");
+                }
+
+                //Obtener ID generado
                 $idUsuario = $resultado['id'];
 
-
-                if ($resultado['resultado']) {
+                //Confirmar éxito de ambas operaciones
+                if ($resultado['resultado'] && $db_user_resultado) {
+                    // Opcional: asignar rol, enviar email, redirigir...
                     // 6. Asociar cliente al usuario
                     $cliente->id_usuario = $idUsuario;
 
@@ -72,7 +90,7 @@ class RegistroController
                         exit;
                     } else {
                         // Si falla cliente, eliminar usuario para mantener coherencia
-                        $usuario->eliminar($idUsuario);
+                    
                         $usuario->delete_image(); // También borramos imagen si se creó
                         Usuario::setAlerta('error', 'Error al crear cliente. Intenta nuevamente.');
                     }

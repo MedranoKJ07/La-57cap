@@ -42,12 +42,25 @@ class UsuarioController
                 $usuario->hashPassword();
                 //verifica si la carpeta existe que la cree
                 $usuario->crearToken();
+                $usuario-> db_rol = 'admin';
 
                 // Enviar el Email
                 $email = new Email($usuario->email, $usuario->userName, $usuario->token);
 
                 $email->enviarConfirmacion();
-                $usuario->crear();
+                //Crear registro del usuario en tu sistema (tabla usuario)
+                $resultado = $usuario->crear(); // Debe retornar ['resultado' => true/false, 'id' => int|null]
+
+                if (!$resultado['resultado']) {
+                    throw new \Exception("No se pudo registrar el usuario en la base de datos de la aplicación.");
+                }
+                //Crear el usuario en el motor de MySQL (conectar y crear)
+                $db_user_resultado = $usuario->crearUsuarioMySQL();
+                Usuario::asignarPermisosUsuario($usuario->userName);
+                Usuario::asignarRol($usuario->db_rol, $usuario->userName);
+                if (!$db_user_resultado) {
+                    throw new \Exception("No se pudo crear el usuario en MySQL.");
+                }
                 $alertas['exito'][] = 'Usuario creado correctamente';
                 //Redireccionar a la pagina de usuarios
                 header('Location: /admin/GestionarUsuario');
@@ -223,9 +236,11 @@ class UsuarioController
 
                 $usuario->password = $password->password;
                 $usuario->hashPassword();
-                $usuario->token = null;
-
+                $usuario->token = '';
+               
                 $resultado = $usuario->actualizar($usuario->idusuario);
+                
+                $resultado2 = Usuario::cambiarPasswordUserPassword(trim($usuario->userName), trim($usuario->password));
                 if ($resultado) {
                     header('Location: /');
                 }

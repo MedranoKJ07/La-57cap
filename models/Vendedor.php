@@ -92,7 +92,7 @@ class Vendedor extends ActiveRecord
     {
         $busqueda = self::$db->real_escape_string($busqueda);
 
-        $where = "WHERE vendedor.eliminado = 0"; // Mostrar solo los no eliminados
+        $where = "WHERE vendedor.eliminado = 0 AND usuario.eliminado = 0"; // Mostrar solo los no eliminados
 
         if (!empty($busqueda)) {
             $where .= " AND (

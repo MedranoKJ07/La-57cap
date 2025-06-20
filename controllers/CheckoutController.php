@@ -63,7 +63,7 @@ class CheckoutController
         }
 
         $idCliente = $_SESSION['id_cliente'] ?? null;
-        $idVendedor = $_SESSION['id_vendedor'] ?? 1; // Temporal o automático
+        $idVendedor = $_SESSION['id_vendedor'] ?? 1; // Vendedor online
 
         // Calcular totales
         $subtotal = 0;

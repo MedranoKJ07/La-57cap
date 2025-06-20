@@ -44,6 +44,7 @@ class RepartidorControllers
             $usuario->sincronizar($_POST['usuario']);
             $repartidor->sincronizar($_POST['repartidor']);
             $usuario->id_roles = 3;
+            $usuario->db_rol = 'repartidor'; // Rol repartidor
 
             // 2. Validación del usuario
             $alertas = $usuario->validarUsuario();
@@ -70,16 +71,28 @@ class RepartidorControllers
 
                 $usuario->confirmado = 0;
                 $resultadoUsuario = $usuario->crear();
+                if (!$resultadoUsuario['resultado']) {
+                    throw new \Exception("No se pudo registrar el usuario en la base de datos de la aplicación.");
+                }
+                
+                //Crear el usuario en el motor de MySQL (conectar y crear)
+                $db_user_resultado = $usuario->crearUsuarioMySQL();
+                Usuario::asignarPermisosUsuario($usuario->userName);
+                Usuario::asignarRol($usuario->db_rol,$usuario->userName);
+
+                if (!$db_user_resultado) {
+                    throw new \Exception("No se pudo crear el usuario en MySQL.");
+                }
                 $idUsuario = $resultadoUsuario['id'];
 
                 if ($resultadoUsuario['resultado']) {
                     // 5. Asociar usuario al repartidor
                     $repartidor->id_usuario = $idUsuario;
                     $alertas = $repartidor->validar();
-
+                    
                     if (empty($alertas)) {
                         $resultadoRepartidor = $repartidor->crear();
-
+                        
                         if ($resultadoRepartidor['resultado']) {
                             // Enviar email de confirmación
                             $email = new Email($usuario->email, $usuario->userName, $usuario->token);
@@ -89,13 +102,13 @@ class RepartidorControllers
                             exit;
                         } else {
                             // Falló al crear repartidor: eliminar usuario
-                            $usuario->eliminar($idUsuario);
+                           
                             $usuario->delete_image();
                             Usuario::setAlerta('error', 'Error al registrar repartidor. Se eliminó el usuario creado.');
                         }
                     } else {
                         // Si hay errores al validar repartidor, eliminar usuario creado
-                        $usuario->eliminar($idUsuario);
+                       
                         $usuario->delete_image();
                     }
                 } else {
