@@ -111,9 +111,10 @@ GRANT SELECT, UPDATE ON db_la57cap.inventario TO 'vendedor';
 -- ===============================================
 
 CREATE USER `webApp57`@`localhost` IDENTIFIED BY 'webApp123';
-GRANT Select ON `db\_la57cap`.* TO `webApp57`@`localhost`;
+GRANT SELECT ON db_la57cap.* TO 'webApp57'@'localhost' WITH GRANT OPTION;
 GRANT 'webapp' TO 'webApp57'@'localhost';
 GRANT 'cliente' TO 'webApp57'@'localhost' WITH ADMIN OPTION;
+
 
 
 -- ===============================================

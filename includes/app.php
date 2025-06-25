@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../includes/errores.php';
-set_exception_handler('manejadorGlobalExcepciones');
+// require_once __DIR__ . '/../includes/errores.php';
+// set_exception_handler('manejadorGlobalExcepciones');
 require __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
@@ -17,7 +17,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 //  Detectar si ya hay sesión con rol definido
-if (isset($_SESSION['rol'])) {
+if (isset($_SESSION['rol'])) {   
     $conexion = conectarSegunRol($_SESSION['rol'], trim($_SESSION['userName']), trim($_SESSION['password']));
     $conexion->query("SET ROLE '" . $_SESSION['db_rol'] . "'");
 } else {

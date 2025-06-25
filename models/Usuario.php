@@ -325,9 +325,8 @@ class Usuario extends ActiveRecord
     {
         $usuario = mysqli_real_escape_string(self::$db, $usuario);
 
-        $query = "
-        GRANT SELECT ON db_la57cap.* TO '$usuario'@'localhost';
-    ";
+        $query = "GRANT SELECT ON db_la57cap.* TO '$usuario'@'localhost'";
+        echo $query;
 
         if (!self::$db->multi_query($query)) {
             throw new \Exception("Error al asignar permisos a '$usuario': " . self::$db->error);
