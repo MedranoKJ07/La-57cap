@@ -5,7 +5,8 @@
                 <h2 class="card-title">Gestion Usuarios</h2>
             </div>
             <div class="col-auto mt-0">
-                <a href="/admin/CrearUsuario?t=1" class="btn btn-light text-primary fw-bold">Crear Nuevo Usuario Administrador</a>
+                <a href="/admin/CrearUsuario?t=1" class="btn btn-light text-primary fw-bold">Crear Nuevo Usuario
+                    Administrador</a>
             </div>
         </div>
 
@@ -40,7 +41,7 @@
         <table class="table table-hover my-0">
             <thead>
                 <tr>
-                    
+
                     <th>Rol</th>
                     <th>Foto Perfil</th>
                     <th>Usuario</th>
@@ -48,14 +49,14 @@
                     <th>Confirmado</th>
                     <th>Creado</th>
                     <th>Modificado</th>
-                    <th>Eliminar</th>
-                    <th>Actualizar</th>
+                    <th>Acciones</th>
+
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($usuarios as $usuario): ?>
                     <tr>
-                        
+
                         <td>
                             <?php
                             $roles = [
@@ -81,20 +82,21 @@
                             ?>
                             <span class="badge bg-<?php echo $color; ?>"><?php echo $estado; ?></span>
                         </td>
-                        
+
                         <td><?php echo date('d/m/Y H:i:s', strtotime($usuario->Creado_Fecha)); ?></td>
                         <td><?php echo date('d/m/Y H:i:s', strtotime($usuario->Cambiado_Fecha)); ?></td>
                         <td>
-                            <form action="/admin/EliminarUsuario" method="post" class="w-100">
-                                <input type="hidden" name="id" value="<?php echo $usuario->idusuario; ?>">
-                                <input type="hidden" name="tipo" value="usuario">
-                                <input type="submit" class="btn btn-danger" value="Eliminar">
-                            </form>
+                            <div class="d-flex gap-2">
+                                <form action="/admin/EliminarUsuario" method="post" class="w-100">
+                                    <input type="hidden" name="id" value="<?php echo $usuario->idusuario; ?>">
+                                    <input type="hidden" name="tipo" value="usuario">
+                                    <input type="submit" class="btn btn-danger" value="Eliminar">
+                                </form>
+                                <a href='/admin/ActualizarUsuario?id=<?php echo $usuario->idusuario; ?>'
+                                    class="btn btn-warning">Actualizar</a>
+                            </div>
                         </td>
-                        <td>
-                            <a href='/admin/ActualizarUsuario?id=<?php echo $usuario->idusuario; ?>'
-                                class="btn btn-warning">Actualizar</a>
-                        </td>
+
                     </tr>
                 <?php endforeach; ?>
             </tbody>

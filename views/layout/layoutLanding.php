@@ -60,8 +60,8 @@
         <div class="container d-flex justify-content-between align-items-center">
 
             <a class="navbar-brand text-primary logo h1 align-self-center" href="/">
-            <img src="/img/logo.png" alt="logo" width="150px"> 
-            La 57 Cap
+                <img src="/img/logo.png" alt="logo" width="150px">
+                La 57 Cap
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
@@ -92,23 +92,17 @@
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-
-
-                    <a class="nav-icon position-relative text-decoration-none" href="/notificaciones">
-                        <i class="fa fa-fw fa-bell text-dark me-1"></i>
-
-                        <?php
-                        if (!empty($_SESSION['autenticado_Cliente'])):
-                            if (!empty($notificaciones) && count($notificaciones) > 0): ?>
+                    <?php if (!empty($_SESSION['autenticado_Cliente'])): ?>
+                        <a class="nav-icon position-relative text-decoration-none" href="/notificaciones">
+                            <i class="fa fa-fw fa-bell text-dark me-1"></i>
+                            <?php if (!empty($notificaciones) && count($notificaciones) > 0): ?>
                                 <span
                                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white">
                                     <?= count($notificaciones) ?>
                                 </span>
-                            <?php endif; endif; ?>
-                    </a>
-
-
-
+                            <?php endif; ?>
+                        </a>
+                    <?php endif; ?>
                     <a class="nav-icon position-relative text-decoration-none" href="/carrito">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark me-1"></i>
                         <?php if (!empty($carritoCantidad)): ?>

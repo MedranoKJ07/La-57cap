@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
           precio: parseFloat(data.precio),
           cantidad: 1,
           foto: data.Foto || "default.png",
-          stock_disponible: data.stock_disponible
+          stock_disponible: data.stock_disponible,
         });
       }
 
@@ -91,23 +91,31 @@ document.addEventListener("DOMContentLoaded", () => {
       subtotal += subtotalProducto;
 
       const fila = document.createElement("tr");
-    
+
       fila.innerHTML = `
     <td>
         ${p.codigo}
         <input type="hidden" name="productos[${index}][id]" value="${p.id}">
-        <input type="hidden" name="productos[${index}][codigo]" value="${p.codigo}">
+        <input type="hidden" name="productos[${index}][codigo]" value="${
+        p.codigo
+      }">
     </td>
     <td>
-        <img src="/img/productos/${p.foto}" width="40" height="40" class="rounded-circle" alt="Producto">
+        <img src="/img/productos/${
+          p.foto
+        }" width="40" height="40" class="rounded-circle" alt="Producto">
     </td>
     <td>
         ${p.nombre}
-        <input type="hidden" name="productos[${index}][nombre]" value="${p.nombre}">
+        <input type="hidden" name="productos[${index}][nombre]" value="${
+        p.nombre
+      }">
     </td>
     <td>
         C$ ${p.precio.toFixed(2)}
-        <input type="hidden" name="productos[${index}][precio]" value="${p.precio}">
+        <input type="hidden" name="productos[${index}][precio]" value="${
+        p.precio
+      }">
     </td>
     <td>
         <input type="number"
@@ -199,15 +207,19 @@ document.addEventListener("DOMContentLoaded", () => {
     "direccion_cliente_mostrado"
   );
 
+  // Evento para el checkbox de "Cliente sin registro"        
   sinRegistroCheckbox.addEventListener("change", function () {
     if (this.checked) {
       buscarDiv.style.display = "none";
       datosClienteDiv.style.display = "none";
+      inputCliente.value = "Cliente genérico";
       inputCliente.placeholder = "Cliente genérico";
       inputCliente.disabled = true;
       limpiarDatosCliente();
     } else {
+      inputCliente.value = "";
       inputCliente.placeholder = "Buscar por nombre del cliente";
+      inputCliente.disabled = false;
       datosClienteDiv.style.display = "block";
       buscarDiv.style.display = "block";
     }

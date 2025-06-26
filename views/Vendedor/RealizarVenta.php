@@ -45,7 +45,7 @@
             <!-- Input para escanear código -->
             <div class="mb-4">
                 <label for="codigoProducto" class="form-label fw-semibold">Código de producto:</label>
-                <input type="text" class="form-control" id="codigoProducto" placeholder="Escanea o escribe el código">
+                <input type="text" class="form-control" id="codigoProducto" autofocus placeholder="Escanea o escribe el código">
             </div>
 
             <!-- Tabla de productos -->

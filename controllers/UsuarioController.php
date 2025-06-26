@@ -172,7 +172,7 @@ class UsuarioController
         } else {
             // Modificar a usuario confirmado
             $usuario->confirmado = "1";
-            $usuario->token = null;
+            $usuario->token = '';
             $usuario->actualizar($usuario->idusuario);
             Usuario::setAlerta('exito', 'Cuenta Comprobada Correctamente');
         }
