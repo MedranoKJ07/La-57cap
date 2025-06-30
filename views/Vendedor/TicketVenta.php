@@ -73,7 +73,7 @@
     <hr>
 
     <p><strong>Cliente:</strong><br>
-        <?= $cliente ? $cliente->p_nombre . ' ' . $cliente->s_nombre . ' ' . $cliente->p_apellido . ' ' . $cliente->s_apellido : 'Cliente genérico' ?>
+        <?= $cliente ? $cliente->p_nombre . ' ' . $cliente->s_nombre . ' ' . $cliente->p_apellido . ' ' . $cliente->s_apellido : $nombreCliente ?>
     </p>
 
     <hr>
@@ -108,14 +108,17 @@
     <p class="text-center">¡Gracias por su compra!</p>
 
     <div class="text-center noprint">
-        <a class="btn btn-primary" href="/ticket-pdf?id=<?= $venta->idventas ?>" target="_blank">
+        <a class="btn btn-primary"
+            href="/ticket-pdf?id=<?= $venta->idventas ?>&nombreCliente=<?= urlencode($nombreCliente) ?>"
+            target="_blank">
             🖨️ Imprimir PDF
         </a>
         <br>
         <br>
         <br>
         <?php if (!empty($tieneGarantia)): ?>
-            <a href="/generar-garantia?id=<?= $venta->idventas ?>" target="_blank" class="btn btn-warning">
+            <a href="/generar-garantia?id=<?= $venta->idventas ?>&nombreCliente=<?= urlencode($nombreCliente) ?>"
+                target="_blank" class="btn btn-warning">
                 🛡 Generar Certificado de Garantía
             </a>
             <br>

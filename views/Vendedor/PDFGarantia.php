@@ -76,7 +76,7 @@
 
 <section class="seccion">
     <h3>Datos del Cliente</h3>
-    <p><span class="info-label">Nombre:</span> <?= $cliente ? "{$cliente->p_nombre} {$cliente->s_nombre} {$cliente->p_apellido} {$cliente->s_apellido}" : 'N/D' ?></p>
+    <p><span class="info-label">Nombre:</span> <?= $cliente ? "{$cliente->p_nombre} {$cliente->s_nombre} {$cliente->p_apellido} {$cliente->s_apellido}" : $nombreCliente ?></p>
     <p><span class="info-label">Teléfono:</span> <?= $cliente ? $cliente->n_telefono : 'N/D' ?></p>
     <p><span class="info-label">Dirección:</span> <?= $cliente ? $cliente->direccion . ', ' . $cliente->Municipio : 'N/D' ?></p>
     <p><span class="info-label">Fecha de la venta:</span> <?= date('d/m/Y', strtotime($venta->creado)) ?></p>

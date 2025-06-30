@@ -62,7 +62,7 @@
     <hr>
 
     <p><strong>Cliente:</strong><br>
-        <?= $cliente ? $cliente->p_nombre . ' ' . $cliente->s_nombre . ' ' . $cliente->p_apellido . ' ' . $cliente->s_apellido : 'Cliente genérico' ?>
+        <?= $cliente ? $cliente->p_nombre . ' ' . $cliente->s_nombre . ' ' . $cliente->p_apellido . ' ' . $cliente->s_apellido : $nombreCliente ?>
     </p>
 
     <hr>

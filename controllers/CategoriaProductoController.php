@@ -130,7 +130,7 @@ class CategoriaProductoController
             echo "ID de venta no proporcionado.";
             return;
         }
-
+        $nombreCliente = $_GET['nombreCliente'] ?? 'Cliente Genérico';
         // 1. Obtener venta
         $venta = Venta::find($ventaId, 'idventas');
         if (!$venta) {

@@ -259,6 +259,7 @@ class VendedorController
 
             if ($sinRegistro || empty($idCliente)) {
                 $idCliente = null; // se usará cliente genérico
+                $nombreCliente = $_POST['nombre_cliente'] ?? 'Cliente Genérico';
             }
 
             // Determinar si hay datos de pedido
@@ -320,7 +321,7 @@ class VendedorController
             }
 
             // Redirigir al ticket
-            header('Location: /ticket?id=' . $idVenta);
+            header('Location: /ticket?id=' . $idVenta . '&n=' . urlencode($nombreCliente));
             exit;
         }
 
@@ -337,6 +338,7 @@ class VendedorController
             header('Location: /vendedor/realizar-venta');
             return;
         }
+        $nombreCliente = $_GET['n'] ?? 'Cliente Genérico';
 
         $venta = Venta::find($id, 'idventas');
         if (!$venta) {
@@ -346,7 +348,7 @@ class VendedorController
 
         $cliente = $venta->id_cliente ? Cliente::find($venta->id_cliente, 'idcliente') : null;
         $detalles = DetalleVenta::obtenerDetalleConProductoPorVenta($venta->idventas);
-
+        
         // Validar si alguno de los productos tiene garantía
         $tieneGarantia = false;
 
@@ -365,6 +367,7 @@ class VendedorController
 
         // De lo contrario, mostrar solo ticket normal
         $router->renderVendedor('Vendedor/TicketVenta', [
+            'nombreCliente' => $nombreCliente,
             'titulo' => 'Ticket de Venta',
             'tieneGarantia' => $tieneGarantia,
             'venta' => $venta,
@@ -380,7 +383,7 @@ class VendedorController
             header('Location: /vendedor/realizar-venta');
             return;
         }
-
+        $nombreCliente = $_GET['nombreCliente'] ?? 'Cliente Genérico';
         $venta = Venta::find($id, 'idventas');
         if (!$venta) {
             header('Location: /vendedor/realizar-venta');
