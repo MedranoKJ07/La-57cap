@@ -60,7 +60,7 @@ class LoginController
             self::redirigirSegunRol($usuario->id_roles);
 
         } catch (\Throwable $e) {
-            Usuario::setAlerta('error', $e->getMessage());
+            // Usuario::setAlerta('error', $e->getMessage());
             $alertas = Usuario::getAlertas();
             return self::renderLoginForm($router, $auth, $alertas);
         }
@@ -140,7 +140,7 @@ class LoginController
             return;
         }
         $usuario->actualizar($usuario->idusuario);
-        Usuario::setAlerta('error', 'Contraseña incorrecta. Intento ' . $usuario->intentos_fallidos . ' de 5.');
+        
     }
     public static function login2(Router $router)
     {
