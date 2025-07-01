@@ -60,7 +60,7 @@ class LoginController
             self::redirigirSegunRol($usuario->id_roles);
 
         } catch (\Throwable $e) {
-            // Usuario::setAlerta('error', $e->getMessage());
+            Usuario::setAlerta('error', $e->getMessage());
             $alertas = Usuario::getAlertas();
             return self::renderLoginForm($router, $auth, $alertas);
         }
